@@ -1,0 +1,43 @@
+.stages_container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+.stages_container .stages{
+    display: flex;
+    margin-top: 20px;
+    
+}
+.stages input{
+    margin-right: 20px;
+}
+.stage_list{
+    display: flex;
+    flex-direction: column;
+}
+.stages textarea{
+  border: 1px solid var(--stroke);
+  transition: all 0.2s;
+}
+.stages textarea:is(:focus){
+    border: 1px solid var(--stroke);
+}
+.stages svg{
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.stages svg:hover{
+    transform: scale(1.2);
+}
+.uploads{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px; 
+}
+.uploads svg{
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.uploads svg:hover{
+    transform: scale(1.2);
+}

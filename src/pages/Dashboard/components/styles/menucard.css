@@ -1,0 +1,29 @@
+.menu-card-container{
+    width: 230px;
+    height: 100px;
+    border-top: 3px solid var(--primary);
+    background-color: rgba(4, 34, 14, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+}
+.menu-card-container #title{
+    font-size: 16;
+    font-weight: bold;
+    text-align: center;
+}
+.menu-card-container #guide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto;
+
+}
+#guide a{
+    margin-left: 5px;
+    color: var(--primary);
+}
