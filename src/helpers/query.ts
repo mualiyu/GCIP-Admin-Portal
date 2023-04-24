@@ -9,12 +9,15 @@ interface QueryParams {
 export default async function query({ method, url, bodyData,token='' }: QueryParams) {
   let headers1={
     "Content-Type": "application/json",
-    "Authorization":`Bearer ${token}`
+    "Authorization": "Bearer " + token //`Bearer ${token}`
   }
   let headers2={
     "Content-Type": "application/json",
   }
   const conditionalHeader=token?headers1:headers2
+
+  console.log("Your Test token is " + token)
+
   try {
     if (method=='GET') {
     var response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng${url}`,{
