@@ -164,7 +164,17 @@ export default function Overview() {
           }
         </div>
       </div>
-      <Button style={{
+      <Button
+      onClick={async ()=>{
+        // const {success,data,error} = await query({
+        //   method:'POST',
+        //   url:'/api/admin/program/create',
+        //   token:programData.user.user.token,
+        //   bodyData:{}
+        // })
+      console.log(programData)
+      }}
+       style={{
         width:'50%',
         marginBottom:20,
         marginTop:20

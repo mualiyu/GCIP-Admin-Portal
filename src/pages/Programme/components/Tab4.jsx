@@ -8,18 +8,20 @@ import { DeleteIcon } from "../../../assets/Svg/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramUploads } from "../../../redux/program/programSlice";
 import Alert from "../../../components/Alert";
-export default function Tab4({moveToTab}) {
-  const dispatch=useDispatch()
-  const programData=useSelector(state=>state.program)
-  const [alertText,setAlert]=useState('')
+import Loading from "../../../components/Loading";
+export default function Tab4({ moveToTab }) {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const programData = useSelector((state) => state);
+  const [alertText, setAlert] = useState("");
   const initialValues = {
-    uploads: programData.program.uploads
+    uploads: programData.program.program.uploads,
   };
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
-      dispatch(setProgramUploads(val.uploads))
-      moveToTab(5)
+      dispatch(setProgramUploads(val.uploads));
+      moveToTab(5);
     },
   });
   const addStage = () => {
@@ -40,7 +42,8 @@ export default function Tab4({moveToTab}) {
   };
   return (
     <div className="stages_container">
-      <Alert text={alertText}/>
+      <Loading loading={loading} />
+      <Alert text={alertText} />
       <RegularText text="Upload Documents" />
       <Button
         onClick={() => addStage()}
@@ -71,11 +74,39 @@ export default function Tab4({moveToTab}) {
                           />
                           <Input
                             onChange={(e) => {
-                              formik.values.uploads[index].file = "myUrlll";
-                              // const formData = new FormData();
-                              //     const files = e.target.files;
-                              //     files?.length &&
-                              //       formData.append("file", files[0]);
+                              // formik.values.uploads[index].file = "myUrlll";
+                              const formData = new FormData();
+                              const files = e.target.files;
+                              files?.length &&
+                                formData.append("file", files[0]);
+                              console.log(files[0]);
+                              setLoading(true);
+                              // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                              fetch(
+                                "https://api.grants.amp.gefundp.rea.gov.ng/api/admin/program/file/upload",
+                                {
+                                  method: "POST",
+                                  body: formData,
+                                  headers: {
+                                    Authorization:
+                                      "Bearer " + programData.user.user.token,
+                                  },
+                                }
+                              )
+                                .then((res) => res.json())
+                                .then((data) => {
+                                  setLoading(false);
+                                  if (data.status) {
+                                    formik.values.uploads[index].file =
+                                      data.data.url;
+                                    setAlert("Uplaoded Succefully");
+                                  } else {
+                                    setAlert("Something went wrong");
+                                  }
+                                  setTimeout(() => {
+                                    setAlert("");
+                                  }, 2000);
+                                });
                             }}
                             label="Upload"
                             outlined
@@ -95,34 +126,31 @@ export default function Tab4({moveToTab}) {
         </FormikProvider>
       </div>
       <div className="save_next">
-          <Button
-            onClick={() => {
-             
-              dispatch(setProgramUploads(formik.values.uploads))
-              setAlert("Data Saved");
-              setTimeout(() => {
-                setAlert("");
-              }, 2000);
-            }}
-            style={{
-              width: 200,
-              marginRight: 20,
-              backgroundColor: "#1094ff",
-            }}
-            label="Save"
-          />
         <Button
-        onClick={() => {
-          formik.handleSubmit();
-        }}
-        style={{
-          width: 200,
-          
-        }}
-        label="Next"
-      />
-        </div>
-      
+          onClick={() => {
+            dispatch(setProgramUploads(formik.values.uploads));
+            setAlert("Data Saved");
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          style={{
+            width: 200,
+            marginRight: 20,
+            backgroundColor: "#1094ff",
+          }}
+          label="Save"
+        />
+        <Button
+          onClick={() => {
+            formik.handleSubmit();
+          }}
+          style={{
+            width: 200,
+          }}
+          label="Next"
+        />
+      </div>
     </div>
   );
 }

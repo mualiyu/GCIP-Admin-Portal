@@ -16,6 +16,8 @@ export default function Tab2({ moveToTab }) {
   const dispatch = useDispatch();
   const [alertText,setAlert]=useState('')
   const programData = useSelector((state) => state);
+  const [regions,setRegions]=useState([])
+  const [categories,setCategories]=useState([])
 
   const initialValues = {
     lots: [...programData.program.program.lots],
@@ -23,6 +25,7 @@ export default function Tab2({ moveToTab }) {
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
+      console.log(val)
       dispatch(setProgramLots(val.lots));
       moveToTab(2);
     },
@@ -56,11 +59,29 @@ export default function Tab2({ moveToTab }) {
     url:'/api/admin/regions',
     token:programData.user.user.token
   })
-  console.log(data)
+  if (success) {
+    const regionsArray=[]
+    data.data.regions.map(reg=>regionsArray.push(reg.name))
+    setRegions(regionsArray)
+    
   }
+  }
+  const getCategories=async ()=>{
+    const {success,data,error} = await query({
+     method:'GET',
+     url:'/api/admin/category/list',
+     token:programData.user.user.token
+   })
+   
+   if (success) {
+    const catsArray=[]
+    data.data.categories.map(cat=>catsArray.push(cat.name))
+    setCategories(catsArray)
+   }
+   }
   useEffect(()=>{
   getRegions()
-  
+  getCategories()
   },[])
 
   return (
@@ -95,14 +116,16 @@ export default function Tab2({ moveToTab }) {
                           <Select
                             {...formik.getFieldProps(`lots.${index}.region`)}
                             onChange={formik.handleChange}
-                            options={[]}
+                            options={regions}
                             label="Region"
+                            placeholder={formik.values.lots[index].region}
                           />
                           <Select
                             {...formik.getFieldProps(`lots.${index}.category`)}
                             onChange={formik.handleChange}
-                            options={[]}
+                            options={categories}
                             label="Category"
+                            placeholder={formik.values.lots[index].category}
                           />
                           <div className="delete-lot">
                             {index !== 0 && (
@@ -152,16 +175,17 @@ export default function Tab2({ moveToTab }) {
                               onChange={formik.handleChange}
                               outlined
                               label="Sub-lot Name"
-                              name={`lots.${index}.subLots.${subIndex}.name`}
+                              value={lots[index].subLots[subIndex].name}
                             />
-                            <Input
+                            <Select
+                            options={categories}
                               {...formik.getFieldProps(
                                 `lots.${index}.subLots${subIndex}.category`
                               )}
                               onChange={formik.handleChange}
                               outlined
                               label="Category"
-                              name={`lots.${index}.subLots.${subIndex}.category`}
+                              placeholder={lots[index].subLots[subIndex].category}
                             />
                             <div className="lot_icon">
                               <DeleteIcon
