@@ -16,7 +16,7 @@ export default async function query({ method, url, bodyData,token='' }: QueryPar
   }
   const conditionalHeader=token?headers1:headers2
 
-  console.log("Your Test token is " + token)
+  // console.log("Your Test token is " + token)
 
   try {
     if (method=='GET') {
