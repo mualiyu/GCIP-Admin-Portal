@@ -9,18 +9,21 @@ interface QueryParams {
 export default async function query({ method, url, bodyData,token='' }: QueryParams) {
   let headers1={
     "Content-Type": "application/json",
-    'x-auth-token':token
+    "Authorization":`Bearer ${token}`
   }
   let headers2={
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   }
   const conditionalHeader=token?headers1:headers2
   try {
     if (method=='GET') {
-    var response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng${url}`)
+    var response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng${url}`,{
+     headers:conditionalHeader,
+     method
+    })
     }else{
       var response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng${url}`, {
-        method: method,
+        method,
         headers:conditionalHeader,
         body: JSON.stringify(bodyData),
       });

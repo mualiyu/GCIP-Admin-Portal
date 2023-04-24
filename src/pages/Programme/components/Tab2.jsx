@@ -15,9 +15,10 @@ import query from "../../../helpers/query";
 export default function Tab2({ moveToTab }) {
   const dispatch = useDispatch();
   const [alertText,setAlert]=useState('')
-  const programData = useSelector((state) => state.program);
+  const programData = useSelector((state) => state);
+
   const initialValues = {
-    lots: [...programData.program.lots],
+    lots: [...programData.program.program.lots],
   };
   const formik = useFormik({
     initialValues,
@@ -53,12 +54,13 @@ export default function Tab2({ moveToTab }) {
    const {success,data,error} = await query({
     method:'GET',
     url:'/api/admin/regions',
-    bodyData:{},
+    token:programData.user.user.token
   })
   console.log(data)
   }
   useEffect(()=>{
   getRegions()
+  
   },[])
 
   return (
