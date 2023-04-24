@@ -77,11 +77,11 @@ function Login() {
         <Loading loading={loading} />
         <Alert text={alertText} />
         <div className="auth_inner_container">
-          <img src="logo.jpg" alt="logo" />
+          <img src="svg.svg" alt="logo" />
           <div className="inputs_container">
-            <Header text="Sign in to REA-ADMIN" />
+            <Header text="Sign in to AFM-ADMIN" />
             <RegularText
-              text="To sign in, please type in the user name for your REA account and your password.
+              text="To sign in, please type in the user name for your AFM account and your password.
 
 "
             />

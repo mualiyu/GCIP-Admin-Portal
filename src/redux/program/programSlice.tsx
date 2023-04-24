@@ -8,6 +8,7 @@ export interface ProgramState {
     lots?: {
       name: string;
       region: string;
+      category:string;
       subLots?: any[];
     }[];
 
@@ -45,6 +46,7 @@ const initialState: ProgramState = {
       {
         name: "",
         region: "",
+        category:'',
         subLots: [],
       },
     ],
@@ -96,6 +98,7 @@ export const programSlice = createSlice({
         {
           name: string;
           region: string;
+          category:string;
           subLots?: { name: string; category: string; subLots: any[] }[];
         }[]
       >

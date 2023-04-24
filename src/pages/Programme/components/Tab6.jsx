@@ -9,24 +9,18 @@ import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setProgramRequirements } from "../../../redux/program/programSlice";
+import Alert from "../../../components/Alert";
 function Tab6({moveToTab}) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const programData=useSelector(state=>state.program)
+  const [alertText,setAlert]=useState('')
   const [requirementName, setReqName] = useState("");
   const [requirementType, setReqType] = useState("");
   const  [editIndex,setEditIndex]=useState(null)
   const dispatch=useDispatch()
-  const [data, setData] = useState([
-    {
-      name: "This is a Requirements Specification document for a new web-based sales system",
-      type: "",
-    },
-    {
-      name: "Requirement 1",
-      type: "",
-    },
-  ]);
+  const [data, setData] = useState(programData.program.requirements);
 
   const customStyles = {
     content: {
@@ -44,6 +38,7 @@ function Tab6({moveToTab}) {
   return (
     <>
       <div className="app_req_container">
+        <Alert text={alertText}/>
         <div className="app_req_head">
           <h2>
             <FiBook color="green" size={20} /> Application requirements
@@ -72,19 +67,35 @@ function Tab6({moveToTab}) {
             );
           })}
         </div>
+        <div className="save_next">
         <Button
+          onClick={() => {
+            dispatch(setProgramRequirements(data))
+            setAlert("Data Saved");
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          style={{
+            width: 200,
+            marginRight: 20,
+            backgroundColor: "#1094ff",
+          }}
+          label="Save"
+        />
+       <Button
         onClick={() => {
           dispatch(setProgramRequirements(data))
           moveToTab(3)
         }}
         style={{
           width: 200,
-          marginTop: 20,
-          marginBottom: 20,
-          marginLeft: "auto",
+          
         }}
         label="Next"
       />
+      </div>
+        
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -93,7 +104,14 @@ function Tab6({moveToTab}) {
       >
         <div className="inner_modal">
           <FaWindowClose
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              if(editIndex!==null){
+               setReqName('')
+               setReqType('')
+               setEditIndex(null)
+              }
+              setIsOpen(false)
+            }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
           <RegularText

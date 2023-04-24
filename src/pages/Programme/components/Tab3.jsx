@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RegularText } from "../../../components/Common";
 import Button from "../../../components/Button";
 import "./styles/tab3.css";
@@ -7,9 +7,11 @@ import { FieldArray, FormikProvider, useFormik } from "formik";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramStages } from "../../../redux/program/programSlice";
+import Alert from "../../../components/Alert";
 export default function Tab3({moveToTab}) {
   const dispatch=useDispatch()
   const programData=useSelector(state=>state.program)
+  const [alertText,setAlert]=useState('')
   const initialValues = {
     stages:programData.program.stages
   };
@@ -40,6 +42,7 @@ export default function Tab3({moveToTab}) {
   };
   return (
     <div className="stages_container">
+      <Alert text={alertText}/>
       <RegularText text="Create Stages Of The Program" />
       <Button
         onClick={() => addStage()}
@@ -106,18 +109,35 @@ export default function Tab3({moveToTab}) {
           />
         </FormikProvider>
       </div>
-      <Button
+
+      <div className="save_next">
+        <Button
+          onClick={() => {
+            dispatch(setProgramStages(formik.values.stages))
+            setAlert("Data Saved");
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          style={{
+            width: 200,
+            marginRight: 20,
+            backgroundColor: "#1094ff",
+          }}
+          label="Save"
+        />
+       <Button
         onClick={() => {
           formik.handleSubmit();
         }}
         style={{
           width: 200,
-          marginTop: 20,
-          marginBottom: 20,
-          marginLeft: "auto",
+         
         }}
         label="Next"
       />
+      </div>
+      
     </div>
   );
 }

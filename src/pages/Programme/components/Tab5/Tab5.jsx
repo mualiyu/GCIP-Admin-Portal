@@ -7,8 +7,10 @@ import { RegularText } from "../../../../components/Common";
 import Button from "../../../../components/Button";
 import { useDispatch } from "react-redux";
 import { setProgramSatus } from "../../../../redux/program/programSlice";
+import Alert from "../../../../components/Alert";
 function Tab5({moveToTab}) {
   const [selected,setSelected]=useState([])
+  const [alertText,setAlert]=useState('')
   const  dispatch=useDispatch()
   let table_data = [
     {
@@ -89,8 +91,16 @@ function Tab5({moveToTab}) {
     <div style={{
       display:'flex',
       flexDirection:'column',
-      marginTop:20
+      marginTop:20,
+      width:'90%'
     }}>
+    <Alert text={alertText}/>
+    {/* <Button style={{
+          marginTop: 10,
+          width: 100,
+          marginLeft: "auto",
+          marginBottom: 20,
+        }} label="Add Status"/> */}
       <RegularText style={{
         fontWeight:'bold',
         fontSize:20,
@@ -106,7 +116,7 @@ function Tab5({moveToTab}) {
             <th>Color</th>
             <th>Editable Project</th>
             <th>Allow File Uploads</th>
-            <th>Allow connections Updates</th>
+           
           </tr>
         </thead>
         <tbody>
@@ -134,25 +144,43 @@ function Tab5({moveToTab}) {
                 </td>
                 <td>{item.edit}</td>
                 <td>{item.file}</td>
-                <td>{item.update}</td>
+                
               </tr>
             );
           })}
         </tbody>
       </table>
-      <Button
+      <div className="save_next">
+          <Button
+            onClick={() => {
+             
+              dispatch(setProgramSatus(selected))
+              setAlert("Data Saved");
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+            }}
+            style={{
+              width: 200,
+              marginRight: 20,
+              backgroundColor: "#1094ff",
+            }}
+            label="Save"
+          />
+         <Button
         onClick={() => {
           dispatch(setProgramSatus(selected))
           moveToTab(6)
         }}
         style={{
           width: 200,
-          marginTop: 20,
-          marginBottom: 20,
-          marginLeft: "auto",
+         
+         
         }}
         label="Next"
       />
+        </div>
+      
     </div>
   );
 }

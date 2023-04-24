@@ -19,19 +19,19 @@ import Tab6 from "./components/Tab6";
 const tabFields = [
   "General",
   "Lots",
-  "Requirements",
   "Stages",
+  "Requirements",
   "Uploads",
   "Status",
-  "Overview",
+  "Milestone & Claims",
 ];
 export default function ProgramHome() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
 
-  const moveToTab=(number)=>{
-    setActiveTab(number)
-  }
+  const moveToTab = (number) => {
+    setActiveTab(number);
+  };
 
   return (
     <div className="program_home_container">
@@ -42,7 +42,6 @@ export default function ProgramHome() {
         <span>{`>`}</span>
         <span>Config</span>
       </div>
-      <h3>REA MINI PID GRID PERFORMANCE</h3>
       <div className="tab-container">
         {tabFields.map((tab, index) => (
           <span
@@ -54,13 +53,41 @@ export default function ProgramHome() {
           </span>
         ))}
       </div>
-      {activeTab == 0 && <Fade><Tab1 moveToTab={moveToTab} /></Fade>}
-      {activeTab == 1 && <Fade><Tab2 moveToTab={moveToTab}/></Fade>}
-      {activeTab == 2 && <Fade><Tab6 moveToTab={moveToTab}/></Fade>}
-      {activeTab == 3 && <Fade><Tab3 moveToTab={moveToTab}/></Fade>}
-      {activeTab == 4 && <Fade><Tab4 moveToTab={moveToTab}/></Fade>}
-      {activeTab == 5 && <Fade><Tab5 moveToTab={moveToTab}/></Fade>}
-      {activeTab == 6 && <Fade><Overview /></Fade>}
+      {activeTab == 0 && (
+        <Fade>
+          <Tab1 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 1 && (
+        <Fade>
+          <Tab2 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 3 && (
+        <Fade>
+          <Tab6 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 2 && (
+        <Fade>
+          <Tab3 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 4 && (
+        <Fade>
+          <Tab4 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 5 && (
+        <Fade>
+          <Tab5 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {activeTab == 6 && (
+        <Fade>
+          <Overview />
+        </Fade>
+      )}
     </div>
   );
 }

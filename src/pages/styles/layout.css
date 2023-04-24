@@ -62,7 +62,9 @@
 }
 .layout_main {
   flex: 1;
+  overflow: hidden;
   background-color: var(--back_ground);
+  overflow-y: scroll;
   
 }
 .drawer_bar{

@@ -1,7 +1,9 @@
 .stages_container{
     display: flex;
     flex-direction: column;
+    flex:1;
     width: 90%;
+    min-height: 50vh;
 }
 .stages_container .stages{
     display: flex;

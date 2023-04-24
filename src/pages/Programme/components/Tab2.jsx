@@ -10,17 +10,19 @@ import { current } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramLots } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
-export default function Tab2({moveToTab}) {
-  const dispatch=useDispatch()
-  const programData=useSelector(state=>state.program)
+import Alert from "../../../components/Alert";
+export default function Tab2({ moveToTab }) {
+  const dispatch = useDispatch();
+  const [alertText,setAlert]=useState('')
+  const programData = useSelector((state) => state.program);
   const initialValues = {
-    lots: programData.program.lots
+    lots: programData.program.lots,
   };
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
-      dispatch(setProgramLots(val.lots))
-      moveToTab(2)
+      dispatch(setProgramLots(val.lots));
+      moveToTab(2);
     },
   });
 
@@ -41,9 +43,19 @@ export default function Tab2({moveToTab}) {
     console.log(filtered);
     formik.setValues({ lots: newLots });
   };
- 
+
   return (
     <div className="lot_container">
+      <Alert text={alertText}/>
+      <Button
+        style={{
+          marginTop: 10,
+          width: 100,
+          marginLeft: "auto",
+          marginBottom: 50,
+        }}
+        label="Add Category"
+      />
       <FormikProvider value={formik}>
         <FieldArray
           name="lots"
@@ -65,7 +77,13 @@ export default function Tab2({moveToTab}) {
                             {...formik.getFieldProps(`lots.${index}.region`)}
                             onChange={formik.handleChange}
                             options={[]}
-                            label="Lots Region"
+                            label="Region"
+                          />
+                          <Select
+                            {...formik.getFieldProps(`lots.${index}.category`)}
+                            onChange={formik.handleChange}
+                            options={[]}
+                            label="Category"
                           />
                           <div className="delete-lot">
                             {index !== 0 && (
@@ -89,6 +107,7 @@ export default function Tab2({moveToTab}) {
                                   arrayHelpers.push({
                                     name: "",
                                     region: "",
+                                    category: "",
                                     subLots: [],
                                   });
                                 }}
@@ -140,18 +159,32 @@ export default function Tab2({moveToTab}) {
           }}
         />
       </FormikProvider>
-      <Button
-        onClick={() => {
-          formik.handleSubmit();
-        }}
-        style={{
-          width: 200,
-          marginTop: 50,
-          marginBottom: 20,
-          marginLeft: "auto",
-        }}
-        label="Next"
-      />
+      <div className="save_next">
+        <Button
+          onClick={() => {
+            dispatch(setProgramLots(formik.values.lots));
+            setAlert("Data Saved");
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          style={{
+            width: 200,
+            marginRight: 20,
+            backgroundColor: "#1094ff",
+          }}
+          label="Save"
+        />
+        <Button
+          onClick={() => {
+            formik.handleSubmit();
+          }}
+          style={{
+            width: 200,
+          }}
+          label="Next"
+        />
+      </div>
     </div>
   );
 }

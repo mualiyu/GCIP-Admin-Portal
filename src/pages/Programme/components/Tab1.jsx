@@ -4,36 +4,44 @@ import Input from "../../../components/Input";
 import { RegularText } from "../../../components/Common";
 import { useFormik } from "formik";
 import Button from "../../../components/Button";
+import Alert from "../../../components/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import {setProgramDesc,setProgramName} from '../../../redux/program/programSlice'
+import {
+  setProgramDesc,
+  setProgramName,
+} from "../../../redux/program/programSlice";
 import { useEffect } from "react";
+import { useState } from "react";
 
-export default function Tab1({moveToTab}) {
+export default function Tab1({ moveToTab }) {
   const editorRef = useRef(null);
-  const dispatch=useDispatch()
-  const programData=useSelector(state=>state.program)
+  const dispatch = useDispatch();
+  const [alertText, setAlert] = useState("");
+  const programData = useSelector((state) => state.program);
   const initialValues = {
     programName: programData.program.programName,
-    programDescription:programData.program.programDescription,
+    programDescription: "",
   };
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
-     if (editorRef.current) {
-      formik.values.programDescription=editorRef.current.getContent()
-     }
-     dispatch(setProgramDesc(val.programDescription))
-     dispatch(setProgramName(val.programName))
-     moveToTab(1)
+      if (editorRef.current) {
+        formik.values.programDescription = editorRef.current.getContent();
+      }
+      dispatch(setProgramDesc(val.programDescription));
+      dispatch(setProgramName(val.programName));
+      moveToTab(1);
     },
   });
 
   return (
     <>
+      <Alert text={alertText} />
       <span style={{ marginTop: 20 }}>General Program Settings</span>
       <Input
         id="programName"
-        onChange={(e) => formik.handleChange(e)}
+        {...formik.getFieldProps(`programName`)}
+        onChange={formik.handleChange}
         required
         outlined
         style={{ width: "90%" }}
@@ -55,7 +63,7 @@ export default function Tab1({moveToTab}) {
         <Editor
           apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue="<p>This is the initial content of the editor.</p>"
+          initialValue={programData.program.programDescription}
           init={{
             height: 400,
             menubar: false,
@@ -73,16 +81,38 @@ export default function Tab1({moveToTab}) {
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
         />
-         <Button onClick={()=>{
-           formik.handleSubmit()
-         }} style={{
-        width:200,
-        marginTop:20,
-        marginBottom:20,
-        marginLeft:'auto'
-      }} label="Next"/>
+        <div className="save_next">
+          <Button
+            onClick={() => {
+              if (editorRef.current) {
+                formik.values.programDescription =
+                  editorRef.current.getContent();
+              }
+              dispatch(setProgramDesc(editorRef.current.getContent()));
+              dispatch(setProgramName(formik.values.programName));
+              setAlert("Data Saved");
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+            }}
+            style={{
+              width: 200,
+              marginRight: 20,
+              backgroundColor: "#1094ff",
+            }}
+            label="Save"
+          />
+          <Button
+            onClick={() => {
+              formik.handleSubmit();
+            }}
+            style={{
+              width: 200,
+            }}
+            label="Next"
+          />
+        </div>
       </div>
-     
     </>
   );
 }

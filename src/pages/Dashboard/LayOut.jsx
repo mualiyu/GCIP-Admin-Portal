@@ -6,6 +6,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
+import { FaUser } from "react-icons/fa";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -27,7 +28,7 @@ function LayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src={Logo} alt="img" />
+        <img className="aside_logo" src='svg.svg' alt="img" />
         <div className="divider"/>
         <NavLink
           onClick={() => {
@@ -51,9 +52,9 @@ function LayOut() {
               asideRef.current.style.width = "0px";
             }
           }}
-          label="File Manager"
-          route="/"
-          Icon={() => <FolderIcon active={location.pathname == "/"} />}
+          label="ADMIN"
+          route="/Home"
+          Icon={() => <FaUser color="#000"/>}
         />
         </div>
       </div>

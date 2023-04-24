@@ -6,6 +6,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
+import { FcHome } from "react-icons/fc";
+import { FaHandHolding, FaHome, FaWhatsapp } from "react-icons/fa";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -27,9 +29,8 @@ function ProgramLayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        
-        <img className="aside_logo" src={Logo} alt="img" />
-        <div className="divider"/>
+        <img className="aside_logo" src="svg.svg" alt="img" />
+        <div className="divider" />
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
@@ -38,24 +39,72 @@ function ProgramLayOut() {
           }}
           label="Program Home"
           route="/Programme"
-          Icon={() => <FolderIcon active={location.pathname == "/Programme"} />}
+          Icon={() => (
+            <FaHome
+              color={
+                location.pathname == "/Programme" ? "var(--primary)" : "#000"
+              }
+            />
+          )}
         />
-
-        {/* <NavLink/>
-          <NavLink/>
-          <NavLink/> */}
-        <div className="other-links">
-          <div className="divider"/>
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
             }
           }}
-          label="File Manager"
-          route="/"
-          Icon={() => <FolderIcon active={location.pathname == "/"} />}
+          label="Applications"
+          route="/Programme/Application"
+          Icon={() => (
+            <FaHandHolding
+              color={
+                location.pathname == "/Programme/Application" ? "var(--primary)" : "#000"
+              }
+            />
+          )}
         />
+        <NavLink
+          onClick={() => {
+            if (window.innerWidth <= 767) {
+              asideRef.current.style.width = "0px";
+            }
+          }}
+          label="Messages"
+          route="/Programme/Message"
+          Icon={() => (
+            <FaWhatsapp
+              color={
+                location.pathname == "/Programme/Message" ? "var(--primary)" : "#000"
+              }
+            />
+          )}
+        />
+        <NavLink
+          onClick={() => {
+            if (window.innerWidth <= 767) {
+              asideRef.current.style.width = "0px";
+            }
+          }}
+          label="Documents"
+          route="/Programme/Document"
+          Icon={() => <FolderIcon active={location.pathname == "/Programme/Document"} />}
+        />
+
+        {/* <NavLink/>
+          <NavLink/>
+          <NavLink/> */}
+        <div className="other-links">
+          <div className="divider" />
+          <NavLink
+            onClick={() => {
+              if (window.innerWidth <= 767) {
+                asideRef.current.style.width = "0px";
+              }
+            }}
+            label="File Manager"
+            route="/"
+            Icon={() => <FolderIcon active={location.pathname == "/"} />}
+          />
         </div>
       </div>
 

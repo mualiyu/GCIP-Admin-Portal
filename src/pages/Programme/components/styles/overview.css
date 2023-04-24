@@ -1,9 +1,46 @@
-.overview-container{
+.overview_container{
     display: flex;
     flex-direction: column;
     padding-top: 20px;
     position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 90%;
 }
+.general_overview{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-bottom: 20px;
+   
+}
+.lots_overview{
+    width: 90%;
+}
+.general_overview .stages{
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 20px;
+}
+.general_overview .status_overview{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.general_overview .status_overview span{
+width: 30%;
+height: 30px;
+border-radius: 10px;
+background-color: #f9f9f9;
+text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+
 .review-1{
     display: flex;
     min-height: 30vh;

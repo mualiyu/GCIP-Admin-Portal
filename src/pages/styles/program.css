@@ -1,12 +1,12 @@
 .program_home_container {
-  padding: 20px;
+  padding: 10px;
   padding-top: 10px;
   background-color: white;
-  width: 97%;
-  height: 95%;
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  
 }
 .program_home_container .tab-container {
   height: 70px;

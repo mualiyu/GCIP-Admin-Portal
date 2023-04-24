@@ -8,18 +8,22 @@ import "./App.css";
 import Verify from "./pages/Verify";
 import ProgramHome from "./pages/Programme/ProgramHome";
 import ProgramLayOut from "./pages/Programme/ProgramLayOut";
+import Application from "./pages/Programme/Application";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Login />} path="/" />
       <Route element={<SignUp />} path="/signup" />
-      <Route element={<Verify/>} path="/verify/:token"/>
+      <Route element={<Verify />} path="/verify/:token" />
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
       </Route>
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />
+        <Route path="Application" element={<Application />} />
+        <Route path="Message" element={<Application />} />
+        <Route path="Document" element={<Application />} />
       </Route>
     </Routes>
   );

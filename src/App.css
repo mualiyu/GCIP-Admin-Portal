@@ -79,6 +79,13 @@ body {
   width: 100vw;
   position: relative;
 }
+.save_next{
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+ 
+  justify-content: flex-end;
+}
 @media only screen and (max-width: 767px) {
   .auth_inner_container {
     width: 95%;
