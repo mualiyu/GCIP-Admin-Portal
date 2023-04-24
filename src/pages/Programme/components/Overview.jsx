@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { RegularText } from "../../../components/Common";
 import Input from "../../../components/Input";
 import { Editor } from "@tinymce/tinymce-react";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 export default function Overview() {
   const programData = useSelector((state) => state.program);

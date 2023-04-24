@@ -53,7 +53,7 @@ function LayOut() {
             }
           }}
           label="ADMIN"
-          route="/Home"
+          route="/"
           Icon={() => <FaUser color="#000"/>}
         />
         </div>
