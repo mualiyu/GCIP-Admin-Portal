@@ -15,6 +15,7 @@ import Tab4 from "./components/Tab4";
 import Overview from "./components/Overview";
 import { Fade } from "react-awesome-reveal";
 import Tab6 from "./components/Tab6";
+import Application from "./Application";
 
 const tabFields = [
   "General",
@@ -24,6 +25,7 @@ const tabFields = [
   "Uploads",
   "Status",
   "Milestone & Claims",
+  "Overview"
 ];
 export default function ProgramHome() {
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function ProgramHome() {
         <span>{`>`}</span>
         <span>Programe</span>
         <span>{`>`}</span>
-        <span>Config</span>
+        <span>Create</span>
       </div>
       <div className="tab-container">
         {tabFields.map((tab, index) => (
@@ -83,7 +85,12 @@ export default function ProgramHome() {
           <Tab5 moveToTab={moveToTab} />
         </Fade>
       )}
-      {activeTab == 6 && (
+      {activeTab == 7 && (
+        <Fade>
+          <Application />
+        </Fade>
+      )}
+      {activeTab == 7 && (
         <Fade>
           <Overview />
         </Fade>

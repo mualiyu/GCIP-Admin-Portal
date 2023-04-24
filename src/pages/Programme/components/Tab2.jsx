@@ -11,12 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProgramLots } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
 import Alert from "../../../components/Alert";
+import query from "../../../helpers/query";
 export default function Tab2({ moveToTab }) {
   const dispatch = useDispatch();
   const [alertText,setAlert]=useState('')
   const programData = useSelector((state) => state.program);
   const initialValues = {
-    lots: programData.program.lots,
+    lots: [...programData.program.lots],
   };
   const formik = useFormik({
     initialValues,
@@ -26,11 +27,16 @@ export default function Tab2({ moveToTab }) {
     },
   });
 
+
   const addSubLot = (arrayHelpers, index) => {
     const current = [...formik.values.lots[index].subLots];
+   
     current.push({ name: "", category: "" });
+    
     const newLots = [...formik.values.lots];
-    newLots[index].subLots = current;
+    
+    newLots[index].subLots.push(current) 
+    console.log(newLots)
 
     formik.setValues({ lots: newLots });
   };
@@ -43,6 +49,17 @@ export default function Tab2({ moveToTab }) {
     console.log(filtered);
     formik.setValues({ lots: newLots });
   };
+  const getRegions=async ()=>{
+   const {success,data,error} = await query({
+    method:'GET',
+    url:'/api/admin/regions',
+    bodyData:{},
+  })
+  console.log(data)
+  }
+  useEffect(()=>{
+  getRegions()
+  },[])
 
   return (
     <div className="lot_container">

@@ -11,8 +11,7 @@ export default function Home() {
   return (
     <Fade>
       <div className="home_container">
-        <img id="logo" src="svg.svg" alt="none" />
-        <img id="bg" src="bg.jpeg" alt="m" />
+        <img id="bg" src="bg.png" alt="m" />
 
         <div style={{width:'90%'}}>
         <Button

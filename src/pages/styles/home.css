@@ -19,9 +19,10 @@
 }
 #bg{
   width: 90%;
-  height: 35vh;
+  height:200px;
   margin-left: auto;
   margin-right: auto;
+  background: transparent;
 }
 .tab-container span{
   font-size: 14px;
@@ -134,4 +135,8 @@
   padding:5px;
   border-radius: 10px;
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+
 }

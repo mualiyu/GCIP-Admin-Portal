@@ -28,7 +28,7 @@ function LayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src='svg.svg' alt="img" />
+        <img className="aside_logo" src='logo.jpg' alt="img" />
         <div className="divider"/>
         <NavLink
           onClick={() => {
