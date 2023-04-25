@@ -12,15 +12,26 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramRequirements } from "../../../redux/program/programSlice";
 import Alert from "../../../components/Alert";
-function Tab6({moveToTab}) {
+import { useEffect } from "react";
+function Tab6({ moveToTab }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const programData=useSelector(state=>state.program)
-  const [alertText,setAlert]=useState('')
+  const programData = useSelector((state) => state.program);
+  const [alertText, setAlert] = useState("");
   const [requirementName, setReqName] = useState("");
   const [requirementType, setReqType] = useState("");
-  const  [editIndex,setEditIndex]=useState(null)
-  const dispatch=useDispatch()
-  const [data, setData] = useState(programData.program.requirements);
+  const [editIndex, setEditIndex] = useState(null);
+  const dispatch = useDispatch();
+  const assignedReqs = Array.from(programData.program.requirements)
+  const [reqTypes, setReqTypes] = useState([
+    "TextInput",
+    "NumericInput",
+    "Textarea",
+    "CheckBox",
+    "Yes/No",
+    "FileUpload",
+  ]);
+
+  const [data, setData] = useState([]);
 
   const customStyles = {
     content: {
@@ -35,10 +46,17 @@ function Tab6({moveToTab}) {
       backgroundColor: "rgba(0,0,0,0.5)",
     },
   };
+  useEffect(()=>{
+  const newArray=[]
+  assignedReqs.map(assigned=>{
+    newArray.push({name:assigned.name,type:assigned.type})
+  })
+  setData(newArray)
+  },[])
   return (
     <>
       <div className="app_req_container">
-        <Alert text={alertText}/>
+        <Alert text={alertText} />
         <div className="app_req_head">
           <h2>
             <FiBook color="green" size={20} /> Application requirements
@@ -51,51 +69,54 @@ function Tab6({moveToTab}) {
               <div key={index} className="app_req_item">
                 <Input
                   style={{ width: "90%" }}
-                  label="Name"
+                  label={item.type}
                   value={item.name}
                   outlined
                   disabled
                 />
-                <button onClick={()=>{
-                  setReqName(item.name)
-                  setReqType(item.type)
-                  setEditIndex(index)
-                  setIsOpen(true)
-                }}>Edit</button>
+                <button
+                  onClick={() => {
+                    setReqName(item.name);
+                    setReqType(item.type);
+                    setEditIndex(index);
+                    setIsOpen(true);
+                  }}
+                >
+                  Edit
+                </button>
                 <button>Delete</button>
               </div>
             );
           })}
         </div>
         <div className="save_next">
-        <Button
-          onClick={() => {
-            dispatch(setProgramRequirements(data))
-            setAlert("Data Saved");
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          style={{
-            width: 200,
-            marginRight: 20,
-            backgroundColor: "#1094ff",
-          }}
-          label="Save"
-        />
-       <Button
-        onClick={() => {
-          dispatch(setProgramRequirements(data))
-          moveToTab(3)
-        }}
-        style={{
-          width: 200,
-          
-        }}
-        label="Next"
-      />
-      </div>
-        
+          <Button
+            onClick={() => {
+              dispatch(setProgramRequirements(data));
+              setAlert("Data Saved");
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+            }}
+            style={{
+              width: 200,
+              marginRight: 20,
+              backgroundColor: "#1094ff",
+            }}
+            label="Save"
+          />
+          <Button
+            onClick={() => {
+              const newData=data
+              dispatch(setProgramRequirements(newData))
+               moveToTab(4);
+            }}
+            style={{
+              width: 200,
+            }}
+            label="Next"
+          />
+        </div>
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -105,12 +126,12 @@ function Tab6({moveToTab}) {
         <div className="inner_modal">
           <FaWindowClose
             onClick={() => {
-              if(editIndex!==null){
-               setReqName('')
-               setReqType('')
-               setEditIndex(null)
+              if (editIndex !== null) {
+                setReqName("");
+                setReqType("");
+                setEditIndex(null);
               }
-              setIsOpen(false)
+              setIsOpen(false);
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
@@ -120,7 +141,7 @@ function Tab6({moveToTab}) {
           />
           <div className="divider" />
           <Input
-           value={requirementName}
+            value={requirementName}
             onChange={(e) => {
               setReqName(e.target.value);
             }}
@@ -128,26 +149,27 @@ function Tab6({moveToTab}) {
             outlined
           />
           <Select
-          value={requirementType}
+            value={requirementType}
             onChange={(e) => {
               setReqType(e.target.value);
             }}
-            options={[]}
+            options={reqTypes}
             label="Type"
             outlined
           />
           <Button
             onClick={() => {
-              if (editIndex!==null) {
-                const allValues=data
-                allValues[editIndex].name=requirementName
-                allValues[editIndex].type=requirementType
-                setData(allValues)
+              if (editIndex !== null) {
+                const allValues = data;
+               
+                allValues[editIndex].name = requirementName;
+                allValues[editIndex].type = requirementType;
+                setData(allValues);
                 setReqName("");
                 setReqType("");
-                setEditIndex(null)
-                setIsOpen(false)
-                return
+                setEditIndex(null);
+                setIsOpen(false);
+                return;
               }
               setData((prev) => [
                 ...prev,
@@ -164,7 +186,6 @@ function Tab6({moveToTab}) {
           />
         </div>
       </Modal>
-     
     </>
   );
 }

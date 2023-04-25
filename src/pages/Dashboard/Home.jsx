@@ -11,9 +11,8 @@ export default function Home() {
   return (
     <Fade>
       <div className="home_container">
+        <div className="home_top" style={{width:'90%'}}>
         <img id="bg" src="bg.png" alt="m" />
-
-        <div style={{width:'90%'}}>
         <Button
           style={{
             marginLeft: "auto",

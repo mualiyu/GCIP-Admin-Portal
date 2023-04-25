@@ -92,7 +92,7 @@ export default function ProgramHome() {
       )}
       {activeTab == 7 && (
         <Fade>
-          <Overview />
+          <Overview moveToTab={moveToTab} />
         </Fade>
       )}
     </div>

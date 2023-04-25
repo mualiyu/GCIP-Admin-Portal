@@ -14,8 +14,10 @@ export default function Tab4({ moveToTab }) {
   const [loading, setLoading] = useState(false);
   const programData = useSelector((state) => state);
   const [alertText, setAlert] = useState("");
+  const assignedUploads = [].concat(programData.program.program.uploads,[])
+  
   const initialValues = {
-    uploads: programData.program.program.uploads,
+    uploads:assignedUploads
   };
   const formik = useFormik({
     initialValues,

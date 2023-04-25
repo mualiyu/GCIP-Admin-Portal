@@ -17,11 +17,14 @@
   align-items: center;
   
 }
+.home_top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 #bg{
-  width: 90%;
-  height:200px;
-  margin-left: auto;
-  margin-right: auto;
+  width:40%;
+  height:100px;
   background: transparent;
 }
 .tab-container span{

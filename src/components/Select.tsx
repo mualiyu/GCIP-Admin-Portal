@@ -32,11 +32,25 @@ function Select({
         backgroundColor:disabled?'var(--back_ground)':'white'
       }} disabled={disabled} defaultValue={placeholder}>
         <option value={placeholder}>{placeholder}</option>
-        {options.map((opt: string, index) => (
-          <option value={opt} key={opt}>
-            {opt}
-          </option>
-        ))}
+        {options.map((opt: string|{value:string,name:string}, index) => {
+          if (typeof(opt)=='string') {
+            return(
+              <option value={opt} key={opt}>
+              {opt}
+            </option>)
+          }
+          else{
+            return(
+              <option value={opt.value} key={opt.name}>
+              {opt.name}
+            </option>
+            )
+          }
+         
+         
+        }
+          
+        )}
       </select>
     </div>
   );

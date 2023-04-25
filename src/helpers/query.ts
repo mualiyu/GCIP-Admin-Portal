@@ -30,6 +30,7 @@ export default async function query({ method, url, bodyData,token='' }: QueryPar
         headers:conditionalHeader,
         body: JSON.stringify(bodyData),
       });
+      console.log(JSON.stringify(bodyData),'jssss')
     }
     
     const data = await response.json();

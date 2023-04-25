@@ -2,15 +2,16 @@ import React, { DOMElement, useRef } from "react";
 import "../styles/layout.css";
 import Logo from "../../assets/Images/logo.jpg";
 import User from "../../assets/Svg/user.svg";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
 import { FcHome } from "react-icons/fc";
-import { FaHandHolding, FaHome, FaWhatsapp } from "react-icons/fa";
+import { FaArrowLeft, FaHandHolding, FaHome, FaWhatsapp } from "react-icons/fa";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
+  const navigate=useNavigate()
   return (
     <div className="layout_container">
       {/* <div className="layout_nav">
@@ -29,8 +30,17 @@ function ProgramLayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src="svg.svg" alt="img" />
+        <img className="aside_logo" src="logo.jpg" alt="img" />
         <div className="divider" />
+        <FaArrowLeft onClick={()=>navigate('/Home')} style={{
+          backgroundColor:'#9b9b9b16',
+          height:25,
+          width:25,
+          borderRadius:20,
+          padding:10,
+          cursor:'pointer'
+         
+        }}/>
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {

@@ -18,9 +18,9 @@ export default function Tab2({ moveToTab }) {
   const programData = useSelector((state) => state);
   const [regions,setRegions]=useState([])
   const [categories,setCategories]=useState([])
-
+  const [assignedLots,setAssigned]=useState([])
   const initialValues = {
-    lots: [...programData.program.program.lots],
+    lots:assignedLots,
   };
   const formik = useFormik({
     initialValues,
@@ -61,7 +61,7 @@ export default function Tab2({ moveToTab }) {
   })
   if (success) {
     const regionsArray=[]
-    data.data.regions.map(reg=>regionsArray.push(reg.name))
+    data.data.regions.map(reg=>regionsArray.push({name:reg.name,value:reg.id}))
     setRegions(regionsArray)
     
   }
@@ -75,13 +75,17 @@ export default function Tab2({ moveToTab }) {
    
    if (success) {
     const catsArray=[]
-    data.data.categories.map(cat=>catsArray.push(cat.name))
+    data.data.categories.map(cat=>catsArray.push({name:cat.name,value:cat.id}))
     setCategories(catsArray)
    }
    }
   useEffect(()=>{
   getRegions()
   getCategories()
+  const newData=[]
+  programData.program.program.lots.map(lts=>newData.push(lts))
+  formik.setValues({lots:newData})
+  setAssigned(newData)
   },[])
 
   return (
@@ -175,7 +179,7 @@ export default function Tab2({ moveToTab }) {
                               onChange={formik.handleChange}
                               outlined
                               label="Sub-lot Name"
-                              value={lots[index].subLots[subIndex].name}
+                              // value={lots[index].subLots[subIndex].name}
                             />
                             <Select
                             options={categories}

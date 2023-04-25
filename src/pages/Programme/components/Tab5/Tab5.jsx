@@ -127,8 +127,8 @@ function Tab5({moveToTab}) {
                   if (e.target.checked) {
                     setSelected(prev=>[...prev,{
                       name:item.name,
-                      isEditable: true,
-                      isChecked: false,
+                      isEditable: '0',
+                      isInitial: '0',
                       color: item.color,
                     }])
                   }else{

@@ -1,36 +1,47 @@
 import React from "react";
 import "./styles/overview.css";
 import Button from "../../../components/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { RegularText } from "../../../components/Common";
 import Input from "../../../components/Input";
 import { Editor } from "@tinymce/tinymce-react";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import query from "../../../helpers/query";
+import Loading from "../../../components/Loading";
+import { useState } from "react";
+import Alert from "../../../components/Alert";
+import { resetProgram } from "../../../redux/program/programSlice";
 
-export default function Overview() {
-  const programData = useSelector((state) => state.program);
+export default function Overview({moveToTab}) {
+  const programData = useSelector((state) => state);
+  const [loading,setLoading]=useState(false)
+  const [alertText,setAlert]=useState('')
+  const dispatch=useDispatch()
   useEffect(() => {
     console.log(programData);
   }, []);
   return (
     <>
+     <Loading loading={loading}/>
+     <Alert text={alertText}/>
       <h3>Milestone & Claims</h3>
 
       <div className="overview_container">
+      
         <div className="general_overview">
           <h2>GENERAL</h2>
           <Input
             outlined
             label="Program Name"
             disabled
-            value={programData.program.programName}
+            value={programData.program.program.programName}
           />
           <RegularText text="Description" />
           <Editor
             disabled
             apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
-            initialValue={programData.program.programDescription}
+            initialValue={programData.program.program.programDescription}
             init={{
               height: 200,
               menubar: false,
@@ -52,7 +63,7 @@ export default function Overview() {
 
         <div className="lots_overview">
           <h2>LOTS</h2>
-          {programData.program.lots.map((lot, ind) => (
+          {programData.program.program.lots.map((lot, ind) => (
             <>
               <div key={ind.toString()} className="lot_add">
                 <Input disabled value={lot.name} outlined label="Lot Name" />
@@ -89,7 +100,7 @@ export default function Overview() {
 
         <div className="general_overview">
           <h2>Stages</h2>
-          {programData.program.stages.map((stage, ind) => (
+          {programData.program.program.stages.map((stage, ind) => (
             <div className="stages">
               <Input
                 disabled
@@ -125,7 +136,7 @@ export default function Overview() {
 
         <div className="general_overview">
           <h2>Requirements</h2>
-          {programData.program.requirements.map((req, ind) => (
+          {programData.program.program.requirements.map((req, ind) => (
             <Input
               outlined
               key={ind}
@@ -138,7 +149,7 @@ export default function Overview() {
 
         <div className="general_overview">
         <h2>UPLOADS</h2>
-          {programData.program.uploads.map((upl, ind) => (
+          {programData.program.program.uploads.map((upl, ind) => (
             <Input
               type="file"
               outlined
@@ -152,9 +163,9 @@ export default function Overview() {
 
 
         <div className="general_overview">
-          <h2>STASUS</h2>
+          <h2>STATUS</h2>
           {
-            programData.program.status.map((sta,ind)=>(
+            programData.program.program.status.map((sta,ind)=>(
               <div key={ind} className="status_overview">
               <span>{sta.name}</span>
               <span>Is Editable{sta.isEditable?<FaCheck/>:<FaTimes color="red" />}</span>
@@ -166,13 +177,24 @@ export default function Overview() {
       </div>
       <Button
       onClick={async ()=>{
-        // const {success,data,error} = await query({
-        //   method:'POST',
-        //   url:'/api/admin/program/create',
-        //   token:programData.user.user.token,
-        //   bodyData:{}
-        // })
-      console.log(programData)
+        setLoading(true)
+        const {success,data,error} = await query({
+          method:'POST',
+          url:'/api/admin/program/create',
+          token:programData.user.user.token,
+          bodyData:programData.program
+        })
+      setLoading(false)
+      if(success) {
+        setAlert('Program Created Successfuly')
+        dispatch(resetProgram())
+        moveToTab(0)
+      }else{
+        setAlert('Something went wrong')
+      }
+      setTimeout(()=>{
+      setAlert('')
+      },2000)
       }}
        style={{
         width:'50%',

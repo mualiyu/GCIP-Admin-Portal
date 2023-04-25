@@ -12,8 +12,10 @@ export default function Tab3({moveToTab}) {
   const dispatch=useDispatch()
   const programData=useSelector(state=>state.program)
   const [alertText,setAlert]=useState('')
+  const assignedStages = [].concat(programData.program.stages,[])
+  
   const initialValues = {
-    stages:programData.program.stages
+    stages:assignedStages
   };
   const formik = useFormik({
     initialValues,

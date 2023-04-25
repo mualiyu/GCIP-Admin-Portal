@@ -8,7 +8,7 @@ export interface ProgramState {
     lots?: {
       name: string;
       region: string;
-      category:string;
+      category: string;
       subLots?: any[];
     }[];
 
@@ -31,8 +31,8 @@ export interface ProgramState {
 
     status?: {
       name: string;
-      isEditable: boolean;
-      isChecked: boolean;
+      isEditable: string;
+      isInitial: string;
       color: string;
     }[];
   };
@@ -46,7 +46,7 @@ const initialState: ProgramState = {
       {
         name: "",
         region: "",
-        category:'',
+        category: "",
         subLots: [],
       },
     ],
@@ -74,8 +74,8 @@ const initialState: ProgramState = {
     status: [
       {
         name: "",
-        isEditable: false,
-        isChecked: false,
+        isEditable: "0",
+        isInitial: "0",
         color: "",
       },
     ],
@@ -98,7 +98,7 @@ export const programSlice = createSlice({
         {
           name: string;
           region: string;
-          category:string;
+          category: string;
           subLots?: { name: string; category: string; subLots: any[] }[];
         }[]
       >
@@ -145,13 +145,16 @@ export const programSlice = createSlice({
       action: PayloadAction<
         {
           name: string;
-          isEditable: boolean;
-          isChecked: boolean;
+          isEditable: string;
+          isInitial: string;
           color: string;
         }[]
       >
     ) => {
       state.program.status = action.payload;
+    },
+    resetProgram: (state) => {
+      state.program = initialState.program;
     },
   },
 });
@@ -165,6 +168,7 @@ export const {
   setProgramSatus,
   setProgramStages,
   setProgramUploads,
+  resetProgram
 } = programSlice.actions;
 
 export default programSlice.reducer;
