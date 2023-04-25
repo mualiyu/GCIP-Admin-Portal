@@ -21,7 +21,7 @@ export default function Tab3({moveToTab}) {
     initialValues,
     onSubmit: (val) => {
       dispatch(setProgramStages(val.stages))
-      moveToTab(4)
+      moveToTab(3)
     },
   });
   const addStage = () => {

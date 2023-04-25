@@ -85,7 +85,7 @@ export default function ProgramHome() {
           <Tab5 moveToTab={moveToTab} />
         </Fade>
       )}
-      {activeTab == 7 && (
+      {activeTab == 6 && (
         <Fade>
           <Application />
         </Fade>

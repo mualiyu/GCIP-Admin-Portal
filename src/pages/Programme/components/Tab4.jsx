@@ -110,7 +110,7 @@ export default function Tab4({ moveToTab }) {
                                   }, 2000);
                                 });
                             }}
-                            label="Upload"
+                            label="File"
                             outlined
                             type="file"
                           />
