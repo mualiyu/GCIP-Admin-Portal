@@ -20,14 +20,14 @@ export default function Tab2({ moveToTab }) {
   const [categories,setCategories]=useState([])
   const [assignedLots,setAssigned]=useState([])
   const initialValues = {
-    lots:assignedLots,
+    lots:[{name:'',category:"",region:"",subLots:[]}],
   };
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
       console.log(val)
-      dispatch(setProgramLots(val.lots));
-      moveToTab(2);
+      // dispatch(setProgramLots(val.lots));
+      // moveToTab(2);
     },
   });
 
@@ -83,13 +83,15 @@ export default function Tab2({ moveToTab }) {
   getRegions()
   getCategories()
   const newData=[]
-  programData.program.program.lots.map(lts=>newData.push(lts))
-  formik.setValues({lots:newData})
-  setAssigned(newData)
+  // programData.program.program.lots.map(lts=>newData.push(lts))
+  // formik.setValues({lots:newData})
+  // setAssigned(newData)
+  
   },[])
 
   return (
     <div className="lot_container">
+      {console.log(assignedLots,'looo')}
       <Alert text={alertText}/>
       <Button
         style={{
@@ -108,7 +110,7 @@ export default function Tab2({ moveToTab }) {
             return (
               <>
                 {lots.length > 0
-                  ? formik.values.lots.map((item, index) => (
+                  ? lots.map((item, index) => (
                       <>
                         <div className="lot_add">
                           <Input
@@ -122,7 +124,7 @@ export default function Tab2({ moveToTab }) {
                             onChange={formik.handleChange}
                             options={regions}
                             label="Region"
-                            placeholder={formik.values.lots[index].region}
+                            // placeholder={regions[0].name}
                           />
                           <Select
                             {...formik.getFieldProps(`lots.${index}.category`)}
@@ -173,19 +175,21 @@ export default function Tab2({ moveToTab }) {
                         {lots[index].subLots.map((subLot, subIndex) => (
                           <div className="lot_add sub" key={subIndex}>
                             <Input
-                              {...formik.getFieldProps(
-                                `lots.${index}.subLots${subIndex}.name`
-                              )}
-                              onChange={formik.handleChange}
+                              // {...formik.getFieldProps(`lots.${index}.category`)}
+                              onChange={(e)=>{
+                                formik.setFieldValue(`lots[${index}].subLots[${subIndex}].name`, e.target.value);
+                              }}
+                              // onChange={formik.handleChange}
                               outlined
                               label="Sub-lot Name"
                               // value={lots[index].subLots[subIndex].name}
                             />
                             <Select
+                            id={`lots.${index}.subLots${subIndex}.category`}
                             options={categories}
-                              {...formik.getFieldProps(
-                                `lots.${index}.subLots${subIndex}.category`
-                              )}
+                              // {...formik.getFieldProps(
+                              //   `lots.${index}.subLots${subIndex}.category`
+                              // )}
                               onChange={formik.handleChange}
                               outlined
                               label="Category"

@@ -7,7 +7,7 @@ import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
 import { FcHome } from "react-icons/fc";
-import { FaArrowLeft, FaHandHolding, FaHome, FaWhatsapp } from "react-icons/fa";
+import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -111,9 +111,9 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
-            label="File Manager"
+            label="Admin"
             route="/"
-            Icon={() => <FolderIcon active={location.pathname == "/"} />}
+            Icon={() => <FaUser />}
           />
         </div>
       </div>
