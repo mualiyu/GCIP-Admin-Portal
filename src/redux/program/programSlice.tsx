@@ -42,29 +42,10 @@ const initialState: ProgramState = {
   program: {
     programName: "",
     programDescription: "",
-    lots: [
-      {
-        name: "",
-        region: "",
-        category: "",
-        subLots: [],
-      },
-    ],
-    requirements: [
-      {
-        name: "",
-        type: "",
-      },
-    ],
+    lots: [],
+    requirements: [],
 
-    stages: [
-      {
-        name: "",
-        startDate: "",
-        endDate: "",
-        description: "",
-      },
-    ],
+    stages: [],
     uploads: [
       {
         name: "",

@@ -37,7 +37,12 @@ export default function Tab1({ moveToTab }) {
   return (
     <>
       <Alert text={alertText} />
-      <span style={{ marginTop: 20 }}>General Program Settings</span>
+      <RegularText style={{
+        fontWeight:'bold',
+        fontSize:20,
+        textTransform:'uppercase',
+        marginTop:20
+      }} text="General"/>
       <Input
         id="programName"
         {...formik.getFieldProps(`programName`)}

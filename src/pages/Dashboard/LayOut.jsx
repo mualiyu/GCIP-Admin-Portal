@@ -46,7 +46,7 @@ function LayOut() {
           <NavLink/> */}
         <div className="other-links">
           <div className="divider"/>
-        <NavLink
+        {/* <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
@@ -55,7 +55,7 @@ function LayOut() {
           label="ADMIN"
           route="/"
           Icon={() => <FaUser color="#000"/>}
-        />
+        /> */}
         </div>
       </div>
 

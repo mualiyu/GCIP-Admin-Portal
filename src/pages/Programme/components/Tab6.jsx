@@ -18,10 +18,11 @@ function Tab6({ moveToTab }) {
   const programData = useSelector((state) => state.program);
   const [alertText, setAlert] = useState("");
   const [requirementName, setReqName] = useState("");
+
   const [requirementType, setReqType] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const dispatch = useDispatch();
-  const assignedReqs = Array.from(programData.program.requirements)
+  const assignedReqs = Array.from(programData.program.requirements);
   const [reqTypes, setReqTypes] = useState([
     "TextInput",
     "NumericInput",
@@ -46,20 +47,20 @@ function Tab6({ moveToTab }) {
       backgroundColor: "rgba(0,0,0,0.5)",
     },
   };
-  useEffect(()=>{
-  const newArray=[]
-  assignedReqs.map(assigned=>{
-    newArray.push({name:assigned.name,type:assigned.type})
-  })
-  setData(newArray)
-  },[])
+  useEffect(() => {
+    const newArray = [];
+    assignedReqs.map((assigned) => {
+      newArray.push({ name: assigned.name, type: assigned.type });
+    });
+    setData(newArray);
+  }, []);
   return (
     <>
       <div className="app_req_container">
         <Alert text={alertText} />
         <div className="app_req_head">
           <h2>
-            <FiBook color="green" size={20} /> Application requirements
+            <FiBook color="green" size={20} /> REQUIREMENTS
           </h2>
           <Button onClick={() => setIsOpen(true)} label="Add" />
         </div>
@@ -89,6 +90,19 @@ function Tab6({ moveToTab }) {
             );
           })}
         </div>
+        {data.length == 0 && (
+          <div
+            style={{
+              width: "90%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img id="empty" src="38.png" />
+            
+          </div>
+        )}
         <div className="save_next">
           <Button
             onClick={() => {
@@ -107,9 +121,9 @@ function Tab6({ moveToTab }) {
           />
           <Button
             onClick={() => {
-              const newData=data
-              dispatch(setProgramRequirements(newData))
-               moveToTab(4);
+              const newData = data;
+              dispatch(setProgramRequirements(newData));
+              moveToTab(4);
             }}
             style={{
               width: 200,
@@ -161,7 +175,7 @@ function Tab6({ moveToTab }) {
             onClick={() => {
               if (editIndex !== null) {
                 const allValues = data;
-               
+
                 allValues[editIndex].name = requirementName;
                 allValues[editIndex].type = requirementType;
                 setData(allValues);

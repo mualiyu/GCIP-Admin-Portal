@@ -22,7 +22,7 @@ const tabFields = [
   "Lots",
   "Stages",
   "Requirements",
-  "Uploads",
+  "Documents",
   "Status",
   "Milestone & Claims",
   "Overview"

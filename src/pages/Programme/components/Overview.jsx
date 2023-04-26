@@ -169,6 +169,7 @@ export default function Overview({moveToTab}) {
               <div key={ind} className="status_overview">
               <span>{sta.name}</span>
               <span>Is Editable{sta.isEditable?<FaCheck/>:<FaTimes color="red" />}</span>
+              <span>Is Initial{sta.isInitial?<FaCheck/>:<FaTimes color="red" />}</span>
               <span style={{background:sta.color,color:'white'}}>Color</span>
               </div>
             ))
