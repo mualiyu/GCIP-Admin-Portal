@@ -105,6 +105,12 @@ body {
  tbody tr:last-of-type {
   border-bottom: 2px solid #F0F3F2;
 }
+#loader{
+  height: 40vh;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
 #empty{
   height: 150px;
   width: 150px;

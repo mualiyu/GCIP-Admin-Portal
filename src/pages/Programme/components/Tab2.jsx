@@ -225,7 +225,7 @@ export default function Tab2({ moveToTab }) {
       <div className="save_next">
         <Button
           onClick={() => {
-            dispatch(setProgramLots(formik.values.lots));
+            dispatch(setProgramLots(presentLots));
             setAlert("Data Saved");
             setTimeout(() => {
               setAlert("");

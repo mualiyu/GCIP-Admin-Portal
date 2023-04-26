@@ -120,6 +120,20 @@
   font-weight: 400;
   /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
 }
+.home_table_main{
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  width: 90%;
+  border: 1px solid #F0F3F2;
+  border-radius: 5px;
+  border-collapse: collapse;
+  font-weight: 400;
+}
+.home_table_main td{
+  width: 25%;
+  text-align: justify;
+}
 /* .home_table thead{
   background-color:rgba(40, 100, 40,0.1);
 }

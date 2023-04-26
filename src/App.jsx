@@ -9,6 +9,7 @@ import Verify from "./pages/Verify";
 import ProgramHome from "./pages/Programme/ProgramHome";
 import ProgramLayOut from "./pages/Programme/ProgramLayOut";
 import Application from "./pages/Programme/Application";
+import ProgramPage from "./pages/Dashboard/ProgramPage";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route element={<Verify />} path="/verify/:token" />
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
+        <Route path="Program/:id" element={<ProgramPage/>}/>
       </Route>
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />

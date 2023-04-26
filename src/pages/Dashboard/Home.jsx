@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/home.css";
 import MenuCards from "./components/MenuCards";
+import SkeletonLoader from "../../components/SkeletonLoader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
 import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
+import { useState } from "react";
+import query from "../../helpers/query";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [allPrograms, setAllPrograms] = useState([]);
+  const programData = useSelector((state) => state);
+  const getAllPrograms = async () => {
+    const { success, data, error } = await query({
+      method: "GET",
+      url: "/api/admin/program/list",
+      token: programData.user.user.token,
+    });
+    setLoading(false);
+    console.log(data);
+    if (success) {
+      setAllPrograms(data.data.programs);
+    }
+  };
+  useEffect(() => {
+    getAllPrograms();
+  }, []);
   const navigate = useNavigate();
   return (
     <Fade>
@@ -30,62 +52,52 @@ export default function Home() {
             label="Create Program"
           />
         </div>
-        <table className="home_table">
-          <thead>
-            <tr>
-              <th>Program</th>
-              <th>Active Stage</th>
-              <th>Total Applicants</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>WEB DEV</td>
-              <td>
-                <span>
-                  stage2 <FcCheckmark />
-                </span>
-              </td>
-              <td>400</td>
-              <td>
-                <div className="table_actions">
-                  <FaArrowRight
-                    style={{
-                      backgroundColor: "#9b9b9b16",
-                      height: 15,
-                      width: 15,
-                      borderRadius: 20,
-                      padding: 10,
-                      cursor: "pointer",
-                    }}
-                  />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>WEB DEV</td>
-              <td>
-                <span>
-                  stage2 <FcCheckmark />
-                </span>
-              </td>
-              <td>400</td>
-              <td>
-                <div className="table_actions">
-                  <FaArrowRight style={{
-                      backgroundColor: "#9b9b9b16",
-                      height: 15,
-                      width: 15,
-                      borderRadius: 20,
-                      padding: 10,
-                      cursor: "pointer",
-                    }}/>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+        <table className="home_table_main">
+          {allPrograms.length > 0 && (
+            <>
+              <thead>
+                <tr>
+                  <th>Program</th>
+                  <th>Active Stage</th>
+                  <th>Total Applicants</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allPrograms.map((prg, ind) => (
+                  <tr key={ind.toString()}>
+                    <td>{prg.name}</td>
+                    <td>
+                      <span>
+                        {prg.activeStage.name} <FcCheckmark />
+                      </span>
+                    </td>
+                    <td>{prg.noApplicants} Applicants</td>
+                    <td>
+                      <div className="table_actions">
+                        <FaArrowRight
+                          onClick={() => navigate(`Program/${prg.id}`)}
+                          style={{
+                            backgroundColor: "#9b9b9b16",
+                            height: 15,
+                            width: 15,
+                            borderRadius: 20,
+                            padding: 10,
+                            cursor: "pointer",
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </>
+          )}
         </table>
+        {loading&&(
+          <img src="loading.gif" id="loader"/>
+        )}
+       
       </div>
     </Fade>
   );
