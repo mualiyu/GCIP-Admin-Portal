@@ -9,12 +9,14 @@ import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
 import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { useState } from "react";
 import query from "../../helpers/query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setProgram } from "../../redux/program/programSlice";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [allPrograms, setAllPrograms] = useState([]);
   const programData = useSelector((state) => state);
+  const dispatch=useDispatch()
   const getAllPrograms = async () => {
     const { success, data, error } = await query({
       method: "GET",
@@ -48,7 +50,7 @@ export default function Home() {
               marginTop: 30,
               width: 200,
             }}
-            onClick={() => navigate("/Programme")}
+            onClick={() => navigate("/Programme/home/0")}
             label="Create Program"
           />
         </div>
@@ -76,7 +78,10 @@ export default function Home() {
                     <td>
                       <div className="table_actions">
                         <FaArrowRight
-                          onClick={() => navigate(`Program/${prg.id}`)}
+                          onClick={() => {
+                            
+                            navigate(`/Programme/home/${prg.id}`)
+                          }}
                           style={{
                             backgroundColor: "#9b9b9b16",
                             height: 15,

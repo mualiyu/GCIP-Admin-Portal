@@ -31,6 +31,7 @@ export interface SelectProps {
   disabled?: boolean;
   id?: string;
   name?: string;
+  value?:string
 }
 
 export interface ButtonProps {

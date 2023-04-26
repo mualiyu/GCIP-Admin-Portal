@@ -263,7 +263,7 @@ function Tab5({ moveToTab }) {
         <Button
           onClick={() => {
             dispatch(setProgramSatus(selected));
-            moveToTab(6);
+            moveToTab(7);
           }}
           style={{
             width: 200,

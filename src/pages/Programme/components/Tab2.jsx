@@ -16,7 +16,7 @@ import query from "../../../helpers/query";
 import { RegularText } from "../../../components/Common";
 import { FcCheckmark } from "react-icons/fc";
 import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
-
+import * as Yup from "yup";
 const customStyles = {
   content: {
     top: "50%",
@@ -30,12 +30,16 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
   },
 };
+
+const validationSchema = Yup.object({
+  name: Yup.string().required(),
+});
 export default function Tab2({ moveToTab }) {
   const dispatch = useDispatch();
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [isEdit, setIsedit] = useState(false);
+  const [isEdit, setIsedit] = useState(null);
   const [regions, setRegions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [presentLots, setPresentLots] = useState([
@@ -83,10 +87,11 @@ export default function Tab2({ moveToTab }) {
     return name;
   };
   const convertRegion = (id) => {
-    if (regions.length == 0 || id == "") {
-      return;
+    if (regions.length == 0 || id == "" || undefined) {
+      return "";
     }
-    const name = regions[Number(id)].name;
+    const name = regions[Number(id) - 1].name;
+
     return name;
   };
 
@@ -145,7 +150,10 @@ export default function Tab2({ moveToTab }) {
       />
       <Alert text={alertText} />
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true);
+          formik.setValues({ lots: initialValues.lots });
+        }}
         style={{
           marginTop: 10,
           width: 100,
@@ -181,7 +189,8 @@ export default function Tab2({ moveToTab }) {
                         <FaEdit
                           onClick={() => {
                             formik.setValues({ lots: [lots] });
-                            setIsedit(true);
+
+                            setIsedit(ind);
                             setIsOpen(true);
                           }}
                         />
@@ -240,6 +249,13 @@ export default function Tab2({ moveToTab }) {
         />
         <Button
           onClick={() => {
+            if (presentLots.length == 0) {
+              setAlert("At least one Lot is required");
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+              return;
+            }
             dispatch(setProgramLots(presentLots));
             moveToTab(2);
           }}
@@ -259,7 +275,8 @@ export default function Tab2({ moveToTab }) {
           <FaWindowClose
             onClick={() => {
               setIsOpen(false);
-              setIsedit(false);
+              setIsedit(null);
+              formik.setValues({ lots: initialValues.lots });
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
@@ -295,9 +312,14 @@ export default function Tab2({ moveToTab }) {
                                   onChange={formik.handleChange}
                                   options={regions}
                                   label="Region"
-                                  placeholder={convertRegion(
-                                    formik.values.lots[index].region
-                                  )}
+                                  placeholder={
+                                    formik.values.lots[index].region == ""
+                                      ? ""
+                                      : convertRegion(
+                                          formik.values.lots[index].region
+                                        )
+                                  }
+                                  value={formik.values.lots[index].region}
                                 />
                                 <Select
                                   {...formik.getFieldProps(
@@ -309,6 +331,7 @@ export default function Tab2({ moveToTab }) {
                                   placeholder={convertCategory(
                                     formik.values.lots[index].category
                                   )}
+                                  value={formik.values.lots[index].category}
                                 />
                                 <div className="delete-lot">
                                   {index !== 0 && (
@@ -367,26 +390,37 @@ export default function Tab2({ moveToTab }) {
               />
             </FormikProvider>
           </>
-          <div style={{display:'flex',marginTop:10}}>
+          <div style={{ display: "flex", marginTop: 10 }}>
             <Button
               onClick={() => {
                 const newFormikVals = [...formik.values.lots];
                 newFormikVals[0].subLots.push({ name: "", category: "" });
                 formik.setValues({ lots: newFormikVals });
               }}
-              style={{ marginTop: 10, width: 100,marginRight:10 }}
+              style={{ marginTop: 10, width: 100, marginRight: 10 }}
               label="Add Sublot"
             />
             <Button
               onClick={() => {
+                if (isEdit !== null) {
+                  const newData = [...presentLots];
+                  newData[isEdit] = formik.values.lots[0];
+                  setPresentLots(newData);
+                  formik.setValues({ lots: initialValues.lots });
+                  setIsOpen(false);
+                  setIsedit(null);
+                  return;
+                }
+
                 const newData = [...presentLots];
                 newData.push(formik.values.lots[0]);
-                setIsedit(false);
+                setIsedit(null);
                 setPresentLots(newData);
                 formik.setValues({ lots: initialValues.lots });
+                setIsOpen(false);
               }}
               style={{ marginTop: 10, width: 100 }}
-              label={isEdit ? "Save" : "Add Lot"}
+              label={isEdit !== null ? "Save" : "Add Lot"}
             />
           </div>
         </div>

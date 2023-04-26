@@ -6,7 +6,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, MessageIcon } from "../../assets/Svg/Index";
-import { FcHome } from "react-icons/fc";
+import { FcHome, FcSettings } from "react-icons/fc";
 import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
 function ProgramLayOut() {
   const location = useLocation();
@@ -30,7 +30,7 @@ function ProgramLayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src="logo.jpg" alt="img" />
+        <img className="aside_logo" src="/logo.jpg" alt="img" />
         <div className="divider" />
         <FaArrowLeft onClick={()=>navigate('/Home')} style={{
           backgroundColor:'#9b9b9b16',
@@ -107,10 +107,22 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
+            label="Settings"
+            route="/"
+            Icon={() => <FcSettings />}
+          />
+          <NavLink
+            onClick={() => {
+              if (window.innerWidth <= 767) {
+                asideRef.current.style.width = "0px";
+              }
+            }}
             label="Admin"
             route="/"
             Icon={() => <FaUser />}
           />
+
+
         </div>
       </div>
 

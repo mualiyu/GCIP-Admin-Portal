@@ -4,6 +4,7 @@ import Input from "../../../components/Input";
 import { RegularText } from "../../../components/Common";
 import { useFormik } from "formik";
 import Button from "../../../components/Button";
+import * as Yup from "yup";
 import Alert from "../../../components/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +13,11 @@ import {
 } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
 import { useState } from "react";
+const validationSchema = Yup.object({
+  programName: Yup.string()    
+  .required(),
+  
+});
 
 export default function Tab1({ moveToTab }) {
   const editorRef = useRef(null);
@@ -22,6 +28,7 @@ export default function Tab1({ moveToTab }) {
     programName: programData.program.programName,
     programDescription: "",
   };
+
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
@@ -32,6 +39,7 @@ export default function Tab1({ moveToTab }) {
       dispatch(setProgramName(val.programName));
       moveToTab(1);
     },
+    validationSchema
   });
 
   return (
@@ -44,6 +52,11 @@ export default function Tab1({ moveToTab }) {
         marginTop:20
       }} text="General"/>
       <Input
+      error={
+        formik.touched.programName && formik.errors.programName
+          ? formik.errors.programName
+          : ""
+      }
         id="programName"
         {...formik.getFieldProps(`programName`)}
         onChange={formik.handleChange}

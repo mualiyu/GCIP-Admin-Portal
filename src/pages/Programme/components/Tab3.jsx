@@ -12,6 +12,7 @@ import Alert from "../../../components/Alert";
 import { FcCheckmark } from "react-icons/fc";
 import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
 import { setProgramStages } from "../../../redux/program/programSlice";
+import Select from "../../../components/Select";
 export default function Tab3({ moveToTab }) {
   const dispatch = useDispatch();
   const programData = useSelector((state) => state.program);
@@ -21,7 +22,7 @@ export default function Tab3({ moveToTab }) {
   ]);
   const assignedStages = [].concat(programData.program.stages, []);
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [editIndex, setIsedit] = useState(false);
+  const [editIndex, setIsedit] = useState(null);
   const customStyles = {
     content: {
       top: "50%",
@@ -43,6 +44,7 @@ export default function Tab3({ moveToTab }) {
         startDate: "",
         endDate: "",
         description: "",
+        key:''
       },
     ],
   };
@@ -118,7 +120,7 @@ export default function Tab3({ moveToTab }) {
                       <FaEdit
                         onClick={() => {
                           formik.setValues({ stages: [prs] });
-                          setIsedit(true);
+                          setIsedit(ind);
                           setIsOpen(true);
                         }}
                       />
@@ -163,6 +165,13 @@ export default function Tab3({ moveToTab }) {
         />
         <Button
           onClick={() => {
+            if (presentStage.length == 0) {
+              setAlert("At least one Stage is required");
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+              return;
+            }
             dispatch(setProgramStages(presentStage));
             moveToTab(3);
           }}
@@ -181,7 +190,8 @@ export default function Tab3({ moveToTab }) {
           <FaWindowClose
             onClick={() => {
               setIsOpen(false);
-              setIsedit(false);
+              setIsedit(null);
+              formik.setValues({stages:initialValues.stages})
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
@@ -201,14 +211,15 @@ export default function Tab3({ moveToTab }) {
                       {stages.length > 0
                         ? formik.values.stages.map((item, index) => (
                             <div className="stages">
-                              <Input
+                              <Select
+                              options={['Expression of interest','Request of proposal']}
                                 {...formik.getFieldProps(
                                   `stages.${index}.name`
                                 )}
                                 onChange={formik.handleChange}
                                 label="Name"
                                 outlined
-                                placeholder="Stage Name"
+                                value={formik.values.stages[index].name}
                               />
                               <Input
                                 type="date"
@@ -253,20 +264,27 @@ export default function Tab3({ moveToTab }) {
               />
               <Button
                 onClick={() => {
-                  // if (editIndex!==null) {
-                  //   const filtered=presentStage.filter((pres,ind)=>ind==editIndex)
-                  //   filtered[0]==formik.values.stages[0]
-                  //   return
+                  if (editIndex!==null) {
+                    const newData=[...presentStage]
+                    newData[editIndex]= formik.values.stages[0]
+                  
+                    setPresentStage(newData);
+                   setIsedit(null)
+                   setIsOpen(false)
+                  formik.setValues({ stages: initialValues.stages });
+                    return
 
-                  // }
+                  }
                   const currentStage = [...presentStage];
+                  formik.values.stages[0].key=`${Math.floor(Math.random()*10)}`
+                  console.log(formik.values)
                   currentStage.push(formik.values.stages[0]);
                   setPresentStage(currentStage);
 
                   formik.setValues({ stages: initialValues.stages });
                 }}
                 style={{ width: 100 }}
-                label="Add"
+                label={editIndex!==null?"Save":"Add"}
               />
             </FormikProvider>
           </div>

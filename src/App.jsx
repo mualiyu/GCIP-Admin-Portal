@@ -22,7 +22,7 @@ export default function App() {
         <Route path="Program/:id" element={<ProgramPage/>}/>
       </Route>
       <Route path="Programme" element={<ProgramLayOut />}>
-        <Route index element={<ProgramHome />} />
+        <Route path="Home/:active" index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
         <Route path="Message" element={<Application />} />
         <Route path="Document" element={<Application />} />

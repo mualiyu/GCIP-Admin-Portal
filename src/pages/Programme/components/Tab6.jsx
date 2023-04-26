@@ -18,7 +18,8 @@ function Tab6({ moveToTab }) {
   const programData = useSelector((state) => state.program);
   const [alertText, setAlert] = useState("");
   const [requirementName, setReqName] = useState("");
-
+  const [weight, setWeight] = useState(0);
+  const [mainStage, setMainStage] = useState("");
   const [requirementType, setReqType] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function Tab6({ moveToTab }) {
   useEffect(() => {
     const newArray = [];
     assignedReqs.map((assigned) => {
-      newArray.push({ name: assigned.name, type: assigned.type });
+      newArray.push({ name: assigned.name, type: assigned.type,stage:assigned.stage,weight:assigned.weighte });
     });
     setData(newArray);
   }, []);
@@ -100,7 +101,6 @@ function Tab6({ moveToTab }) {
             }}
           >
             <img id="empty" src="38.png" />
-            
           </div>
         )}
         <div className="save_next">
@@ -121,6 +121,13 @@ function Tab6({ moveToTab }) {
           />
           <Button
             onClick={() => {
+              if (data.length == 0) {
+                setAlert("At least one Requirement is required");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+                return;
+              }
               const newData = data;
               dispatch(setProgramRequirements(newData));
               moveToTab(4);
@@ -171,6 +178,26 @@ function Tab6({ moveToTab }) {
             label="Type"
             outlined
           />
+          <Input
+            value={weight}
+            onChange={(e) => {
+              setWeight(e.target.value);
+            }}
+            label="Weight"
+            outlined
+          />
+          <div style={{ marginTop: 20 }}>
+            <h4>Stages</h4>
+            {programData.program.stages.map((stg, ind) => (
+              <>
+                <label>
+                  <input onChange={(e)=>setMainStage(e.target.value)} key={stg.key} type="radio" name="stage" value={stg.key} />
+                  {stg.name}
+                </label>
+               
+              </>
+            ))}
+          </div>
           <Button
             onClick={() => {
               if (editIndex !== null) {
@@ -178,9 +205,13 @@ function Tab6({ moveToTab }) {
 
                 allValues[editIndex].name = requirementName;
                 allValues[editIndex].type = requirementType;
+                allValues[editIndex].stage = mainStage;
+                allValues[editIndex].weight = weight;
                 setData(allValues);
                 setReqName("");
                 setReqType("");
+                setMainStage('')
+                setWeight('')
                 setEditIndex(null);
                 setIsOpen(false);
                 return;
@@ -190,13 +221,20 @@ function Tab6({ moveToTab }) {
                 {
                   name: requirementName,
                   type: requirementType,
+                  weight,
+                  stage:mainStage
                 },
               ]);
+              
               setReqName("");
               setReqType("");
+              setMainStage('')
+              setWeight('')
+              setEditIndex(null);
+              setIsOpen(false);
             }}
             style={{ marginTop: 20 }}
-            label="Add"
+            label={editIndex !== null ? "Save" : "Add"}
           />
         </div>
       </Modal>

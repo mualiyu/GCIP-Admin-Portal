@@ -12,7 +12,8 @@ function Select({
   disabled,
   onChange,
   id,
-  name
+  name,
+  value
 }: SelectProps) {
   return (
     <div style={style} className="app_input">
@@ -28,10 +29,10 @@ function Select({
         {required ? <span className="asteric">*</span> : null}
       </div>
 
-      <select name={name} id={id} onChange={(e)=>onChange(e)} style={{
+      <select defaultValue={!value?'none':value}  name={name} id={id} onChange={(e)=>onChange(e)} style={{
         backgroundColor:disabled?'var(--back_ground)':'white'
-      }} disabled={disabled} defaultValue={placeholder}>
-        <option value={placeholder}>{placeholder}</option>
+      }} disabled={disabled} placeholder={placeholder}>
+      {!value? <option value='none'>Select</option>:null}
         {options.map((opt: string|{value:string,name:string}, index) => {
           if (typeof(opt)=='string') {
             return(

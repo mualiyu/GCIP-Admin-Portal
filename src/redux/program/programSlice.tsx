@@ -125,6 +125,9 @@ export const programSlice = createSlice({
     resetProgram: (state) => {
       state.program = initialState.program;
     },
+    setProgram: (state, action: PayloadAction<ProgramState>) => {
+      state.program = action.payload.program;
+    },
   },
 });
 
@@ -137,7 +140,8 @@ export const {
   setProgramSatus,
   setProgramStages,
   setProgramUploads,
-  resetProgram
+  resetProgram,
+  setProgram,
 } = programSlice.actions;
 
 export default programSlice.reducer;
