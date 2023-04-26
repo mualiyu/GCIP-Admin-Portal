@@ -46,20 +46,8 @@ const initialState: ProgramState = {
     requirements: [],
 
     stages: [],
-    uploads: [
-      {
-        name: "",
-        file: "",
-      },
-    ],
-    status: [
-      {
-        name: "",
-        isEditable: "0",
-        isInitial: "0",
-        color: "",
-      },
-    ],
+    uploads: [],
+    status: [],
   },
 };
 

@@ -5,7 +5,7 @@ import User from "../../assets/Svg/user.svg";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
-import { FolderIcon } from "../../assets/Svg/Index";
+import { FolderIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome } from "react-icons/fc";
 import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
 function ProgramLayOut() {
@@ -82,11 +82,7 @@ function ProgramLayOut() {
           label="Messages"
           route="/Programme/Message"
           Icon={() => (
-            <FaWhatsapp
-              color={
-                location.pathname == "/Programme/Message" ? "var(--primary)" : "#000"
-              }
-            />
+           <MessageIcon/>
           )}
         />
         <NavLink

@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
-import { FaEdit, FaTrash, FaUser } from "react-icons/fa";
+import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -50,8 +50,16 @@ export default function Home() {
               <td>400</td>
               <td>
                 <div className="table_actions">
-                  <FaEdit />
-                  <FaTrash />
+                  <FaArrowRight
+                    style={{
+                      backgroundColor: "#9b9b9b16",
+                      height: 15,
+                      width: 15,
+                      borderRadius: 20,
+                      padding: 10,
+                      cursor: "pointer",
+                    }}
+                  />
                 </div>
               </td>
             </tr>
@@ -65,13 +73,17 @@ export default function Home() {
               <td>400</td>
               <td>
                 <div className="table_actions">
-                  <FaEdit />
-                  <FaTrash />
+                  <FaArrowRight style={{
+                      backgroundColor: "#9b9b9b16",
+                      height: 15,
+                      width: 15,
+                      borderRadius: 20,
+                      padding: 10,
+                      cursor: "pointer",
+                    }}/>
                 </div>
               </td>
             </tr>
-
-            
           </tbody>
         </table>
       </div>
