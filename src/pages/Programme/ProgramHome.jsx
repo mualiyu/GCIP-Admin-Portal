@@ -35,9 +35,10 @@ export default function ProgramHome() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const programData=useSelector(state=>state)
+  const [program,setProgramm]=useState(null)
   const dispatch=useDispatch()
   const {active}=useParams()
-  const  [isComplete,setIsComplete]=useState(Number(active)>0?7:0)
+  const  [isComplete,setIsComplete]=useState(Number(programData.program.id)>0?7:0)
 
   const moveToTab = (number) => {
     setActiveTab(number);
@@ -46,15 +47,20 @@ export default function ProgramHome() {
   const getProgram = async () => {
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/admin/program/info?programId=${active}`,
+      url: `/api/admin/program/info/v2?programId=${programData.program.id}`,
       token: programData.user.user.token,
     });
-    
+    console.log(data)
     if (success) {
-      dispatch(setProgram({program:data.data.programs}))
+      console.log(data.data.program,'llll')
+      dispatch(setProgram({program:data.data.program}))
       
     }
   };
+  useEffect(()=>{
+  console.log(programData.program.id)
+  getProgram()
+  },[])
 
   return (
     <div className="program_home_container">

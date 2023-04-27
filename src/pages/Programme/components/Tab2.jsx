@@ -135,6 +135,7 @@ export default function Tab2({ moveToTab }) {
   useEffect(() => {
     getRegions();
     getCategories();
+    console.log(programData.program.program,'pppo')
   }, []);
 
   return (

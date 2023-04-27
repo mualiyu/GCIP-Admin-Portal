@@ -41,7 +41,9 @@ export default function Tab1({ moveToTab }) {
     },
     validationSchema
   });
-
+  useEffect(()=>{
+   formik.setValues({programName:programData.program.programName,programDescription:programData.program.programDescription})
+  },[programData.program.programName])
   return (
     <>
       <Alert text={alertText} />
@@ -52,6 +54,7 @@ export default function Tab1({ moveToTab }) {
         marginTop:20
       }} text="General"/>
       <Input
+      value={formik.values.programName}
       error={
         formik.touched.programName && formik.errors.programName
           ? formik.errors.programName

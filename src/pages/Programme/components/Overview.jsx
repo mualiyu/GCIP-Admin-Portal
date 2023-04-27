@@ -168,8 +168,8 @@ export default function Overview({moveToTab}) {
             programData.program.program.status.map((sta,ind)=>(
               <div key={ind} className="status_overview">
               <span>{sta.name}</span>
-              <span>Is Editable{sta.isEditable?<FaCheck/>:<FaTimes color="red" />}</span>
-              <span>Is Initial{sta.isInitial?<FaCheck/>:<FaTimes color="red" />}</span>
+              <span>Is Editable{sta.isEditable=='1'?<FaCheck/>:<FaTimes color="red" />}</span>
+              <span>Is Initial{sta.isInitial=='1'?<FaCheck/>:<FaTimes color="red" />}</span>
               <span style={{background:sta.color,color:'white'}}>Color</span>
               </div>
             ))

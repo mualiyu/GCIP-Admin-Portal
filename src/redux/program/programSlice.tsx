@@ -36,6 +36,7 @@ export interface ProgramState {
       color: string;
     }[];
   };
+  id?: string;
 }
 
 const initialState: ProgramState = {
@@ -49,6 +50,7 @@ const initialState: ProgramState = {
     uploads: [],
     status: [],
   },
+  id: "",
 };
 
 export const programSlice = createSlice({
@@ -128,6 +130,9 @@ export const programSlice = createSlice({
     setProgram: (state, action: PayloadAction<ProgramState>) => {
       state.program = action.payload.program;
     },
+    setId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload;
+    },
   },
 });
 
@@ -142,6 +147,7 @@ export const {
   setProgramUploads,
   resetProgram,
   setProgram,
+  setId
 } = programSlice.actions;
 
 export default programSlice.reducer;

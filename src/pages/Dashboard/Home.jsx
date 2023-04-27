@@ -10,7 +10,7 @@ import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
-import { setProgram } from "../../redux/program/programSlice";
+import { setId, setProgram } from "../../redux/program/programSlice";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -50,7 +50,21 @@ export default function Home() {
               marginTop: 30,
               width: 200,
             }}
-            onClick={() => navigate("/Programme/home/0")}
+            onClick={() => {
+              dispatch(setProgram({program:{
+                programName: "",
+                programDescription: "",
+                lots: [],
+                requirements: [],
+            
+                stages: [],
+                uploads: [],
+                status: [],
+              }}))
+              dispatch(setId(''))
+              navigate("/Programme")
+
+            }}
             label="Create Program"
           />
         </div>
@@ -79,8 +93,8 @@ export default function Home() {
                       <div className="table_actions">
                         <FaArrowRight
                           onClick={() => {
-                            
-                            navigate(`/Programme/home/${prg.id}`)
+                            dispatch(setId(prg.id))
+                            navigate(`/Programme`)
                           }}
                           style={{
                             backgroundColor: "#9b9b9b16",

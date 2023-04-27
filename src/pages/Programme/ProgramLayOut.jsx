@@ -8,10 +8,13 @@ import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome, FcSettings } from "react-icons/fc";
 import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setProgram } from "../../redux/program/programSlice";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
   const navigate=useNavigate()
+  const dispatch=useDispatch()
   return (
     <div className="layout_container">
       {/* <div className="layout_nav">
@@ -32,7 +35,10 @@ function ProgramLayOut() {
       <div ref={asideRef} className="layout_aside">
         <img className="aside_logo" src="/logo.jpg" alt="img" />
         <div className="divider" />
-        <FaArrowLeft onClick={()=>navigate('/Home')} style={{
+        <FaArrowLeft onClick={()=>{
+          dispatch(setProgram({program:{}}))
+          navigate('/Home')
+        }} style={{
           backgroundColor:'#9b9b9b16',
           height:25,
           width:25,
