@@ -10,6 +10,7 @@ import ProgramHome from "./pages/Programme/ProgramHome";
 import ProgramLayOut from "./pages/Programme/ProgramLayOut";
 import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
+import Settings from "./pages/Dashboard/Settings";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
         <Route path="Program/:id" element={<ProgramPage/>}/>
+        <Route path="Settings" element={<Settings />} />
       </Route>
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />

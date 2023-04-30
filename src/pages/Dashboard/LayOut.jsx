@@ -7,6 +7,7 @@ import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
 import { FaUser } from "react-icons/fa";
+import { FcSettings } from "react-icons/fc";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -40,6 +41,16 @@ function LayOut() {
           route="/Home"
           Icon={() => <FolderIcon active={location.pathname == "/Home"} />}
         />
+         <NavLink
+            onClick={() => {
+              if (window.innerWidth <= 767) {
+                asideRef.current.style.width = "0px";
+              }
+            }}
+            label="Settings"
+            route="/Home/Settings"
+            Icon={() => <FcSettings />}
+          />
 
         {/* <NavLink/>
           <NavLink/>
