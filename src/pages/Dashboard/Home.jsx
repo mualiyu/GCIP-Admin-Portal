@@ -16,7 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [allPrograms, setAllPrograms] = useState([]);
   const programData = useSelector((state) => state);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const getAllPrograms = async () => {
     const { success, data, error } = await query({
       method: "GET",
@@ -51,19 +51,22 @@ export default function Home() {
               width: 200,
             }}
             onClick={() => {
-              dispatch(setProgram({program:{
-                programName: "",
-                programDescription: "",
-                lots: [],
-                requirements: [],
-            
-                stages: [],
-                uploads: [],
-                status: [],
-              }}))
-              dispatch(setId(''))
-              navigate("/Programme")
+              dispatch(
+                setProgram({
+                  program: {
+                    programName: "",
+                    programDescription: "",
+                    lots: [],
+                    requirements: [],
 
+                    stages: [],
+                    uploads: [],
+                    status: [],
+                  },
+                })
+              );
+              dispatch(setId(""));
+              navigate("/Programme");
             }}
             label="Create Program"
           />
@@ -93,8 +96,8 @@ export default function Home() {
                       <div className="table_actions">
                         <FaArrowRight
                           onClick={() => {
-                            dispatch(setId(prg.id))
-                            navigate(`/Programme`)
+                            dispatch(setId(prg.id));
+                            navigate(`/Programme`);
                           }}
                           style={{
                             backgroundColor: "#9b9b9b16",
@@ -113,10 +116,7 @@ export default function Home() {
             </>
           )}
         </table>
-        {loading&&(
-          <img src="loading.gif" id="loader"/>
-        )}
-       
+        {loading && <img src="loading.gif" id="loader" />}
       </div>
     </Fade>
   );

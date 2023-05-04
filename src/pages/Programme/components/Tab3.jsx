@@ -13,14 +13,17 @@ import { FcCheckmark } from "react-icons/fc";
 import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
 import { setProgramStages } from "../../../redux/program/programSlice";
 import Select from "../../../components/Select";
+import Loading from "../../../components/Loading";
+import { useEffect } from "react";
 export default function Tab3({ moveToTab }) {
   const dispatch = useDispatch();
-  const programData = useSelector((state) => state.program);
+  const programData = useSelector((state) => state);
+  const [loading,setLoading]=useState(false)
   const [alertText, setAlert] = useState("");
   const [presentStage, setPresentStage] = useState([
-    ...programData.program.stages,
+    ...programData.program.program.stages,
   ]);
-  const assignedStages = [].concat(programData.program.stages, []);
+  const assignedStages = [].concat(programData.program.program.stages, []);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [editIndex, setIsedit] = useState(null);
   const customStyles = {
@@ -44,7 +47,8 @@ export default function Tab3({ moveToTab }) {
         startDate: "",
         endDate: "",
         description: "",
-        key:''
+        key:'',
+        document:""
       },
     ],
   };
@@ -73,8 +77,12 @@ export default function Tab3({ moveToTab }) {
 
     formik.setValues({ stages: filtered });
   };
+  useEffect(()=>{
+  console.log(programData.user.user.token,'llllll')
+  },[])
   return (
     <div className="stages_container">
+      <Loading loading={loading}/>
       <Alert text={alertText} />
       <RegularText
         style={{
@@ -250,6 +258,39 @@ export default function Tab3({ moveToTab }) {
                                 rows={3}
                                 placeholder="Description"
                               />
+                              <Input type='file' onChange={(e) => {
+                      // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      console.log(files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/admin/program/file/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization:
+                              "Bearer " + programData.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.stages[index].document = data.data.url;
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert("Something went wrong");
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
+                    }} label="Document"/>
                               {index !== 0 && (
                                 <DeleteIcon
                                   onClick={() => removeStage(index)}

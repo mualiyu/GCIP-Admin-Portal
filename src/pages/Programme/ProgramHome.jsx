@@ -58,8 +58,13 @@ export default function ProgramHome() {
     }
   };
   useEffect(()=>{
-  console.log(programData.program.id)
-  getProgram()
+    if (programData.program.id) {
+      getProgram()
+    }else{
+      console.log(programData.program,'ppee')
+    }
+  
+  // getProgram()
   },[])
 
   return (

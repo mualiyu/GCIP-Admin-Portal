@@ -45,7 +45,7 @@ function Login() {
           bodyData: values,
         });
         setLoading(false);
-        console.log(response)
+       
         if (response.success) {
           setAlert(response.data.message);
           dispatch(setUser({
