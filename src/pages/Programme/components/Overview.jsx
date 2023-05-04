@@ -12,11 +12,13 @@ import Loading from "../../../components/Loading";
 import { useState } from "react";
 import Alert from "../../../components/Alert";
 import { resetProgram } from "../../../redux/program/programSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Overview({moveToTab}) {
   const programData = useSelector((state) => state);
   const [loading,setLoading]=useState(false)
   const [alertText,setAlert]=useState('')
+  const navigate=useNavigate()
   const dispatch=useDispatch()
   useEffect(() => {
     console.log(programData);
@@ -189,7 +191,7 @@ export default function Overview({moveToTab}) {
       if(success) {
         setAlert('Program Created Successfuly')
         dispatch(resetProgram())
-        moveToTab(0)
+        navigate('/Home')
       }else{
         setAlert('Something went wrong')
       }

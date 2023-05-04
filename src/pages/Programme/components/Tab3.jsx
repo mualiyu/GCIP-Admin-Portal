@@ -305,6 +305,8 @@ export default function Tab3({ moveToTab }) {
               />
               <Button
                 onClick={() => {
+                  
+                  
                   if (editIndex!==null) {
                     const newData=[...presentStage]
                     newData[editIndex]= formik.values.stages[0]
@@ -318,7 +320,8 @@ export default function Tab3({ moveToTab }) {
                   }
                   const currentStage = [...presentStage];
                   formik.values.stages[0].key=`${Math.floor(Math.random()*10)}`
-                  console.log(formik.values)
+                  console.log(formik.values.stages)
+                  
                   currentStage.push(formik.values.stages[0]);
                   setPresentStage(currentStage);
 
