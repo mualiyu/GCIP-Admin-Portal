@@ -12,7 +12,7 @@ import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Settings from "./pages/Dashboard/Settings";
 import Messages from "./pages/Programme/Messages";
-
+import "nprogress/nprogress.css";
 export default function App() {
   return (
     <Routes>

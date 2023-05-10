@@ -18,43 +18,82 @@ import { AttachIcon, SendIcon } from "../../assets/Svg/Index";
 import { useEffect } from "react";
 import { Fade, Zoom } from "react-awesome-reveal";
 import { useRef } from "react";
+import nProgress from "nprogress";
+import query from "../../helpers/query";
+import { useDispatch, useSelector } from "react-redux";
+import Alert from "../../components/Alert";
+import convertDate from "../../helpers/convertDate";
 
 export default function Messages() {
-  const [messages, setMessages] = useState([]);
-  const [typed, setTyped] = useState("");
   const fileRef = useRef();
-  //   const onSend = (messages = []) => {
-  //     setMessages((previousState) => ({
-  //       messages: GiftedChat.append(previousState.messages, messages),
-  //     }));
-  //   };
+  const [messages, setMessages] = useState([]);
+  const [activeMessage, setActiveMessage] = useState([]);
+  const [activeName, setActiveName] = useState("");
+  const [typed, setTyped] = useState("");
+  const data = useSelector((data) => data);
+  const myFormData = new FormData();
+  const [loading, setLoading] = useState(false);
+  const [attach, setAttach] = useState("");
+  const [files, setFiles] = useState(null);
+  const [id, setId] = useState("");
+  const [alertText, setAlert] = useState("");
+
+  const getData = async () => {
+    nProgress.start();
+    setLoading(true);
+    const respone = await query({
+      method: "GET",
+      url: `/api/admin/messages/${data.program.id}`,
+      token: data.user.user.token,
+    });
+    nProgress.done();
+    setLoading(false);
+    // console.log(respone, "jjj");
+    if (respone.success) {
+      setMessages(respone.data.data.message.reverse());
+    } else {
+      setMessages([]);
+    }
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      setMessages([
-        {
-          id: 1,
-          text: "Hello Mr Mukhtar?",
-        },
-      ]);
-    }, 1000);
+    getData();
   }, []);
   return (
+    <>
+     <Alert text={alertText} />
     <div className="message-container">
-     <div className="chat-list-container">
+     
+      <div className="chat-list-container">
         <div className="chatlist-main">
           <h2>Messages</h2>
           <Input outlined label="" placeholder="Search Messages or Users" />
           <h4>Recent</h4>
           <div className="main-chat-lists">
+          
+            {messages.length > 0 &&
+              messages.map((msg, ind) => (
+                <MessageUser
+                  onClick={() => {
+                    const newMesg = [...msg.messages];
+                    newMesg.reverse();
+                    setActiveMessage(newMesg);
+                    setActiveName(msg.name);
+                    setId(msg.applicantId);
+                  }}
+                  name={msg.name}
+                  title={convertDate(msg.lastMessage)}
+                  unread={msg.unread}
+                />
+              ))}
+
+            {/* <MessageUser/>
             <MessageUser/>
             <MessageUser/>
             <MessageUser/>
             <MessageUser/>
             <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
+            <MessageUser/> */}
           </div>
         </div>
       </div>
@@ -71,20 +110,24 @@ export default function Messages() {
             style={{
               fontWeight: "bold",
             }}
-            text="Mubarak Ibrahim"
+            text={activeName}
           />
         </div>
         <div className="chats">
-          {messages.length == 0 && (
+          {activeMessage.length == 0 && (
             <div className="empty-msg">
-              <RegularText text="No messages yet, pleas if you have any complaints feel free to message us. thank you" />
+              <RegularText text="Select applicant to view messages." />
             </div>
           )}
-          {messages.length > 0 && (
+          {activeMessage.length > 0 && (
             <>
-              {messages.map((msg, ind) => (
+              {activeMessage.map((msg, ind) => (
                 <Fade>
-                  <ChatItem message={msg.text} isAdmin={ind == 0} />
+                  <ChatItem
+                    file={msg.file !== "" ? msg.file : ""}
+                    message={msg.msg}
+                    isAdmin={msg.from !== "Admin"}
+                  />
                 </Fade>
               ))}
             </>
@@ -104,21 +147,95 @@ export default function Messages() {
             label=""
             placeholder="Enter message...."
           />
-          <AttachIcon
-            onClick={() => {
-              //   console.log(fileRef.current)
-              fileRef.current.click();
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              position: "relative",
             }}
+          >
+            <AttachIcon
+              onClick={() => {
+                //   console.log(fileRef.current)
+                fileRef.current.click();
+              }}
+            />
+            <span
+              style={{
+                color: "black",
+                fontSize: 10,
+                textAlign: "center",
+                position: "absolute",
+                bottom: 0,
+                transform: "translateY(13px)",
+                width: "100%",
+                marginLeft: 10,
+              }}
+            >
+              {attach}
+            </span>
+          </div>
+          <input
+            onChange={(e) => {
+              const files = e.target.files;
+              // files?.length && myFormData.append("file", files[0]);
+              setFiles(files[0]);
+              setAttach(files[0].name);
+            }}
+            style={{ width: 0, height: 0 }}
+            type="file"
+            ref={fileRef}
           />
-          <input style={{ width: 0, height: 0 }} type="file" ref={fileRef} />
           <SendIcon
             onClick={() => {
-              setMessages((prev) => [...prev, { text: typed, id: 1 }]);
+              if (typed == "") {
+                setAlert("Message cant be empty!");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+
+                return;
+              }
+              myFormData.append("msg", typed);
+              myFormData.append("file", files);
+              myFormData.append("applicant_id", id);
+
+              nProgress.start();
+              fetch(
+                `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/messages/${data.program.id}`,
+                {
+                  method: "POST",
+                  body: myFormData,
+                  headers: {
+                    Authorization: "Bearer " + data.user.user.token,
+                  },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  nProgress.done();
+                  if (data.status) {
+                    setAlert("Message delivered");
+                  } else {
+                    setAlert("Unable to send message, please try again");
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                })
+                .catch(() => {
+                  nProgress.done();
+                });
+              setActiveMessage((prev) => [
+                ...prev,
+                { msg: typed, from: "Admin" },
+              ]);
               setTyped("");
             }}
           />
         </div>
       </div>
     </div>
+    </>
   );
 }
