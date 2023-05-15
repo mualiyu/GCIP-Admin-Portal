@@ -27,3 +27,16 @@
 .nav_link:hover{
     background-color: rgba(4, 34, 14, 0.3);
 }
+.unread{
+    width: 20px;
+    height: 20px;
+    background-color: rgba(146, 10, 10, 0.582);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: all 0.5s;
+}

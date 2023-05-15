@@ -46,7 +46,8 @@ export interface NavLinkProps {
   label: string;
   Icon: React.FC;
   route: string;
-  onClick?:()=>void
+  onClick?:()=>void,
+  unread?:number
 }
 
 export interface IconProps {

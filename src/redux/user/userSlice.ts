@@ -9,6 +9,7 @@ export interface UserState {
     token: string;
     isLoggedIn: boolean;
   };
+  unread?: number;
 }
 
 const initialState: UserState = {
@@ -18,10 +19,9 @@ const initialState: UserState = {
     email: "",
     token: "",
     isLoggedIn: false,
-    
   },
+  unread: 0,
 };
-
 
 export const userSlice = createSlice({
   name: "user",
@@ -30,10 +30,13 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserState>) => {
       state.user = action.payload.user;
     },
+    setUnread: (state, action) => {
+      state.unread = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser } = userSlice.actions;
+export const { setUser, setUnread } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { DOMElement, useRef } from "react";
+import React, {useEffect, useRef } from "react";
 import "../styles/layout.css";
 import Logo from "../../assets/Images/logo.jpg";
 import User from "../../assets/Svg/user.svg";
@@ -10,12 +10,29 @@ import { FcHome, FcSettings } from "react-icons/fc";
 import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
+import query from '../../helpers/query'
+import { setUnread} from "../../redux/user/userSlice";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
   const data=useSelector(state=>state)
   const navigate=useNavigate()
   const dispatch=useDispatch()
+  const getData = async () => {
+    // setLoading2(true);
+    // nProgress.start();
+    const respone = await query({
+      method: "GET",
+      url: `/api/admin/messages/get-unread/${data.program.id}`,
+      token: data.user.user.token,
+    });
+    if (respone.success) {
+      dispatch(setUnread(respone.data.data.unRead));
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="layout_container">
       {/* <div className="layout_nav">
@@ -89,6 +106,7 @@ function ProgramLayOut() {
           )}
         />
         <NavLink
+        unread={data.user.unread}
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";

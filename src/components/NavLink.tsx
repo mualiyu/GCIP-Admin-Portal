@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/navlink.css";
 import { NavLinkProps } from "./types";
 import { useLocation, useNavigate } from "react-router-dom";
-function NavLink({ label, Icon, route,onClick }: NavLinkProps) {
+function NavLink({ label, Icon, route,onClick,unread=0 }: NavLinkProps) {
   const location = useLocation();
   const navigate = useNavigate();
   return (
@@ -21,6 +21,7 @@ function NavLink({ label, Icon, route,onClick }: NavLinkProps) {
       >
         {label}
       </span>
+      {unread > 0 && <span className="unread">{unread}</span>}
     </div>
   );
 }

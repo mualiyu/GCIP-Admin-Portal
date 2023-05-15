@@ -11,15 +11,19 @@
     max-width: 70%;
     /* min-height: 100px; */
     min-height: 20px;
+    border-radius: 10px;
 
     /* max-height: 200px; */
+    border-bottom-left-radius: 0px;
     min-width: 40%;
     background-color:var(--primary) ;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 16% 75%, 11% 89%, 8% 76%, 0% 75%);
+    /* clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 16% 75%, 11% 89%, 8% 76%, 0% 75%); */
+    margin-top: 10px;
     padding: 20px;
     color: #fff;
     text-align: justify;
     display: flex;
+    position: relative;
     flex-direction: column;
     /* justify-content: center; */
     align-items: center;
@@ -29,6 +33,9 @@
 }
 .item-cont.admin{
     margin-left: auto;
+    flex-direction: row-reverse;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0px;
     
 }
 .item-cont.admin .main-item-1{
