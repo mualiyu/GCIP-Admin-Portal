@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import { Editor } from "@tinymce/tinymce-react";
 import { RegularText } from "../../components/Common";
 import { useState } from "react";
+
 import Tab1 from "./components/Tab1";
 import Tab2 from "./components/Tab2";
 import Tab5 from "./components/Tab5/Tab5";

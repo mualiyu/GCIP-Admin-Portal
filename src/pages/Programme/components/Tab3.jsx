@@ -7,10 +7,11 @@ import { FieldArray, FormikProvider, useFormik } from "formik";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-
+import nProgress from "nprogress";
+import { MoonLoader } from "react-spinners";
 import Alert from "../../../components/Alert";
 import { FcCheckmark } from "react-icons/fc";
-import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaTrash, FaWindowClose, FaFolderOpen, FaTimesCircle } from "react-icons/fa";
 import { setProgramStages } from "../../../redux/program/programSlice";
 import Select from "../../../components/Select";
 import Loading from "../../../components/Loading";
@@ -82,7 +83,7 @@ export default function Tab3({ moveToTab }) {
   },[])
   return (
     <div className="stages_container">
-      <Loading loading={loading}/>
+      <MoonLoader size={16} loading={loading}/>
       <Alert text={alertText} />
       <RegularText
         style={{
@@ -97,7 +98,7 @@ export default function Tab3({ moveToTab }) {
         onClick={() => setIsOpen(true)}
         style={{
           marginLeft: "auto",
-          width: 200,
+          // width: 200,
           marginTop: 20,
         }}
         label="Add Stage"
@@ -148,13 +149,36 @@ export default function Tab3({ moveToTab }) {
           </>
         )}
       </table>
-      {presentStage.length == 0 && (
-        <>
-          <img id="empty" src="38.png" />
-          <span id="empty">No added stages yet</span>
-        </>
-      )}
+      {presentStage.length == 0 && !loading && (
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  marginTop: "7%",
+                }}
+              >
+                <FaFolderOpen />
+                <span id="empty">
+                  {" "}
+                  Oops! Nothing here.{" "}
+                  <span
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                      color: "var(--primary)",
+                      marginLeft: 20,
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add a New Stage
+                  </span>{" "}
+                </span>
+              </div>
+            )}
 
+
+{presentStage.length > 0 &&
       <div className="save_next">
         <Button
           onClick={() => {
@@ -164,10 +188,13 @@ export default function Tab3({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
+          lineButton
           style={{
-            width: 200,
+            // width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "white",
+            border: "thin solid #006438",
+            color: "#006438"
           }}
           label="Save"
         />
@@ -183,30 +210,33 @@ export default function Tab3({ moveToTab }) {
             dispatch(setProgramStages(presentStage));
             moveToTab(3);
           }}
-          style={{
-            width: 200,
-          }}
           label="Next"
         />
       </div>
+}
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
         style={customStyles}
       >
         <div className="inner_modal">
-          <FaWindowClose
-            onClick={() => {
-              setIsOpen(false);
-              setIsedit(null);
-              formik.setValues({stages:initialValues.stages})
-            }}
-            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text="Add New Stage"
-          />
+
+        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+         
+         <RegularText
+           style={{ textAlign: "Left", fontWeight: "bold", fontSize: 18 }}
+           text="Add New Stage"
+         />
+          <FaTimesCircle
+           onClick={() => {
+            setIsOpen(false);
+            setIsedit(null);
+            formik.setValues({stages:initialValues.stages})
+          }}
+           style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
+         />
+
+</div>
           <div className="divider" />
           <div className="stage_list">
             <FormikProvider value={formik}>
@@ -229,11 +259,14 @@ export default function Tab3({ moveToTab }) {
                                 outlined
                                 value={formik.values.stages[index].name}
                               />
+
+                              <div style={{display: "flex", alignItems: "center"}}>
                               <Input
                                 type="date"
                                 {...formik.getFieldProps(
                                   `stages.${index}.startDate`
                                 )}
+                                style={{width: '50%'}}
                                 onChange={formik.handleChange}
                                 label="Start Date"
                                 outlined
@@ -244,18 +277,21 @@ export default function Tab3({ moveToTab }) {
                                 {...formik.getFieldProps(
                                   `stages.${index}.endDate`
                                 )}
+                                style={{width: '50%'}}
                                 onChange={formik.handleChange}
                                 label="End Date"
                                 outlined
                                 placeholder="Stage Name"
                               />
+                              </div>
+                             
                               <textarea
-                                style={{ width: "90%", marginTop: 10 }}
+                                style={{ width: "100%", marginTop: 25 }}
                                 {...formik.getFieldProps(
                                   `stages.${index}.description`
                                 )}
                                 onChange={formik.handleChange}
-                                rows={3}
+                                rows={5}
                                 placeholder="Description"
                               />
                               <Input type='file' onChange={(e) => {
@@ -282,9 +318,9 @@ export default function Tab3({ moveToTab }) {
                           setLoading(false);
                           if (data.status) {
                             formik.values.stages[index].document = data.data.url;
-                            setAlert("Uplaoded Succefully");
+                            setAlert("Uplaoded Successfully");
                           } else {
-                            setAlert("Something went wrong");
+                            setAlert("Oops! something didn't go right there");
                           }
                           setTimeout(() => {
                             setAlert("");

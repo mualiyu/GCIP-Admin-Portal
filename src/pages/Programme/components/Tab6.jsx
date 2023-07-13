@@ -5,10 +5,10 @@ import { FiBook } from "react-icons/fi";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { FcCancel } from "react-icons/fc";
-import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import { useState } from "react";
+import { FaEdit, FaTrash, FaWindowClose, FaFolderOpen, FaTimesCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramRequirements } from "../../../redux/program/programSlice";
 import Alert from "../../../components/Alert";
@@ -20,6 +20,7 @@ function Tab6({ moveToTab }) {
   const [requirementName, setReqName] = useState("");
   const [weight, setWeight] = useState(0);
   const [mainStage, setMainStage] = useState("");
+  const [loading,setLoading]=useState(false)
   const [requirementType, setReqType] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const dispatch = useDispatch();
@@ -49,11 +50,13 @@ function Tab6({ moveToTab }) {
     },
   };
   useEffect(() => {
+    setLoading(true);
     const newArray = [];
     assignedReqs.map((assigned) => {
       newArray.push({ name: assigned.name, type: assigned.type,stage:assigned.stage,weight:assigned.weighte });
     });
     setData(newArray);
+    setLoading(false);
   }, []);
   return (
     <>
@@ -61,7 +64,7 @@ function Tab6({ moveToTab }) {
         <Alert text={alertText} />
         <div className="app_req_head">
           <h2>
-            <FiBook color="green" size={20} /> REQUIREMENTS
+            REQUIREMENTS
           </h2>
           <Button onClick={() => setIsOpen(true)} label="Add" />
         </div>
@@ -91,18 +94,35 @@ function Tab6({ moveToTab }) {
             );
           })}
         </div>
-        {data.length == 0 && (
-          <div
-            style={{
-              width: "90%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img id="empty" src="38.png" />
-          </div>
-        )}
+        {data.length == 0 && !loading && (
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  marginTop: "7%",
+                }}
+              >
+                <FaFolderOpen />
+                <span id="empty">
+                  {" "}
+                  Oops! Nothing here.{" "}
+                  <span
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                      color: "var(--primary)",
+                      marginLeft: 20,
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add a New Requirement?
+                  </span>{" "}
+                </span>
+              </div>
+            )}
+
+{data.length > 0 &&
         <div className="save_next">
           <Button
             onClick={() => {
@@ -112,11 +132,13 @@ function Tab6({ moveToTab }) {
                 setAlert("");
               }, 2000);
             }}
-            style={{
-              width: 200,
-              marginRight: 20,
-              backgroundColor: "#1094ff",
-            }}
+           lineButton
+          style={{
+            marginRight: 20,
+            backgroundColor: "white",
+            border: "thin solid #006438",
+            color: "#006438"
+          }}
             label="Save"
           />
           <Button
@@ -133,20 +155,28 @@ function Tab6({ moveToTab }) {
               moveToTab(4);
             }}
             style={{
-              width: 200,
+              // width: 200,
             }}
             label="Next"
           />
         </div>
+}
       </div>
+
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
         style={customStyles}
       >
         <div className="inner_modal">
-          <FaWindowClose
-            onClick={() => {
+          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+         
+          <RegularText
+            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            text="Add New Requirement"
+          />
+           <FaTimesCircle
+             onClick={() => {
               if (editIndex !== null) {
                 setReqName("");
                 setReqType("");
@@ -156,12 +186,12 @@ function Tab6({ moveToTab }) {
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text="Add New Requirement"
-          />
+
+</div>
           <div className="divider" />
-          <Input
+          <>
+                            <div>
+                            <Input
             value={requirementName}
             onChange={(e) => {
               setReqName(e.target.value);
@@ -169,13 +199,16 @@ function Tab6({ moveToTab }) {
             label="Name"
             outlined
           />
-          <Select
+                            </div>
+                              <div className="lot_add">
+                              <Select
             value={requirementType}
             onChange={(e) => {
               setReqType(e.target.value);
             }}
             options={reqTypes}
             label="Type"
+            style={{width: "50%", marginRight: 5}}
             outlined
           />
           <Input
@@ -185,8 +218,10 @@ function Tab6({ moveToTab }) {
             }}
             label="Weight"
             outlined
+            style={{width: "50%"}}
           />
-          <div style={{ marginTop: 20 }}>
+ </div>
+ <div style={{ marginTop: 20 }}>
             <h4>Stages</h4>
             {programData.program.stages.map((stg, ind) => (
               <>
@@ -198,46 +233,62 @@ function Tab6({ moveToTab }) {
               </>
             ))}
           </div>
-          <Button
-            onClick={() => {
-              if (editIndex !== null) {
-                const allValues = data;
+          </>
+          <div style={{ display: "flex", marginTop: 10, position:"absolute", bottom: 30, right: 30 }}>
+            <Button
+              onClick={() => {
+                setIsOpen(false);
+              }}
 
-                allValues[editIndex].name = requirementName;
-                allValues[editIndex].type = requirementType;
-                allValues[editIndex].stage = mainStage;
-                allValues[editIndex].weight = weight;
-                setData(allValues);
+              lineButton
+              style={{ marginTop: 10, width: 100, marginRight: 10, backgroundColor: "white",
+              border: "thin solid #006438",
+              color: "#006438" }}
+              label="CANCEL"
+            />
+            <Button
+              onClick={() => {
+                if (editIndex !== null) {
+                  const allValues = data;
+  
+                  allValues[editIndex].name = requirementName;
+                  allValues[editIndex].type = requirementType;
+                  allValues[editIndex].stage = mainStage;
+                  allValues[editIndex].weight = weight;
+                  setData(allValues);
+                  setReqName("");
+                  setReqType("");
+                  setMainStage('')
+                  setWeight('')
+                  setEditIndex(null);
+                  setIsOpen(false);
+                  return;
+                }
+                setData((prev) => [
+                  ...prev,
+                  {
+                    name: requirementName,
+                    type: requirementType,
+                    weight,
+                    stage:mainStage
+                  },
+                ]);
+                
                 setReqName("");
                 setReqType("");
                 setMainStage('')
                 setWeight('')
                 setEditIndex(null);
                 setIsOpen(false);
-                return;
-              }
-              setData((prev) => [
-                ...prev,
-                {
-                  name: requirementName,
-                  type: requirementType,
-                  weight,
-                  stage:mainStage
-                },
-              ]);
-              
-              setReqName("");
-              setReqType("");
-              setMainStage('')
-              setWeight('')
-              setEditIndex(null);
-              setIsOpen(false);
-            }}
-            style={{ marginTop: 20 }}
-            label={editIndex !== null ? "Save" : "Add"}
-          />
+              }}
+              style={{ marginTop: 10, width: 100 }}
+              label={editIndex !== null ? "SAVE" : "ADD"}
+            />
+          </div>
         </div>
       </Modal>
+
+
     </>
   );
 }

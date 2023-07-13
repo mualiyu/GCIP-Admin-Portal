@@ -39,16 +39,18 @@ export default function Home() {
         <div className="home_top" style={{ width: "90%" }}>
           <img id="bg" src="bg.png" alt="m" />
           <div className="home_user">
-            <FaUser />
-            <span>Admin</span>
+            {/* <FaUser /> */}
+            <span>A</span>
           </div>
         </div>
-        <div style={{ width: "90%" }}>
+        <div style={{ width: "10%" }}>
           <Button
             style={{
               marginLeft: "auto",
               marginTop: 30,
-              width: 200,
+              textTransform: "uppercase",
+              fontSize : 11
+              // width: 200,
             }}
             onClick={() => {
               dispatch(

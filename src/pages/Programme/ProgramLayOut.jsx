@@ -11,6 +11,13 @@ import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-ic
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
 import query from '../../helpers/query'
+import {
+  FaBook,
+  FaEnvelope,
+  FaFileContract,
+  FaHouseChimney,
+  FaReply,
+} from "react-icons/fa6";
 import { setUnread} from "../../redux/user/userSlice";
 function ProgramLayOut() {
   const location = useLocation();
@@ -53,26 +60,25 @@ function ProgramLayOut() {
       <div ref={asideRef} className="layout_aside">
         <img className="aside_logo" src="/logo.jpg" alt="img" />
         <div className="divider" />
-        <FaArrowLeft onClick={()=>{
-          console.log(data.program.id,'iiuuyytt')
-          if (data.program.id=='') {
-            navigate('/Home')
-          }else{
-            dispatch(setProgram({program:{}}))
-            dispatch(setId(''))
-            navigate('/Home')
-          }
-          
-          
-        }} style={{
-          backgroundColor:'#9b9b9b16',
-          height:25,
-          width:25,
-          borderRadius:20,
-          padding:10,
-          cursor:'pointer'
-         
-        }}/>
+
+        <NavLink
+            onClick={() => {
+              if (data.program.id=='') {
+                navigate('/Home')
+              }else{
+                dispatch(setProgram({program:{}}))
+                dispatch(setId(''))
+                navigate('/Home')
+              }
+            }}
+            className="no-print"
+            label="Back to Home"
+            route="/Home"
+            Icon={() => <FaReply  color={
+              location.pathname == "/Home"  ? "#fff" : "var(--primary)"
+            } />}
+          />
+
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
@@ -82,9 +88,9 @@ function ProgramLayOut() {
           label="Program Home"
           route="/Programme"
           Icon={() => (
-            <FaHome
+            <FaHouseChimney
               color={
-                location.pathname == "/Programme" ? "var(--primary)" : "#000"
+                location.pathname == "/Programme"  ? "#fff" : "var(--primary)"
               }
             />
           )}
@@ -98,9 +104,9 @@ function ProgramLayOut() {
           label="Applications"
           route="/Programme/Application"
           Icon={() => (
-            <FaHandHolding
+            <FaBook
               color={
-                location.pathname == "/Programme/Application" ? "var(--primary)" : "#000"
+                location.pathname == "/Programme/Application" ?  "#fff" : "var(--primary)"
               }
             />
           )}
@@ -115,7 +121,9 @@ function ProgramLayOut() {
           label="Messages"
           route="/Programme/Message"
           Icon={() => (
-           <MessageIcon/>
+           <FaEnvelope  color={
+            location.pathname == "/Programme/Message" ? "#fff" : "var(--primary)"
+          }/>
           )}
         />
         <NavLink
@@ -126,12 +134,11 @@ function ProgramLayOut() {
           }}
           label="Documents"
           route="/Programme/Document"
-          Icon={() => <FolderIcon active={location.pathname == "/Programme/Document"} />}
+          Icon={() => <FaFileContract   color={
+            location.pathname == "/Programme/Document"  ? "#fff" : "var(--primary)"
+          } />}
         />
 
-        {/* <NavLink/>
-          <NavLink/>
-          <NavLink/> */}
         <div className="other-links">
           <div className="divider" />
          

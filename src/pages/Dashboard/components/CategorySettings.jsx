@@ -62,10 +62,12 @@ export default function CategorySettings() {
           setIsOpen(true);
         }}
         style={{
-          width: 200,
+          // width: 200,
           marginLeft: "auto",
           marginBottom: 20,
           marginTop: 20,
+          textTransform: "uppercase",
+          width:'10%'
         }}
         label="Add Category"
       />
