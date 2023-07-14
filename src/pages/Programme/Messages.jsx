@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/messages.css";
 import Input from "../../components/Input";
 import MessageUser from "./components/MessageUser";
+import { FaUserTie, FaPaperPlane, FaPaperclip } from "react-icons/fa6";
 import {
   FaCartArrowDown,
   FaFile,
@@ -10,7 +11,7 @@ import {
   FaUserTag,
 } from "react-icons/fa";
 import { RegularText } from "../../components/Common";
-
+import { MoonLoader } from "react-spinners";
 import { useState } from "react";
 import ChatItem from "./components/ChatItem";
 import { FcFile } from "react-icons/fc";
@@ -50,7 +51,6 @@ export default function Messages() {
     });
     nProgress.done();
     setLoading(false);
-    // console.log(respone, "jjj");
     if (respone.success) {
       setMessages(respone.data.data.message.reverse());
     } else {
@@ -70,10 +70,6 @@ export default function Messages() {
         dispatch(setUnread(newUnread));
       }
     }
-
-    // if (respone.success) {
-    //   dispatch(setUnread(0));
-    // }
   };
 
   useEffect(() => {
@@ -85,8 +81,8 @@ export default function Messages() {
       <div className="message-container">
         <div className="chat-list-container">
           <div className="chatlist-main">
-            <h2>Messages</h2>
-            <Input outlined label="" placeholder="Search Messages or Users" />
+            <h2>Messaging</h2>
+            <Input outlined label="" className="search" placeholder="Search... "/>
             <h4>Recent</h4>
             <div className="main-chat-lists">
               {messages.length > 0 &&
@@ -108,26 +104,11 @@ export default function Messages() {
                     
                   />
                 ))}
-
-              {/* <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
-            <MessageUser/>
-            <MessageUser/> */}
             </div>
           </div>
         </div>
         <div className="main-chats">
           <div className="messaage-head">
-            <FaUser
-              style={{
-                marginLeft: 20,
-                marginRight: 10,
-              }}
-              size={40}
-            />
             <RegularText
               style={{
                 fontWeight: "bold",
@@ -136,6 +117,13 @@ export default function Messages() {
             />
           </div>
           <div className="chats">
+          {loading && (
+            <div className="empty-msg">
+              <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
+            </div>
+          )}
+
+
             {activeMessage.length == 0 && (
               <div className="empty-msg">
                 <RegularText text="Select applicant to view messages." />
@@ -146,10 +134,14 @@ export default function Messages() {
                 {activeMessage.map((msg, ind) => (
                   <Fade>
                     <ChatItem
-                      file={msg.file !== "" ? msg.file : ""}
                       message={msg.msg}
-                      isAdmin={msg.from !== "Admin"}
-                      created={msg.created_at}
+                    isAdmin={msg.from !== "Admin"}
+                    file={msg.file !== "" ? msg.file : ""}
+                    created={msg.created_at}
+                    user={data.user.user.name}
+
+
+                    
                     />
                    
                   </Fade>
@@ -159,106 +151,117 @@ export default function Messages() {
             )}
           </div>
           {/* <div className="divider"/> */}
+
+
+
           <div className="chat-input">
-            <Input
-              value={typed}
-              onChange={(e) => {
-                setTyped(e.target.value);
+          <Input
+            value={typed}
+            onChange={(e) => {
+              setTyped(e.target.value);
+            }}
+            outlined
+            style={{
+              width: "45%",
+              marginTop: 0
+            }}
+            label=""
+            placeholder="Enter message...."
+          />
+          <div
+          className="paper_plane"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              position: "relative",
+            }}
+          >
+            <FaPaperclip
+              onClick={() => {
+                fileRef.current.click();
               }}
-              outlined
-              style={{
-                width: "40%",
-              }}
-              label=""
-              placeholder="Enter message...."
             />
-            <div
+            <span
               style={{
-                display: "flex",
-                flexDirection: "column",
-                position: "relative",
+                color: "#006438",
+                fontSize: 10,
+                textAlign: "center",
+                position: "absolute",
+                bottom: 0,
+                transform: "translateY(13px)",
+                width: "100%",
+                marginLeft: 10,
+                backgroundColor: 'transparent'
               }}
             >
-              <AttachIcon
-                onClick={() => {
-                  //   console.log(fileRef.current)
-                  fileRef.current.click();
-                }}
-              />
-              <span
-                style={{
-                  color: "black",
-                  fontSize: 10,
-                  textAlign: "center",
-                  position: "absolute",
-                  bottom: 0,
-                  transform: "translateY(13px)",
-                  width: "100%",
-                  marginLeft: 10,
-                }}
-              >
-                {attach}
-              </span>
-            </div>
-            <input
-              onChange={(e) => {
-                const files = e.target.files;
-                // files?.length && myFormData.append("file", files[0]);
-                setFiles(files[0]);
-                setAttach(files[0].name);
-              }}
-              style={{ width: 0, height: 0 }}
-              type="file"
-              ref={fileRef}
-            />
-            <SendIcon
-              onClick={() => {
-                if (typed == "") {
-                  setAlert("Message cant be empty!");
+              {attach}
+            </span>
+          </div>
+
+          <input
+            onChange={(e) => {
+              const files = e.target.files;
+              // files?.length && myFormData.append("file", files[0]);
+              setFiles(files[0]);
+              setAttach(files[0].name);
+            }}
+            style={{ width: 0, height: 0 }}
+            type="file"
+            ref={fileRef}
+          />
+          <FaPaperPlane
+            onClick={() => {
+              if (typed == "") {
+                setAlert("Message cant be empty!");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+
+                return;
+              }
+              myFormData.append("msg", typed);
+              myFormData.append("file", files);
+              myFormData.append("applicant_id", id);
+
+              nProgress.start();
+              fetch(
+                `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/messages/${data.program.id}`,
+                {
+                  method: "POST",
+                  body: myFormData,
+                  headers: {
+                    Authorization: "Bearer " + data.user.user.token,
+                  },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  nProgress.done();
+                  if (data.status) {
+                    setAlert("Message delivered");
+                  } else {
+                    setAlert("Unable to send message, please try again");
+                  }
                   setTimeout(() => {
                     setAlert("");
                   }, 2000);
+                })
+                .catch(() => {
+                  nProgress.done();
+                });
+              setActiveMessage((prev) => [
+                ...prev,
+                { msg: typed, from: "Admin", file: "",created_at:'', user: data.user.user.name},
+              ]);
+              setTyped("");
+            }}
+          />
+        </div>
 
-                  return;
-                }
-                myFormData.append("msg", typed);
-                myFormData.append("file", files);
-                myFormData.append("applicant_id", id);
 
-                nProgress.start();
-                fetch(
-                  `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/messages/${data.program.id}`,
-                  {
-                    method: "POST",
-                    body: myFormData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    nProgress.done();
-                    if (data.status) {
-                      setAlert("Message delivered");
-                    } else {
-                      setAlert("Unable to send message, please try again");
-                    }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  })
-                  .catch(() => {
-                    nProgress.done();
-                  });
-                setActiveMessage((prev) => [
-                  ...prev,
-                  { msg: typed, from: "Admin", created: "" },
-                ]);
-                setTyped("");
-              }}
-            />
-          </div>
+
+
+          
         </div>
       </div>
     </>

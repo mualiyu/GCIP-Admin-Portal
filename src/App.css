@@ -2,12 +2,13 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+  font-family: sans-serif;
+  font-size: 13px;
   overflow-x: hidden;
   background-color: white;
 }
 :root {
-  --primary: #33745d;
+  --primary: #006438;
   --back_ground: #f5f5f5;
   --white: #ffffff;
   --black: #000000;
@@ -20,9 +21,22 @@ body {
   font-size: 18px;
   font-weight: bold;
 }
+.input_label{
+  margin-bottom: 7px;
+  font-size: 13px!important;
+  font-weight: normal;
+}
+.input_label > .regular_text{
+  margin-bottom: 7px;
+  font-size: 13px!important;
+  font-weight: normal;
+  font-size: 13px;
+
+}
 .regular_text {
   font-weight: lighter;
   margin-top: 14px;
+  margin-bottom: 7px!important;
 }
 .auth_container {
   background:url(https://media.istockphoto.com/id/1387945043/photo/computer-technology-background-digital-data-flow-network-connection-structure-big-data.jpg?b=1&s=170667a&w=0&k=20&c=Sd255zPE6kBUU_EE3omdvL5GNWQdfSeOBmHBdEObCJc=);

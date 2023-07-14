@@ -11,11 +11,13 @@ import { current } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgramLots } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
+import nProgress from "nprogress";
 import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 import { RegularText } from "../../../components/Common";
 import { FcCheckmark } from "react-icons/fc";
-import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
+import { MoonLoader } from "react-spinners";
+import { FaEdit, FaTrash, FaTimesCircle, FaFolderOpen } from "react-icons/fa";
 import * as Yup from "yup";
 const customStyles = {
   content: {
@@ -42,6 +44,7 @@ export default function Tab2({ moveToTab }) {
   const [isEdit, setIsedit] = useState(null);
   const [regions, setRegions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading2, setLoading2] = useState(true);
   const [presentLots, setPresentLots] = useState([
     ...programData.program.program.lots,
   ]);
@@ -104,11 +107,15 @@ export default function Tab2({ moveToTab }) {
     formik.setValues({ lots: newLots });
   };
   const getRegions = async () => {
+    nProgress.start();
+    setLoading2(true);
     const { success, data, error } = await query({
       method: "GET",
       url: "/api/admin/regions",
       token: programData.user.user.token,
     });
+    nProgress.done();
+    setLoading2(false);
     if (success) {
       const regionsArray = [];
       data.data.regions.map((reg) =>
@@ -161,7 +168,7 @@ export default function Tab2({ moveToTab }) {
           marginLeft: "auto",
           marginBottom: 50,
         }}
-        label="Add"
+        label="Add Lot"
       />
       <table className="home_table">
         {presentLots.length > 0 && (
@@ -225,13 +232,37 @@ export default function Tab2({ moveToTab }) {
           </>
         )}
       </table>
-      {presentLots.length == 0 && (
-        <>
-          <img id="empty" src="38.png" />
-          <span id="empty">No added lots yet</span>
-        </>
-      )}
 
+
+      {presentLots.length == 0 && !loading2 && (
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  marginTop: "7%",
+                }}
+              >
+                <FaFolderOpen />
+                <span id="empty">
+                  {" "}
+                  Oops! Nothing here.{" "}
+                  <span
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                      color: "var(--primary)",
+                      marginLeft: 20,
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add a New Lot
+                  </span>{" "}
+                </span>
+              </div>
+            )}
+
+{presentLots.length > 0 &&
       <div className="save_next">
         <Button
           onClick={() => {
@@ -241,10 +272,13 @@ export default function Tab2({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
+          lineButton
           style={{
-            width: 200,
+            // width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "white",
+            border: "thin solid #006438",
+            color: "#006438"
           }}
           label="Save"
         />
@@ -261,11 +295,12 @@ export default function Tab2({ moveToTab }) {
             moveToTab(2);
           }}
           style={{
-            width: 200,
+            // width: 200,
           }}
           label="Next"
         />
       </div>
+}
 
       <Modal
         isOpen={modalIsOpen}
@@ -273,7 +308,13 @@ export default function Tab2({ moveToTab }) {
         style={customStyles}
       >
         <div className="inner_modal">
-          <FaWindowClose
+          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+         
+          <RegularText
+            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            text="Add New Lots"
+          />
+           <FaTimesCircle
             onClick={() => {
               setIsOpen(false);
               setIsedit(null);
@@ -281,10 +322,8 @@ export default function Tab2({ moveToTab }) {
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text="Add New Lots"
-          />
+
+</div>
           <div className="divider" />
           <>
             <FormikProvider value={formik}>
@@ -297,15 +336,20 @@ export default function Tab2({ moveToTab }) {
                       {lots.length > 0
                         ? formik.values.lots.map((item, index) => (
                             <>
-                              <div className="lot_add">
-                                <Input
+
+                            <div>
+                            <Input
                                   {...formik.getFieldProps(
                                     `lots.${index}.name`
                                   )}
                                   onChange={formik.handleChange}
                                   outlined
                                   label="Lot Name"
+                                  style={{width: "100%"}}
                                 />
+                            </div>
+                              <div className="lot_add">
+                               
                                 <Select
                                   {...formik.getFieldProps(
                                     `lots.${index}.region`
@@ -321,6 +365,7 @@ export default function Tab2({ moveToTab }) {
                                         )
                                   }
                                   value={formik.values.lots[index].region}
+                                  style={{width: "50%", marginRight: 5}}
                                 />
                                 <Select
                                   {...formik.getFieldProps(
@@ -333,6 +378,7 @@ export default function Tab2({ moveToTab }) {
                                     formik.values.lots[index].category
                                   )}
                                   value={formik.values.lots[index].category}
+                                  style={{width: "50%"}}
                                 />
                                 <div className="delete-lot">
                                   {index !== 0 && (
@@ -353,6 +399,7 @@ export default function Tab2({ moveToTab }) {
                                     outlined
                                     label="Sub-lot Name"
                                     name={`lots.${index}.subLots.${subIndex}.name`}
+                                    style={{width: "45%", marginRight: 5}}
                                     value={
                                       formik.values.lots[index].subLots[
                                         subIndex
@@ -367,13 +414,14 @@ export default function Tab2({ moveToTab }) {
                                     onChange={formik.handleChange}
                                     label="Category"
                                     name={`lots.${index}.subLots.${subIndex}.category`}
+                                    style={{width: "45%"}}
                                     placeholder={convertCategory(
                                       formik.values.lots[index].subLots[
                                         subIndex
                                       ].category
                                     )}
                                   />
-                                  <div className="lot_icon">
+                                  <div className="lot_icon"  style={{width: "10%"}}>
                                     <DeleteIcon
                                       onClick={() =>
                                         removeSubLot(index, subIndex)
@@ -391,7 +439,7 @@ export default function Tab2({ moveToTab }) {
               />
             </FormikProvider>
           </>
-          <div style={{ display: "flex", marginTop: 10 }}>
+          <div style={{ display: "flex", marginTop: 10, position:"absolute", bottom: 30, right: 30 }}>
             <Button
               onClick={() => {
                 const newFormikVals = [...formik.values.lots];

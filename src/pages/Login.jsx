@@ -72,20 +72,32 @@ function Login() {
     validationSchema
   });
   return (
+
     <Fade>
       <div className="auth_container">
         <Loading loading={loading} />
         <Alert text={alertText} />
-        <div className="auth_inner_container">
-          <img src="svg.svg" alt="logo" />
-          <div className="inputs_container">
-            <Header text="Sign in to AFM-ADMIN" />
-            <RegularText
-              text="To sign in, please type in the user name for your AFM account and your password.
 
-"
-            />
-            <Input
+        <div className="auth_display">
+          <div className="display_message">
+            <h2>Africa Minigrids Program (AMP) 
+Grant Management Platform</h2>
+<p>Pilot Minigrids in Rural Communities </p>
+          </div>
+        </div>
+
+
+        <div className="auth_inner_container">
+          <div className="auth_logos">
+          <img src="log.png" alt="logo" />
+          <img src="svg.svg" alt="logo" />
+          </div>
+          <Header text="Sign in to AFM-ADMIN" />
+          {/* <RegularText text="Welcome back!"/> */}
+          
+          <div className="inputs_container">
+            
+          <Input
               outlined
               error={
                 formik.touched.username && formik.errors.username
@@ -111,20 +123,27 @@ function Login() {
               placeholder="type Password here..."
             />
             <div className="forgot_password">
-              <RegularText text="Forgot Password ?" />
-              <span style={{ marginLeft: 10 }}>Reset It</span>
+              <RegularText style={{marginLeft:'auto',cursor:'pointer'}} onClick={() => {
+                  navigate("forgot")
+                }} text="Forgotten ?" />
+            
             </div>
+
+            <div className="auth_bottom">
             <Button
               onClick={formik.handleSubmit}
-              style={{
-                width: 188,
-                marginTop: 14,
-              }}
+              
               label="Login"
             />
+
+          
+         
+            </div>
+            
           </div>
         </div>
       </div>
+     
     </Fade>
   );
 }

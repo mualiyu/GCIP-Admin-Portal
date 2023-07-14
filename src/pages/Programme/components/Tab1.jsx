@@ -45,14 +45,14 @@ export default function Tab1({ moveToTab }) {
    formik.setValues({programName:programData.program.programName,programDescription:programData.program.programDescription})
   },[programData.program.programName])
   return (
-    <>
+    <section style={{width: '85%', margin: '25px auto'}}>
       <Alert text={alertText} />
-      <RegularText style={{
+      {/* <RegularText style={{
         fontWeight:'bold',
-        fontSize:20,
+        fontSize:13,
         textTransform:'uppercase',
-        marginTop:20
-      }} text="General"/>
+        margin:"20px 0"
+      }} text="General"/> */}
       <Input
       value={formik.values.programName}
       error={
@@ -116,10 +116,12 @@ export default function Tab1({ moveToTab }) {
                 setAlert("");
               }, 2000);
             }}
+            lineButton
             style={{
-              width: 200,
               marginRight: 20,
-              backgroundColor: "#1094ff",
+              backgroundColor: "white",
+              border: "thin solid #006438",
+              color: "#006438"
             }}
             label="Save"
           />
@@ -128,12 +130,12 @@ export default function Tab1({ moveToTab }) {
               formik.handleSubmit();
             }}
             style={{
-              width: 200,
+              // width: 200,
             }}
             label="Next"
           />
         </div>
       </div>
-    </>
+    </section>
   );
 }

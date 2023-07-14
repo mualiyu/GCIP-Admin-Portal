@@ -16,7 +16,7 @@ function NavLink({ label, Icon, route,onClick,unread=0 }: NavLinkProps) {
       <Icon />
       <span
         style={{
-          color: location.pathname == route ? "var(--primary)" : "black",
+          color: location.pathname == route ? "white" : "black",
         }}
       >
         {label}

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProgramUploads } from "../../../redux/program/programSlice";
 import Alert from "../../../components/Alert";
 import Loading from "../../../components/Loading";
-import { FaTrash, FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaTrash, FaWindowClose, FaFolderOpen, FaTimesCircle } from "react-icons/fa";
 const customStyles = {
   content: {
     top: "50%",
@@ -80,7 +80,7 @@ export default function Tab4({ moveToTab }) {
         }}
         style={{
           marginLeft: "auto",
-          width: 200,
+          // width: 200,
           marginTop: 20,
         }}
         label="Add File"
@@ -118,13 +118,36 @@ export default function Tab4({ moveToTab }) {
           </>
         )}
       </table>
-      {presentUploads.length == 0 && (
-        <>
-          <img id="empty" src="38.png" />
-          <span id="empty">No added files yet</span>
-        </>
-      )}
 
+      {presentUploads.length == 0 && !loading && (
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  marginTop: "7%",
+                }}
+              >
+                <FaFolderOpen />
+                <span id="empty">
+                  {" "}
+                  Oops! Nothing here.{" "}
+                  <span
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                      color: "var(--primary)",
+                      marginLeft: 20,
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add a New File
+                  </span>{" "}
+                </span>
+              </div>
+            )}
+
+{presentUploads.length > 0 &&
       <div className="save_next">
         <Button
           onClick={() => {
@@ -134,10 +157,12 @@ export default function Tab4({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
+          lineButton
           style={{
-            width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "white",
+            border: "thin solid #006438",
+            color: "#006438"
           }}
           label="Save"
         />
@@ -146,19 +171,38 @@ export default function Tab4({ moveToTab }) {
             dispatch(setProgramUploads(presentUploads));
             moveToTab(5);
           }}
-          style={{
-            width: 200,
-          }}
           label="Next"
         />
       </div>
+  }
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
         style={customStyles}
       >
         <div className="inner_modal">
-          <Loading loading={loading} />
+        <Loading loading={loading} />
+        <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+         
+         <RegularText
+           style={{ textAlign: "Left", fontWeight: "bold", fontSize: 18 }}
+           text="Add New Document"
+         />
+          <FaTimesCircle
+           onClick={() => {
+            setIsOpen(false);
+            
+          }}
+           style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
+         />
+
+</div>
+
+
+
+
+
+          {/* <Loading loading={loading} />
           <FaWindowClose
             onClick={() => {
               setIsOpen(false);
@@ -169,7 +213,7 @@ export default function Tab4({ moveToTab }) {
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text="Add New Lots"
-          />
+          /> */}
           <div className="divider" />
           {formik.values.uploads.length > 0
             ? formik.values.uploads.map((item, index) => (
@@ -216,7 +260,7 @@ export default function Tab4({ moveToTab }) {
                         });
                     }}
                     label="File"
-                    outlined
+                    // outlined
                     type="file"
                   />
 
@@ -226,6 +270,21 @@ export default function Tab4({ moveToTab }) {
                 </div>
               ))
             : null}
+
+
+
+<div style={{ display: "flex", marginTop: 10, position:"absolute", bottom: 30, right: 30 }}>
+            <Button
+              onClick={() => {
+                setIsOpen(false);
+              }}
+
+              lineButton
+              style={{ marginTop: 10, width: 100, marginRight: 10, backgroundColor: "white",
+              border: "thin solid #006438",
+              color: "#006438", HEIGHT: 25 }}
+              label="CANCEL"
+            />
           <Button
             onClick={() => {
               const newUploads = [...presentUploads];
@@ -237,8 +296,12 @@ export default function Tab4({ moveToTab }) {
               marginTop: 20,
               width: 100,
             }}
-            label="Add"
+            label="ADD"
           />
+          </div>
+
+          
+         
         </div>
       </Modal>
     </div>

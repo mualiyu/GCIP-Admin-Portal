@@ -1,23 +1,39 @@
-.forgot_password{
+.forgot_password {
     margin-top: 20px;
-}
-.terms{
+    width: 100%;
+    display: flex;
+  }
+  .terms {
     display: flex;
     margin-top: 20px;
-}
-.terms input{
+    align-items: center;
+  }
+  .terms input {
     margin-right: 20px;
-    
-}
-.terms span a{
+    max-height: 28px;
+    width: 28px;
+    border-radius: 10px;
+    margin-top: 5px;
+  }
+  .terms span a {
     border-bottom: 1px solid black;
     margin-right: 5px;
     cursor: pointer;
-}
-.have_account{
+  }
+  .have_account {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 10px;
-}
+  }
+  .auth_bottom {
+    margin-top: auto;
+    margin-bottom: 100px;
+  }
 
+  .sub_input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  

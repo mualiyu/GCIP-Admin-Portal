@@ -30,31 +30,32 @@
   align-items: center;
   height: 50px;
   width: 50px;
-  background-color: #F0F3F2;
+  background-color: var(--primary);
   border-radius: 100px;
   cursor: pointer;
   transition: all 0.5s;
+  color: #fff;
 }
 .home_user:hover{
   opacity: 0.5;
 }
 .home_user span{
-  font-size: 8px;
+  font-size: 18px;
 }
 #bg{
-  width:40%;
-  height:100px;
+  width:30%;
+  height:auto;
   background: transparent;
 }
 .tab-container span{
-  font-size: 14px;
+  font-size: 11px!important;
   margin-right: 20px;
-  
+  text-transform: uppercase;
   padding-bottom: 5px;
   cursor: pointer;
 }
 .tab-container span.active{
-  border-bottom: 4px solid var(--primary);
+  border-bottom: 2px solid var(--primary)!important;
   font-weight: bold;
   color: var(--primary);
 }
@@ -75,7 +76,7 @@
   height: 180px;
 }
 .home_container #bg{
-  border-bottom: 3px solid var(--primary);
+  /* border-bottom: 3px solid var(--primary); */
 }
 .section_a {
   width: 70%;
@@ -113,9 +114,9 @@
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  width: 90%;
-  border: 1px solid #F0F3F2;
-  border-radius: 5px;
+  width: 100%;
+  /* border: 1px solid #F0F3F2;
+  border-radius: 5px; */
   border-collapse: collapse;
   font-weight: 400;
   /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
@@ -124,9 +125,9 @@
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  width: 90%;
-  border: 1px solid #F0F3F2;
-  border-radius: 5px;
+  width: 100%;
+  /* border: 1px solid #F0F3F2;
+  border-radius: 5px; */
   border-collapse: collapse;
   font-weight: 400;
 }

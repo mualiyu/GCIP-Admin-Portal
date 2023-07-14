@@ -202,7 +202,7 @@ function Overview({gotoPage}) {
           });
         }}
         style={{
-          width: 200,
+          // width: 200,
           marginTop: 10,
         }}
         label="Submit"

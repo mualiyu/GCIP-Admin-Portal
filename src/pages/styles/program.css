@@ -9,11 +9,12 @@
   
 }
 .program_home_container .tab-container {
-  height: 70px;
-  border-bottom: 1px solid lightgray;
-  width: 90%;
-  display: flex;
-  align-items: center;
+  height: 85px;
+    border-bottom: 1px solid lightgray;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 .tab-container span {
   font-size: 14px;
@@ -30,7 +31,11 @@
 .program_editor {
   width: 90%;
   min-height: 400px;
-  margin-top: 20px;
+  margin-top: 40px!important;
+  font-size:9px;
+}
+.program_editor > div > regular_text {
+  margin-bottom: 7px!important;
 }
 .home_container .program-head {
   display: flex;
@@ -48,7 +53,7 @@
   height: 180px;
 }
 .home_container #bg {
-  border-bottom: 3px solid var(--primary);
+  /* border-bottom: 3px solid var(--primary); */
 }
 .section_a {
   width: 70%;
