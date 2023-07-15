@@ -108,7 +108,11 @@ console.log(response);
             
               <tbody>
               {allApplicants.map((applicant, index)=>(
-                  <tr key={applicant.id} >
+                  <tr key={applicant.id}
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                  >
                     <td>{index + 1} </td>
                     <td style={{textTransform: 'capitalize'}}>{applicant.name } ({applicant.rc_number}) <br/>
                       <span style={{fontSize: 10, color: 'grey'}}>Authorized Rep: {applicant.person_incharge}</span>

@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import "../styles/home.css";
+import axios from "axios";
+import MenuCards from "./components/MenuCards";
+import SkeletonLoader from "../../components/SkeletonLoader";
+import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
+import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
 import { FaEdit, FaTrash, FaTimesCircle, FaFolderOpen } from "react-icons/fa";
 import { useState } from "react";
 import moment from "moment";
@@ -30,7 +35,7 @@ const customStyles = {
 export default function Applicants() {
   const [loading, setLoading] = useState(true);
   const [allApplicants, setAllApplicants] = useState([]);
-  const [alertText, setAlert] = useState("");
+  const [modalIsOpen, setIsOpen] = React.useState(false);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -108,13 +113,17 @@ console.log(response);
             
               <tbody>
               {allApplicants.map((applicant, index)=>(
-                  <tr key={applicant.id} >
+                  <tr key={applicant.id}
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                  >
                     <td>{index + 1} </td>
                     <td style={{textTransform: 'capitalize'}}>{applicant.name } ({applicant.rc_number}) <br/>
                       <span style={{fontSize: 10, color: 'grey'}}>Authorized Rep: {applicant.person_incharge}</span>
                     </td>
                     <td>P: {applicant.phone} <br/>
-                      <span style={{fontSize: 10, color: 'grey', textTransform: 'lowercase'}}>E: {applicant.email}</span> </td>
+                      <span style={{fontSize: 10, color: 'grey', textTransform: ''}}>E: {applicant.email}</span> </td>
                       <td>{moment(applicant.created_at).format('ll')}</td>
                     <td>{applicant.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Declined" : "Pending"} </td>
                     <td>
