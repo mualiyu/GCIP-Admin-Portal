@@ -11,7 +11,6 @@ import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
-import { MoonLoader } from "react-spinners";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -119,7 +118,7 @@ export default function Home() {
             </>
           )}
         </table>
-        {loading && <MoonLoader/>}
+        {loading && <img src="loading.gif" id="loader" />}
       </div>
     </Fade>
   );

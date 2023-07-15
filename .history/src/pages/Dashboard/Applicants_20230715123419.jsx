@@ -11,9 +11,8 @@ import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
-import { MoonLoader } from "react-spinners";
 
-export default function Home() {
+export default function Applicants() {
   const [loading, setLoading] = useState(true);
   const [allPrograms, setAllPrograms] = useState([]);
   const programData = useSelector((state) => state);
@@ -119,7 +118,7 @@ export default function Home() {
             </>
           )}
         </table>
-        {loading && <MoonLoader/>}
+        {loading && <img src="loading.gif" id="loader" />}
       </div>
     </Fade>
   );
