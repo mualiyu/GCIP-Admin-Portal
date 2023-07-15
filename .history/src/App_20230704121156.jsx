@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import LayOut from "./pages/Dashboard/LayOut";
 import Home from "./pages/Dashboard/Home";
-import Applicants from "./pages/Dashboard/Applicants";
 import "./App.css";
 import Verify from "./pages/Verify";
 import ProgramHome from "./pages/Programme/ProgramHome";
@@ -13,7 +12,6 @@ import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Settings from "./pages/Dashboard/Settings";
 import Messages from "./pages/Programme/Messages";
-
 import "nprogress/nprogress.css";
 export default function App() {
   return (
@@ -23,7 +21,6 @@ export default function App() {
       <Route element={<Verify />} path="/verify/:token" />
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
-        <Route path="Applicants" element={<Applicants />} />
         <Route path="Program/:id" element={<ProgramPage/>}/>
         <Route path="Settings" element={<Settings />} />
       </Route>

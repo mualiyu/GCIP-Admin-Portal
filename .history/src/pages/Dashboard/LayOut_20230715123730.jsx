@@ -7,7 +7,7 @@ import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon } from "../../assets/Svg/Index";
 
-import { FaUser, FaUserTie, FaWrench } from "react-icons/fa";
+import { FaUser, FaUserTie } from "react-icons/fa";
 import { FcSettings } from "react-icons/fc";
 function LayOut() {
   const location = useLocation();
@@ -49,7 +49,7 @@ function LayOut() {
             }
           }}
           label="Applicants"
-          route="/Home/Applicants"
+          route="/Applicants"
           Icon={() => <FaUserTie active={location.pathname == "/Applicants"} />}
         />
          <NavLink
@@ -60,7 +60,7 @@ function LayOut() {
             }}
             label="Settings"
             route="/Home/Settings"
-            Icon={() => <FaWrench />}
+            Icon={() => <FcSettings />}
           />
 
         {/* <NavLink/>

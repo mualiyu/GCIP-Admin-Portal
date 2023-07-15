@@ -11,14 +11,13 @@ import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
-import { MoonLoader } from "react-spinners";
 
-export default function Home() {
+export default function Applicants() {
   const [loading, setLoading] = useState(true);
-  const [allPrograms, setAllPrograms] = useState([]);
+  const [allApplicants, setAllApplicants] = useState([]);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
-  const getAllPrograms = async () => {
+  const getAllApplicants = async () => {
     const { success, data, error } = await query({
       method: "GET",
       url: "/api/admin/program/list",
@@ -27,11 +26,11 @@ export default function Home() {
     setLoading(false);
     console.log(data);
     if (success) {
-      setAllPrograms(data.data.programs);
+      setAllApplicants(data.data.programs);
     }
   };
   useEffect(() => {
-    getAllPrograms();
+    getAllApplicants();
   }, []);
   const navigate = useNavigate();
   return (
@@ -75,7 +74,7 @@ export default function Home() {
           />
         </div>
         <table className="home_table_main">
-          {allPrograms.length > 0 && (
+          {allApplicants.length > 0 && (
             <>
               <thead>
                 <tr>
@@ -86,7 +85,7 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {allPrograms.map((prg, ind) => (
+                {allApplicants.map((prg, ind) => (
                   <tr key={ind.toString()}>
                     <td>{prg.name}</td>
                     <td>
@@ -119,7 +118,7 @@ export default function Home() {
             </>
           )}
         </table>
-        {loading && <MoonLoader/>}
+        {loading && <img src="loading.gif" id="loader" />}
       </div>
     </Fade>
   );

@@ -23,7 +23,7 @@ export default function App() {
       <Route element={<Verify />} path="/verify/:token" />
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
-        <Route path="Applicants" element={<Applicants />} />
+        <Route index element={<Applicants />} />
         <Route path="Program/:id" element={<ProgramPage/>}/>
         <Route path="Settings" element={<Settings />} />
       </Route>
