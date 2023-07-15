@@ -5,7 +5,6 @@ import { Fade } from "react-awesome-reveal";
 import { FaEdit, FaTrash, FaTimesCircle, FaFolderOpen } from "react-icons/fa";
 import { useState } from "react";
 import moment from "moment";
-import Alert from "../../components/Alert";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
@@ -58,8 +57,8 @@ export default function Applicants() {
     const newValue = {
       status
     };
+
     console.log(applicantId);
-    console.log(status)
     const response = await query({
       method: "POST",
       url: `/api/admin/applicants/accept?applicant_id=${applicantId}`,
@@ -69,12 +68,15 @@ export default function Applicants() {
     
     
 console.log(response);
-    setAlert("Updated successfully!")
+    setAlert("Approved successfully!")
       getAllApplicants();
       setTimeout(()=>{
         setAlert("");
       }, 4000)
 };
+
+
+
 
   useEffect(() => {
     getAllApplicants();
@@ -82,9 +84,7 @@ console.log(response);
   const navigate = useNavigate();
   return (
     <Fade>
-      
       <div className="home_container">
-      <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Applicants <span style={{fontSize: 9, color: 'red'}}>{allApplicants.length}</span></h1>
           <div className="home_user">
@@ -119,32 +119,12 @@ console.log(response);
                     <td>P: {applicant.phone} <br/>
                       <span style={{fontSize: 10, color: 'grey', textTransform: 'lowercase'}}>E: {applicant?.email}</span> </td>
                       <td>{moment(applicant?.created_at).format('ll')}</td>
-                    <td style={{
-        color: applicant?.isApproved == 1 ? 'green' : applicant.isApproved == 2 ? '#aabf10' : 'red',
-      }}
-      >
-                      {applicant?.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Pending" : "Declined"} 
-                    </td>
+                    <td>{applicant?.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Pending" : "Declined"} </td>
                     <td>
-                      {applicant.isApproved == 1 &&
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 3)}>
-                        Revoke
+                        <button style={{border: 'none', padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 1)}>
+                        {applicant?.isApproved == 1 ? 'Revoke' : 'Approve'}
                         </button>
-                      }
-                      {applicant.isApproved != 1
-                       &&
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 1)}>
-                        Approve
-                        </button>
-                      }
-                        {applicant?.isApproved == 1 || applicant.isApproved == 2  && 
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 3)}>
-                        Decline
-                        </button>
-                        }
-                          {/* 1 Apporved
-                    2 - Pending
-                    3 - Declined */}
+                    
                     
                     </td>
                   </tr>

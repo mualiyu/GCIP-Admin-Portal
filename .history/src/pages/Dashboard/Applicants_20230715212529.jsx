@@ -120,7 +120,7 @@ console.log(response);
                       <span style={{fontSize: 10, color: 'grey', textTransform: 'lowercase'}}>E: {applicant?.email}</span> </td>
                       <td>{moment(applicant?.created_at).format('ll')}</td>
                     <td style={{
-        color: applicant?.isApproved == 1 ? 'green' : applicant.isApproved == 2 ? '#aabf10' : 'red',
+        color: applicant?.isApproved == 1 ? 'green' : applicant.isApproved == 2 ? 'Yellow' : 'red',
       }}
       >
                       {applicant?.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Pending" : "Declined"} 

@@ -119,32 +119,12 @@ console.log(response);
                     <td>P: {applicant.phone} <br/>
                       <span style={{fontSize: 10, color: 'grey', textTransform: 'lowercase'}}>E: {applicant?.email}</span> </td>
                       <td>{moment(applicant?.created_at).format('ll')}</td>
-                    <td style={{
-        color: applicant?.isApproved == 1 ? 'green' : applicant.isApproved == 2 ? '#aabf10' : 'red',
-      }}
-      >
-                      {applicant?.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Pending" : "Declined"} 
-                    </td>
+                    <td>{applicant?.isApproved == 1 ? "Approved" : applicant.isApproved == 2 ? "Pending" : "Declined"} </td>
                     <td>
-                      {applicant.isApproved == 1 &&
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 3)}>
-                        Revoke
+                        <button style={{border: 'none', padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, applicant?.isApproved)}>
+                        {applicant?.isApproved == 1 ? 'Revoke' : 'Approve'}
                         </button>
-                      }
-                      {applicant.isApproved != 1
-                       &&
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 1)}>
-                        Approve
-                        </button>
-                      }
-                        {applicant?.isApproved == 1 || applicant.isApproved == 2  && 
-                        <button style={{border: 'none', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => updateApplicantStatus(applicant.id, 3)}>
-                        Decline
-                        </button>
-                        }
-                          {/* 1 Apporved
-                    2 - Pending
-                    3 - Declined */}
+                    
                     
                     </td>
                   </tr>
