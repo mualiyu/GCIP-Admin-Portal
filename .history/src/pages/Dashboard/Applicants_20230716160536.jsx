@@ -31,13 +31,19 @@ const customStyles = {
 export default function Applicants() {
   const [buttonLoading, setButtonLoading] = useState({});
   const [loading, setLoading] = useState(true);
-  const [approved, setApproved] = useState([]);
-  const [pending, setPending] = useState([]);
-  const [rejected, setRejected] = useState([]);
   const [allApplicants, setAllApplicants] = useState([]);
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
+  const options = [ 
+                    {'name' : 'All Applicants', 'value' : 0},
+                     {'name' : 'Approved', 'value' : 1},
+                     {'name' : 'Pending', 'value' : 2},
+                     {'name' : 'Declined', 'value' : 3},
+                     
+                    ];
+
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const getAllApplicants = async () => {
     const { success, data, error } = await query({
@@ -46,29 +52,24 @@ export default function Applicants() {
       token: programData.user.user.token,
     });
     setLoading(false);
-    // console.log(data);
+    console.log(data);
     if (success) {
       let verified = data.data.applicants.verified;
-      
       let declined = data.data.applicants.declined;
       let waitlist = data.data.applicants.wait_list
-      setApproved(verified);
-      setRejected(declined);
-      setPending(waitlist);
       setAllApplicants(verified.concat(waitlist, declined));
     }
-    // console.log(allApplicants);
+    console.log(allApplicants);
   };
-
 
   const handleDownload = (documentName, index) => {
     console.log(index);
     const url = `${documentName}`; 
+    console.log(url) // Replace with your API endpoint or file URL
     window.open(url, '_blank');
   };
 
   const updateApplicantStatus =  async (applicantId, status, buttonIndex) => {
-    console.log(buttonIndex);
     setButtonLoading((prevState) => ({
       ...prevState,
       [buttonIndex]: true,
@@ -76,8 +77,8 @@ export default function Applicants() {
     const newValue = {
       status
     };
-    // console.log(applicantId);
-    // console.log(status)
+    console.log(applicantId);
+    console.log(status)
     const response = await query({
       method: "POST",
       url: `/api/admin/applicants/accept?applicant_id=${applicantId}`,
@@ -86,19 +87,33 @@ export default function Applicants() {
     });
     
     
-// console.log(response);
-    
+console.log(response);
+    setAlert("Updated successfully!")
     setTimeout(() => {
       setAlert("");
       setButtonLoading((prevState) => ({
         ...prevState,
         [buttonIndex]: false,
       }));
-    }, 1000);
-    setAlert("Updated successfully!")
+    }, 2000);
       getAllApplicants();
 };
 
+const handleOptionChange = (event) => {
+  const selectedValue = event.target.value;
+  let filteredApplicants = [];
+if (selectedValue === '1') {
+    filteredApplicants = allApplicants.filter((applicant) => applicant.isApproved === 1);
+  } else if (selectedValue === '2') {
+    filteredApplicants = allApplicants.filter((applicant) => applicant.isApproved === 2);
+  } else if (selectedValue === '3') {
+    filteredApplicants = allApplicants.filter((applicant) => applicant.isApproved === 3);
+  } else {
+    // Reset the filteredApplicants to the original allApplicants array
+    filteredApplicants = allApplicants;
+  }
+  setAllApplicants(filteredApplicants);
+};
 
   useEffect(() => {
     getAllApplicants();
@@ -116,6 +131,13 @@ export default function Applicants() {
           </div>
         </div>
 
+        <select style={{padding : '7px 6px', borderRadius: 13, width: 200}} value={selectedOption} onChange={handleOptionChange}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.name}
+          </option>
+        ))}
+      </select>
 
         <table style={{width:' 100%', margin: "25px 0"}} >
         {allApplicants.length > 0 && (
@@ -161,24 +183,24 @@ export default function Applicants() {
                     <td>
 
 
-                      {applicant.isApproved == 2 &&
+                      {/* {applicant.isApproved == 2 && */}
                         <button style={{border: 'none', border: 'thin solid green', backgroundColor: 'white', color: 'green', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }} disabled={buttonLoading[index]}  onClick={() => updateApplicantStatus(applicant.id, 3, index)}>
-                          {buttonLoading[index] ? 'Loading...' : 'Revoke'}
+                          {buttonLoading[index] ? 'Please wait...' : 'Revoke'}
                         </button>
-                    }
-                      {applicant.isApproved != 2  &&
+                      {/* } */}
+                      {/* {applicant.isApproved != 2  && */}
                         <button style={{border: 'none', backgroundColor: '#006439', border: 'none', color: 'white', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }} disabled={buttonLoading[index]}  onClick={() => updateApplicantStatus(applicant.id, 2, index)}>
-                          {buttonLoading[index] ? 'Loading...' : 'Approve'}
+                          {buttonLoading[index] ? 'Please wait...' : 'Approve'}
                         </button>
-                      }
-                        {applicant?.isApproved == 1 && 
+                      {/* } */}
+                        {/* {applicant?.isApproved != 3 &&  */}
                         <button style={{border: 'none', border: 'thin solid red', color: 'red', backgroundColor: 'white', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  disabled={buttonLoading[index]} onClick={() => updateApplicantStatus(applicant.id, 3, index)}>
-                         {buttonLoading[index] ? 'Loading...' : 'Decline'} 
+                         {buttonLoading[index] ? 'Please wait...' : 'Decline'} 
                         </button>
-                        }
-                          {/* 1 Pending
-                              2 - Approved
-                              3 - Declined */}
+                        {/* } */}
+                          {/* 1 Apporved
+                    2 - Pending
+                    3 - Declined */}
                     
                     </td>
                   </tr>
