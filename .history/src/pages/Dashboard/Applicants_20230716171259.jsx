@@ -31,13 +31,19 @@ const customStyles = {
 export default function Applicants() {
   const [buttonLoading, setButtonLoading] = useState({});
   const [loading, setLoading] = useState(true);
-  const [approved, setApproved] = useState([]);
-  const [pending, setPending] = useState([]);
-  const [rejected, setRejected] = useState([]);
   const [allApplicants, setAllApplicants] = useState([]);
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
+  const options = [ 
+                    {'name' : 'All Applicants', 'value' : 0},
+                     {'name' : 'Approved', 'value' : 1},
+                     {'name' : 'Pending', 'value' : 2},
+                     {'name' : 'Declined', 'value' : 3},
+                     
+                    ];
+
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const getAllApplicants = async () => {
     const { success, data, error } = await query({
@@ -49,17 +55,12 @@ export default function Applicants() {
     // console.log(data);
     if (success) {
       let verified = data.data.applicants.verified;
-      
       let declined = data.data.applicants.declined;
       let waitlist = data.data.applicants.wait_list
-      setApproved(verified);
-      setRejected(declined);
-      setPending(waitlist);
       setAllApplicants(verified.concat(waitlist, declined));
     }
     // console.log(allApplicants);
   };
-
 
   const handleDownload = (documentName, index) => {
     console.log(index);
@@ -116,6 +117,13 @@ export default function Applicants() {
           </div>
         </div>
 
+        <select style={{padding : '7px 6px', borderRadius: 13, width: 200, position: 'relative', top: '4%'}}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.name}
+          </option>
+        ))}
+      </select>
 
         <table style={{width:' 100%', margin: "25px 0"}} >
         {allApplicants.length > 0 && (
