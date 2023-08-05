@@ -214,14 +214,17 @@ const handleOptionChange = (selection) => {
                 P: 0{applicant.phone} <br/>
                 <span style={{fontSize: 10, color: 'grey', textTransform: 'lowercase'}}>E: {applicant?.email}</span>
               </TableCell>
-              <TableCell>{moment(applicant?.created_at).format('ll')}</TableCell>
+              <TableCell>{moment(applicant?.created_at).format('ll')}
+              <br/>
+                <span style={{fontSize: 10, color: 'grey'}}>At: {moment(applicant?.created_at).format('LT')}</span>
+              </TableCell>
               <TableCell>
-              <p onClick={()=> handleDownload(applicant.cac_certificate, index)}>
+              <p style={{cursor: "pointer"}} onClick={()=> handleDownload(applicant.cac_certificate, index)}>
                        Download CAC
                         </p> 
               </TableCell>
               <TableCell>
-              <p onClick={()=> handleDownload(applicant.tax_clearance_certificate, index)}>
+              <p style={{cursor: "pointer"}} onClick={()=> handleDownload(applicant.tax_clearance_certificate, index)}>
                        Download Tax
                         </p> 
               </TableCell>
