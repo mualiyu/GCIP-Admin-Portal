@@ -119,7 +119,7 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   lineButton
-                  disabled={loading}
+                  disabled={isConverting}
                   label="Download PDF"
                 />
                 <Button
@@ -133,12 +133,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       

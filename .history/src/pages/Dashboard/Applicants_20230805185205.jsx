@@ -127,6 +127,18 @@ const handleOptionChange = (selection) => {
       row.rc_number.toString().match(searchTerm)
     );
     setAllApplicants(filteredData);
+
+// console.log(event.target.value);
+//     event.preventDefault();
+//     setSearchTerm(event.target.value);
+
+  
+//     allApplicants.filter((row) => {
+//       return row.name.match(event.target.value)
+
+
+//   });
+
 }
 
 
@@ -176,13 +188,15 @@ const handleOptionChange = (selection) => {
          <h1>Applicants <span style={{fontSize: 9, color: 'red'}}>{allApplicants.length}</span></h1>
 
 
-         {/* <input
+         <input
         type="text"
         placeholder="Search by name..."
         value={searchTerm}
         onChange={handleSearch}
-      /> */}
+      />
 
+
+{/* <button onClick={handleSearch}>Search</button> */}
 
          <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
         <InputLabel>Filter</InputLabel>

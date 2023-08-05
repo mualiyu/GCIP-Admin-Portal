@@ -37,29 +37,6 @@ function ApplicantDetails() {
       console.log(current)
     }
   };
-
-
-  const downloadDocumentsInZip = async () => {
-    console.log("downloading")
-    setLoading(true);
-    try {
-      const response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`); 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
-      link.click();
-      URL.revokeObjectURL(url);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error downloading document:', error);
-      setLoading(false);
-    }
-  };
-
-
-
   const handleConvertToPDF = () => {
     convertToPDF('divToPrint', `${current.application_profile[0]?.name}`, setIsConverting);
   };
@@ -106,21 +83,19 @@ function ApplicantDetails() {
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
-                  onClick={() => downloadDocumentsInZip()}
+                  onClick={handleConvertToPDF}
                   className="no-print"
                   fontStyle={{
-                    color:'#006439!important',
+                    color: "var(--primary)",
                   }}
                   style={{
                     width: 134,
                     backgroundColor: "#fff",
-                    color: '#006439!important',
                     border: "1px solid var(--primary)",
                     marginRight: 15,
                   }}
-                  lineButton
-                  disabled={loading}
-                  label="Download PDF"
+                  disabled={isConverting}
+                  label="Download Pdf"
                 />
                 <Button
                   className="no-print"
@@ -133,12 +108,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       
@@ -188,11 +161,11 @@ function ApplicantDetails() {
             </div>
 
             <div className="lh-2">
-              <h2 className="review_title">date of incorporation</h2>
+              <h2 className="review_title">incorporation Date</h2>
               <p>
                 {" "}
                 {current.application_profile.length > 0 &&
-                  moment(current.application_profile[0].registration_date).format("MMM Do YYYY") }{" "}
+                  current.application_profile[0].registration_date}{" "}
               </p>
             </div>
 
@@ -200,7 +173,8 @@ function ApplicantDetails() {
               <h2 className="review_title">parent company/owner</h2>
               <p>
                 {" "}
-                {  current.application_profile[0].owner == null ? "N/A" : current.application_profile[0].owner}
+                {current.application_profile.length > 0 &&
+                  current.application_profile[0].registration_date}{" "}
               </p>
             </div>
 
@@ -360,7 +334,7 @@ function ApplicantDetails() {
           <div className="my-60">
             <h2 className="review_title">reference-project(s)</h2>
             <div
-              style={{  paddingBottom: 20 }}
+              style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
             {current.application_projects?.length == 0 && (
               <p className="no-record">No Record has been added</p>
@@ -372,6 +346,7 @@ function ApplicantDetails() {
                     <div
                       style={{
                         fontSize: 11,
+                        padding: 10,
                         textTransform: "uppercase",
                       }}
                       key={item.id}
@@ -384,7 +359,6 @@ function ApplicantDetails() {
                               width: 150,
                               paddingRight: 10,
                               fontWeight: "bolder",
-                               color: '#514f4fcc'
                             }}
                           >
                             Project Title :
@@ -398,7 +372,6 @@ function ApplicantDetails() {
                               width: 150,
                               paddingRight: 10,
                               fontWeight: "bolder",
-                               color: '#514f4fcc'
                             }}
                           >
                             Employer :
@@ -412,7 +385,6 @@ function ApplicantDetails() {
                               width: 150,
                               paddingRight: 10,
                               fontWeight: "bolder",
-                               color: '#514f4fcc'
                             }}
                           >
                             Project Location :
@@ -424,8 +396,8 @@ function ApplicantDetails() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            borderTop: "1px solid #ccc",
-                            padding: 10,
+                            borderTop: "1px dashed #ccc",
+                            paddingBottom: 10,
                             marginTop: 20,
                           }}
                         >
@@ -436,7 +408,6 @@ function ApplicantDetails() {
                                 width: 150,
                                 paddingBottom: 10,
                                 fontWeight: "bolder",
-                                 color: '#514f4fcc'
                               }}
                             >
                               Project Cost :
@@ -450,7 +421,6 @@ function ApplicantDetails() {
                                 width: 150,
                                 paddingBottom: 10,
                                 fontWeight: "bolder",
-                                 color: '#514f4fcc'
                               }}
                             >
                               Award Date:
@@ -466,7 +436,6 @@ function ApplicantDetails() {
                                 width: 150,
                                 paddingBottom: 10,
                                 fontWeight: "bolder",
-                                 color: '#514f4fcc'
                               }}
                             >
                               Completion date:
@@ -483,7 +452,6 @@ function ApplicantDetails() {
                                 width: 150,
                                 paddingBottom: 10,
                                 fontWeight: "bolder",
-                                 color: '#514f4fcc'
                               }}
                             >
                               Geo Coordinate:
@@ -498,28 +466,26 @@ function ApplicantDetails() {
                               width: 150,
                               paddingRight: 10,
                               fontWeight: "bolder",
-                               color: '#514f4fcc'
                             }}
                           >
                             Description
                           </div>
-                          <p style={{lineHeight: '2em'}}> {item.description}</p>
+                          <p> {item.description}</p>
                         </section>
-                        <section style={{ display: "flex", margin: '25px 0' }}>
+                        <section style={{ display: "flex", margin: 7 }}>
                           <div
                             style={{
                               textTransform: "uppercase",
                               width: 150,
                               paddingRight: 10,
                               fontWeight: "bolder",
-                               color: '#514f4fcc'
                             }}
                           >
                             Sub Contracted?
                           </div>
                           <p>
                             {" "}
-                            {item?.subcontactor_role ? "Yes" : "No"} - &nbsp; <span style={{fontWeight: 900}}> Role</span> &nbsp; (
+                            {item?.subcontactor_role ? "Yes" : "No"} - (
                             {item?.subcontactor_role
                               ? item?.subcontactor_role
                               : "N/A"}
@@ -532,8 +498,8 @@ function ApplicantDetails() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            borderTop: "1px solid #ccc",
-                            padding: '0 5px',
+                            border: "1px dashed #ccc",
+                            padding: 5,
                             marginTop: 20,
                           }}
                         >
@@ -542,12 +508,12 @@ function ApplicantDetails() {
                               return (
                                 <section
                                   style={{
-                                    borderRight: "thin solid #ccc",
+                                    borderRight: "thin dashed #ccc",
                                     paddingRight: "20%",
                                   }}
                                 >
                                   <section
-                                    style={{ display: "flex", margin: '22px 7px' }}
+                                    style={{ display: "flex", margin: 7 }}
                                   >
                                     <div
                                       style={{
@@ -555,7 +521,6 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                         color: '#514f4fcc'
                                       }}
                                     >
                                       Sub Contractor - {index + 1}
@@ -571,7 +536,6 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                         color: '#514f4fcc'
                                       }}
                                     >
                                       Address
@@ -585,9 +549,9 @@ function ApplicantDetails() {
                           {item.referees?.length > 0 &&
                             item.referees?.map((rf, index) => {
                               return (
-                                <section style={{display: 'flex'}}>
+                                <section>
                                   <section
-                                    style={{margin: 7 }}
+                                    style={{ display: "flex", margin: 7 }}
                                   >
                                     <div
                                       style={{
@@ -595,7 +559,6 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                         color: '#514f4fcc'
                                       }}
                                     >
                                       Referee - {index + 1}
@@ -603,7 +566,7 @@ function ApplicantDetails() {
                                     <p> {rf.name}</p>
                                   </section>
                                   <section
-                                    style={{ margin: 7 }}
+                                    style={{ display: "flex", margin: 7 }}
                                   >
                                     <div
                                       style={{
@@ -611,7 +574,6 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                         color: '#514f4fcc'
                                       }}
                                     >
                                       phone
@@ -686,8 +648,8 @@ function ApplicantDetails() {
                       key={index}
                       style={{
                         fontSize: 11,
+                        padding: 10,
                         textTransform: "uppercase",
-                        marginTop: 12,
                       }}
                     >
                       <div className="project_details">
@@ -696,7 +658,9 @@ function ApplicantDetails() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
+                            border: "1px dashed #ccc",
                             padding: 5,
+                            marginTop: 20,
                           }}
                         >
                           <section
@@ -716,10 +680,9 @@ function ApplicantDetails() {
                                   width: 150,
                                   paddingBottom: 10,
                                   fontWeight: "bolder",
-                                  color: '#514F4F'
                                 }}
                               >
-                                Project name
+                                Project name:
                               </div>
                               <p> {debt.project_name}</p>
                             </section>
@@ -730,10 +693,9 @@ function ApplicantDetails() {
                                   width: 150,
                                   paddingBottom: 10,
                                   fontWeight: "bolder",
-                                  color: '#514F4F'
                                 }}
                               >
-                                Sector
+                                Sector:
                               </div>
                               <p>{debt.sector}</p>
                             </section>
@@ -744,10 +706,9 @@ function ApplicantDetails() {
                                   width: 150,
                                   paddingBottom: 10,
                                   fontWeight: "bolder",
-                                  color: '#514F4F'
                                 }}
                               >
-                                Aggregate
+                                Aggregate:
                               </div>
                               <p> {debt.aggregate_amount}</p>
                             </section>
@@ -758,10 +719,9 @@ function ApplicantDetails() {
                                   width: 150,
                                   paddingBottom: 10,
                                   fontWeight: "bolder",
-                                  color: '#514F4F'
                                 }}
                               >
-                                Loaction
+                                Loaction:
                               </div>
                               <p> {debt?.location}</p>
                             </section>
@@ -772,10 +732,9 @@ function ApplicantDetails() {
                                   width: 150,
                                   paddingBottom: 10,
                                   fontWeight: "bolder",
-                                  color: '#514F4F'
                                 }}
                               >
-                                Date of Financial Close
+                                Date of Financial Close:
                               </div>
                               <p> {debt?.date_of_financial_close}</p>
                             </section>
@@ -788,7 +747,7 @@ function ApplicantDetails() {
                             alignItems: "center",
                             justifyContent: "space-between",
                             padding: 5,
-                            borderTop: '1px solid rgb(204, 204, 204)'
+                            marginTop: 20,
                           }}
                         >
                           {debt?.borrowers?.length > 0 &&
@@ -796,8 +755,8 @@ function ApplicantDetails() {
                               return (
                                 <section
                                   style={{
-                                    // borderRight: "thin solid #ccc",
-                                    // paddingRight: "20%",
+                                    borderRight: "thin dashed #ccc",
+                                    paddingRight: "20%",
                                   }}
                                 >
                                   <section
@@ -809,14 +768,13 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                        color: '#514f4fcc'
                                       }}
                                     >
                                       Borrower - {++index}
                                     </div>
                                     <p> {borrower?.name}</p>
                                   </section>
-                                  {/* <section
+                                  <section
                                     style={{ display: "flex", margin: 7 }}
                                   >
                                     <div
@@ -830,7 +788,7 @@ function ApplicantDetails() {
                                       RC Number
                                     </div>
                                     <p> {borrower?.rc_number}</p>
-                                  </section> */}
+                                  </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
                                   >
@@ -840,7 +798,6 @@ function ApplicantDetails() {
                                         width: 150,
                                         paddingRight: 10,
                                         fontWeight: "bolder",
-                                        color: '#514f4fcc'
                                       }}
                                     >
                                       Address

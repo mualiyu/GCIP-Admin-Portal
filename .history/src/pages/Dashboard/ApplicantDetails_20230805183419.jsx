@@ -48,7 +48,7 @@ function ApplicantDetails() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
+      link.download = `${title}.zip`;
       link.click();
       URL.revokeObjectURL(url);
       setLoading(false);
@@ -119,7 +119,7 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   lineButton
-                  disabled={loading}
+                  disabled={isConverting}
                   label="Download PDF"
                 />
                 <Button
@@ -133,12 +133,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       

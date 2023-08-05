@@ -23,8 +23,7 @@ function Button({ label, style, lineButton,onClick,disabled }: ButtonProps) {
       <span
         style={{
           color: lineButton ? Colors.primary : Colors.white,
-          // fontWeight: lineButton ? "bold" : "normal",
-          fontWeight:  "bold",
+          fontWeight: lineButton ? "bold" : "normal",
         }}
       >
         {label}

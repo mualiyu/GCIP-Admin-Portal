@@ -37,29 +37,6 @@ function ApplicantDetails() {
       console.log(current)
     }
   };
-
-
-  const downloadDocumentsInZip = async () => {
-    console.log("downloading")
-    setLoading(true);
-    try {
-      const response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`); 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
-      link.click();
-      URL.revokeObjectURL(url);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error downloading document:', error);
-      setLoading(false);
-    }
-  };
-
-
-
   const handleConvertToPDF = () => {
     convertToPDF('divToPrint', `${current.application_profile[0]?.name}`, setIsConverting);
   };
@@ -106,7 +83,7 @@ function ApplicantDetails() {
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
-                  onClick={() => downloadDocumentsInZip()}
+                  onClick={handleConvertToPDF}
                   className="no-print"
                   fontStyle={{
                     color:'#006439!important',
@@ -118,9 +95,8 @@ function ApplicantDetails() {
                     border: "1px solid var(--primary)",
                     marginRight: 15,
                   }}
-                  lineButton
-                  disabled={loading}
-                  label="Download PDF"
+                  disabled={isConverting}
+                  label="Download Pdf"
                 />
                 <Button
                   className="no-print"
@@ -133,12 +109,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       
@@ -505,7 +479,7 @@ function ApplicantDetails() {
                           </div>
                           <p style={{lineHeight: '2em'}}> {item.description}</p>
                         </section>
-                        <section style={{ display: "flex", margin: '25px 0' }}>
+                        <section style={{ display: "flex", margin: 7 }}>
                           <div
                             style={{
                               textTransform: "uppercase",
@@ -719,7 +693,7 @@ function ApplicantDetails() {
                                   color: '#514F4F'
                                 }}
                               >
-                                Project name
+                                Project name:
                               </div>
                               <p> {debt.project_name}</p>
                             </section>
@@ -733,7 +707,7 @@ function ApplicantDetails() {
                                   color: '#514F4F'
                                 }}
                               >
-                                Sector
+                                Sector:
                               </div>
                               <p>{debt.sector}</p>
                             </section>
@@ -747,7 +721,7 @@ function ApplicantDetails() {
                                   color: '#514F4F'
                                 }}
                               >
-                                Aggregate
+                                Aggregate:
                               </div>
                               <p> {debt.aggregate_amount}</p>
                             </section>
@@ -761,7 +735,7 @@ function ApplicantDetails() {
                                   color: '#514F4F'
                                 }}
                               >
-                                Loaction
+                                Loaction:
                               </div>
                               <p> {debt?.location}</p>
                             </section>
@@ -775,7 +749,7 @@ function ApplicantDetails() {
                                   color: '#514F4F'
                                 }}
                               >
-                                Date of Financial Close
+                                Date of Financial Close:
                               </div>
                               <p> {debt?.date_of_financial_close}</p>
                             </section>

@@ -64,7 +64,6 @@ export default function Applicants() {
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
 
   const getAllApplicants = async () => {
     const { success, data, error } = await query({
@@ -119,17 +118,6 @@ const handleOptionChange = (selection) => {
     window.open(url, '_blank');
   };
 
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    const filteredData = allApplicants.filter((row) =>
-      row.name.toLowerCase().match(searchTerm.toLowerCase()) ||
-      row.rc_number.toString().match(searchTerm)
-    );
-    setAllApplicants(filteredData);
-}
-
-
   const updateApplicantStatus =  async (applicantId, status, buttonIndex) => {
     console.log(buttonIndex);
     setButtonLoading((prevState) => ({
@@ -174,14 +162,6 @@ const handleOptionChange = (selection) => {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Applicants <span style={{fontSize: 9, color: 'red'}}>{allApplicants.length}</span></h1>
-
-
-         {/* <input
-        type="text"
-        placeholder="Search by name..."
-        value={searchTerm}
-        onChange={handleSearch}
-      /> */}
 
 
          <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
@@ -239,12 +219,12 @@ const handleOptionChange = (selection) => {
                 <span style={{fontSize: 10, color: 'grey'}}>At: {moment(applicant?.created_at).format('LT')}</span>
               </TableCell>
               <TableCell>
-              <p style={{cursor: "pointer"}} onClick={()=> handleDownload(applicant.cac_certificate, index)}>
+              <p onClick={()=> handleDownload(applicant.cac_certificate, index)}>
                        Download CAC
                         </p> 
               </TableCell>
               <TableCell>
-              <p style={{cursor: "pointer"}} onClick={()=> handleDownload(applicant.tax_clearance_certificate, index)}>
+              <p onClick={()=> handleDownload(applicant.tax_clearance_certificate, index)}>
                        Download Tax
                         </p> 
               </TableCell>

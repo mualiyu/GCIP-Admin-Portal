@@ -37,29 +37,6 @@ function ApplicantDetails() {
       console.log(current)
     }
   };
-
-
-  const downloadDocumentsInZip = async () => {
-    console.log("downloading")
-    setLoading(true);
-    try {
-      const response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`); 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
-      link.click();
-      URL.revokeObjectURL(url);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error downloading document:', error);
-      setLoading(false);
-    }
-  };
-
-
-
   const handleConvertToPDF = () => {
     convertToPDF('divToPrint', `${current.application_profile[0]?.name}`, setIsConverting);
   };
@@ -106,7 +83,7 @@ function ApplicantDetails() {
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
-                  onClick={() => downloadDocumentsInZip()}
+                  onClick={handleConvertToPDF}
                   className="no-print"
                   fontStyle={{
                     color:'#006439!important',
@@ -119,8 +96,8 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   lineButton
-                  disabled={loading}
-                  label="Download PDF"
+                  disabled={isConverting}
+                  label="Download Pdf"
                 />
                 <Button
                   className="no-print"
@@ -133,12 +110,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       

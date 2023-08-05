@@ -40,21 +40,20 @@ function ApplicantDetails() {
 
 
   const downloadDocumentsInZip = async () => {
-    console.log("downloading")
-    setLoading(true);
+    setRowLoadingState(rowIndex, true);
     try {
       const response = await fetch(`https://api.grants.amp.gefundp.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`); 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
+      link.download = `${title}.zip`;
       link.click();
       URL.revokeObjectURL(url);
-      setLoading(false);
+      setRowLoadingState(rowIndex, false);
     } catch (error) {
       console.error('Error downloading document:', error);
-      setLoading(false);
+      setRowLoadingState(rowIndex, false);
     }
   };
 
@@ -106,7 +105,7 @@ function ApplicantDetails() {
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
-                  onClick={() => downloadDocumentsInZip()}
+                  nClick={() => downloadDocumentsInZip()}
                   className="no-print"
                   fontStyle={{
                     color:'#006439!important',
@@ -119,7 +118,7 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   lineButton
-                  disabled={loading}
+                  disabled={isConverting}
                   label="Download PDF"
                 />
                 <Button
@@ -133,12 +132,10 @@ function ApplicantDetails() {
                     marginRight: 15,
                   }}
                   label="Decline"
-                  disabled={loading}
                 />
                 <Button
                   className="no-print"
                   label="Approve"
-                  disabled={loading}
                 />
      </div>
       

@@ -122,12 +122,18 @@ const handleOptionChange = (selection) => {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    
     const filteredData = allApplicants.filter((row) =>
-      row.name.toLowerCase().match(searchTerm.toLowerCase()) ||
-      row.rc_number.toString().match(searchTerm)
+      row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.rc_number.toString().includes(searchTerm)
     );
+    if (searchTerm === '') {
+      setAllApplicants(filteredData); 
+    }
     setAllApplicants(filteredData);
-}
+  };
+
+  
 
 
   const updateApplicantStatus =  async (applicantId, status, buttonIndex) => {
@@ -165,7 +171,16 @@ const handleOptionChange = (selection) => {
 
   useEffect(() => {
     getAllApplicants();
-  }, []);
+    const filteredData = allApplicants.filter((row) =>
+    row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.rc_number.toString().includes(searchTerm)
+  );
+
+  // If searchTerm is empty, reset the data to initialData
+  setAllApplicants(searchTerm ? filteredData : allApplicants);
+  }, [searchTerm, allApplicants]);
+
+
   const navigate = useNavigate();
   return (
     <Fade>
@@ -176,13 +191,15 @@ const handleOptionChange = (selection) => {
          <h1>Applicants <span style={{fontSize: 9, color: 'red'}}>{allApplicants.length}</span></h1>
 
 
-         {/* <input
+         <input
         type="text"
         placeholder="Search by name..."
         value={searchTerm}
         onChange={handleSearch}
-      /> */}
+      />
 
+
+{/* <button onClick={handleSearch}>Search</button> */}
 
          <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
         <InputLabel>Filter</InputLabel>
