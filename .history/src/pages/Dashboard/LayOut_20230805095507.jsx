@@ -58,7 +58,16 @@ function LayOut() {
           route="/Home/Applicants"
           Icon={() => <FaUserTie active={location.pathname == "/Applicants"} />}
         />
-        
+         {/* <NavLink
+          onClick={() => {
+            if (window.innerWidth <= 767) {
+              asideRef.current.style.width = "0px";
+            }
+          }}
+          label="Submissions"
+          route="/Home/submissions"
+          Icon={() => <FaRegFolderOpen active={location.pathname == "/submissions"} />}
+        /> */}
          <NavLink
             onClick={() => {
               if (window.innerWidth <= 767) {

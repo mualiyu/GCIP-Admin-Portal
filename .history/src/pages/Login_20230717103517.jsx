@@ -89,10 +89,10 @@ Grant Management Platform</h2>
 
         <div className="auth_inner_container">
           <div className="auth_logos">
-          {/* <img src="log.png" alt="logo" /> */}
+          <img src="log.png" alt="logo" />
           <img src="svg.svg" alt="logo" />
           </div>
-          {/* <Header text="Sign in to APM-ADMIN" /> */}
+          <Header text="Sign in to APM-ADMIN" />
           {/* <RegularText text="Welcome back!"/> */}
           
           <div className="inputs_container">
