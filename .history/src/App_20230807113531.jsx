@@ -35,7 +35,6 @@ export default function App() {
         <Route index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
         <Route path="Application/Submissions/:programId" element={<Submissions />} />
-        <Route path="Application/Submissions/:programId/Applicant/:applicant_id" element={<ApplicantDetails />} />
         <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Application />} />
       </Route>

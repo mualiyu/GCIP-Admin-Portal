@@ -27,6 +27,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="Applicants" element={<Applicants />} />
         <Route path="submissions/:programId" element={<Submissions />} />
+        <Route path="Application/Submissions/:programId" element={<Submissions />} />
         <Route path="submissions/:programId/applicant/:applicant_id" element={<ApplicantDetails />} />
         <Route path="Program/:id" element={<ProgramPage/>}/>
         <Route path="Settings" element={<Settings />} />
@@ -34,8 +35,6 @@ export default function App() {
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
-        <Route path="Application/Submissions/:programId" element={<Submissions />} />
-        <Route path="Application/Submissions/:programId/Applicant/:applicant_id" element={<ApplicantDetails />} />
         <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Application />} />
       </Route>

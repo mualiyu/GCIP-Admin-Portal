@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "../styles/home.css";
-import moment from "moment";
+import MenuCards from "./components/MenuCards";
+import SkeletonLoader from "../../components/SkeletonLoader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
@@ -12,12 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
 import { MoonLoader } from "react-spinners";
 
-export default function Home() {
+export default function Application() {
   const [loading, setLoading] = useState(true);
   const [allPrograms, setAllPrograms] = useState([]);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const getAllPrograms = async () => {
     const { success, data, error } = await query({
       method: "GET",
@@ -34,16 +34,28 @@ export default function Home() {
     getAllPrograms();
   }, []);
 
- 
-  const handleViewSubmissions = (programId) => {
-    navigate(`/Home/Submissions/${programId}`);
-  };
+  const getAllApplicants = async (id)=>{
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/admin/program/applications/getAll?program_id=${id}`,
+      token: programData.user.user.token,
+    });
+    setLoading(false);
+    console.log(data);
+    if (success) {
+      // setAllPrograms(data.data.programs);
+      console.log(id);
+      console.log(data);
+    }
+  }
+  const navigate = useNavigate();
   return (
     <Fade>
       <div className="home_container">
         <div className="home_top" style={{ width: "90%" }}>
-          <img id="bg" src="bg.png" alt="m" />
+          {/* <img id="bg" src="bg.png" alt="m" /> */}
           <div className="home_user">
+            {/* <FaUser /> */}
             <span>A</span>
           </div>
         </div>
@@ -64,6 +76,7 @@ export default function Home() {
                     programDescription: "",
                     lots: [],
                     requirements: [],
+
                     stages: [],
                     uploads: [],
                     status: [],
@@ -81,12 +94,9 @@ export default function Home() {
             <>
               <thead>
                 <tr>
-                  <th style={{width: 300}}>Program</th>
-                  <th>Stage</th>
-                  <th>Start Date</th>
-                  <th>End Date </th>
-                  <th> Status</th>
-                  <th>Submissions</th>
+                  <th>Program</th>
+                  <th>Active Stage</th>
+                  <th>Total Applicants</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -96,40 +106,27 @@ export default function Home() {
                     <td onClick={()=> getAllApplicants(prg.id)}>{prg.name}</td>
                     <td>
                       <span>
-                        {prg.activeStage.name}
+                        {prg.activeStage.name} <FcCheckmark />
                       </span>
                     </td>
-                    <td> {moment(prg.activeStage.start).format('ll')}</td>
-                    <td> {moment(prg.activeStage.end).format('ll')}</td>
-                    <td> {prg.activeStage.isActive ==  1 ? "Open" : "Closed" }</td>
-                    <td>{prg.noApplicants}</td>
-                    <td style={{display: 'flex'}}>
-                        <button style={{border: 'none', border: 'thin solid green', backgroundColor: 'white', color: 'green', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }} onClick={() => {
-                        dispatch(setId(prg.id));
-                        navigate(`/Programme`);
-                      }}>
-                         View Programme
-                        </button>
-                        <button style={{border: 'none', backgroundColor: '#006439', border: 'none', color: 'white', marginRight: 4, padding: '9px 22px', cursor: 'pointer' }}  onClick={() => handleViewSubmissions(prg.id)}>
-                         View Submissions
-                        </button>
-
-
-
-
-                      {/* <Button label="View Submissions" 
-                      onClick={() => handleViewSubmissions(prg.id)}
-                      fontStyle={{
-                        color: "var(--primary)",
-                      }}
-                       style={{
-                        marginLeft: 10,
-                        backgroundColor: "#fff",
-                        border: "1px solid var(--primary)",
-                        minWidth: 100,
-                      }}
-                 /> */}
-                     
+                    <td>{prg.noApplicants} Applicants</td>
+                    <td>
+                      <div className="table_actions">
+                        <FaArrowRight
+                          onClick={() => {
+                            dispatch(setId(prg.id));
+                            navigate(`/Programme`);
+                          }}
+                          style={{
+                            backgroundColor: "#9b9b9b16",
+                            height: 15,
+                            width: 15,
+                            borderRadius: 20,
+                            padding: 10,
+                            cursor: "pointer",
+                          }}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

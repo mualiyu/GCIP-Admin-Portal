@@ -32,6 +32,21 @@ const customStyles = {
   },
 };
 
+function createData(
+  sn,
+  company,
+  contact,
+  registered,
+  cac,
+  tax,
+  actions,
+  status
+) {
+  return { name, calories, fat, carbs, protein };
+}
+
+
+
 export default function Submissions() {
   const [buttonLoading, setButtonLoading] = useState({});
   const [loading, setLoading] = useState(true);
@@ -82,11 +97,15 @@ export default function Submissions() {
   };
 
   const seeDetails = (applicant_id) => {
-    if(window.location.toString().includes("/Programme/Application/Submissions")){
+    console.log(window.location.pathname);
+    let programmePath = '/Programme/Application/Submissions/${applicant_id}' ;
+    console.log(programmePath);
+    if(window.location.pathname == 'programmePath'){
       navigate(`/Programme/Application/Submissions/${programId}/Applicant/${applicant_id}`);
     } else {
       navigate(`/Home/Submissions/${programId}/applicant/${applicant_id}`);
     }
+    
   };
 
 
