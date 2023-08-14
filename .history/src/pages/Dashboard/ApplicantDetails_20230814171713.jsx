@@ -1117,7 +1117,7 @@ function ApplicantDetails() {
             </div>
 
 <div style={{marginTop: 20}}>
-  <textarea name="" id="" cols="100" rows="10" style={{padding: 18}} placeholder="Add Remark"></textarea>
+  <textarea name="" id="" cols="105" rows="10" style={{padding: 15}} placeholder="Add Remark"></textarea>
 </div>
 
 

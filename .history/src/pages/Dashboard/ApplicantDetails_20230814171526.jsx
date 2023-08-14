@@ -7,6 +7,7 @@ import query from "../../helpers/query";
 import nProgress from "nprogress";
 import { formatCurrency } from "../../helpers/formatCurrency";
 import Modal from "react-modal";
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import "../styles/styles.css";
 import Button from "../../components/Button";
 import { MoonLoader } from "react-spinners";
@@ -1117,7 +1118,8 @@ function ApplicantDetails() {
             </div>
 
 <div style={{marginTop: 20}}>
-  <textarea name="" id="" cols="100" rows="10" style={{padding: 18}} placeholder="Add Remark"></textarea>
+  {/* <textarea name="" id="" cols="105" rows="10"></textarea> */}
+  <TextareaAutosize />
 </div>
 
 

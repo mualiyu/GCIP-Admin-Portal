@@ -11,10 +11,15 @@ import "../styles/styles.css";
 import Button from "../../components/Button";
 import { MoonLoader } from "react-spinners";
 import moment from "moment";
-import { TextField, Autocomplete } from "@mui/material";
-
-
-import Checkbox from '@mui/material/Checkbox';
+import {
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+  Stack,
+  Chip
+} from "@mui/material";
 
 function ApplicantDetails() {
   const [loading, setLoading] = useState(true);
@@ -44,31 +49,19 @@ function ApplicantDetails() {
     console.log(current)
   };
 
-  const listOfConcerns = [
-    { concern: 'Less than 3 experts each with up to 5 years’ minigrid experience included', category: 'Technical Requirements' },
-    { concern: 'No Female expert with up to 5 years’ minigrid experience included', category: 'Technical Requirements' },
-    { concern: 'No COREN registered Electrical Engineer with up to 5 years’ minigrid experience included', category: 'Technical Requirements' },
-    { concern: 'No Female expert with up to 3 years’ experience in the use of solar powered equipment in agriculture value chain included', category: 'Technical Requirements' },
-    { concern: 'Experience in designing and building of solar PV minigrid projects each with a minimum size of 30kW presented for less than 3 projects in the past 7 years', category: 'Technical Requirements' },
-    { concern: 'Experience in operations and maintenance of solar PV minigrid each with a minimum size of 30kw presented for less than 3 projects in the past 7 years' , category: 'Technical Requirements' },
-    { concern: 'Less than 3 Solar PV minigrid projects deployed in rural off-grid community with a minimum size of 30kw in the past 7 years ', category: 'Technical Requirements' },
-    { concern: 'Less than 3 Solar powered equipment projects deployed for agriculture value chain with a minimum total of 15kw power requirement in the past 7 years' , category: 'Technical Requirements' },
-    { concern: 'Less than 3 rojects financed through acquisition of grants, equity, or debt in the past 7 years', category: 'Technical Requirements' },
-    { concern: 'Inadequate amount raised in grant, equity, or debt for the Applicants’ Eligible Projects' , category: 'Financial Requirements' },
-    { concern: 'Inadequate average turnover for the recent 3 (three) full financial Requirements years', category: 'Financial Requirements' },
-    { concern: 'The last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past six (6) months (January – June 2023)' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of current Pension Compliance Certificate valid until 31st December 2023' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023' , category: 'Eligibility Requirements' },
-    { concern: 'Missing current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023' , category: 'Eligibility Requirements' },
-    { concern: 'Missing current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA)' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement' , category: 'Eligibility Requirements' },
-    { concern: 'Missing duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022' , category: 'Eligibility Requirements' },
-    { concern: 'Missing Sworn Affidavit ' , category: 'Eligibility Requirements' },
-    { concern: 'Missing covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company' , category: 'Eligibility Requirements' },
-    { concern: 'Missing evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.' , category: 'Eligibility Requirements' }
+  const names = [
+    "Humaira Sims",
+    "Santiago Solis",
+    "Dawid Floyd",
+    "Mateo Barlow",
+    "Samia Navarro",
+    "Kaden Fields",
+    "Genevieve Watkins",
+    "Mariah Hickman",
+    "Rocco Richardson",
+    "Harris Glenn"
   ];
+
 
   const downloadDocumentsInZip = async () => {
     console.log("downloading")
@@ -103,10 +96,9 @@ function ApplicantDetails() {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       maxHeight: "90vh",
-      minWidth: "60vw",
+      minWidth: "40vw",
       overflowX: "hidden",
-      maxWidth: "60vw",
-      minHeight: "50vh"
+      maxWidth: "40vw",
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -1018,63 +1010,7 @@ function ApplicantDetails() {
               )}
           </div>
         )}
-
-
-{!loading && 
-<div style={{
-                    display: 'flex', alignItems: 'baseline', justifyContent: 'end', marginBotton: 60
-                  }}>
-     <div style={{display: 'flex', alignItems: 'center'}}>
-     <Button
-                  onClick={() => downloadDocumentsInZip()}
-                  className="no-print"
-                  fontStyle={{
-                    color:'#006439!important',
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    color: '#006439!important',
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  lineButton
-                  disabled={loading}
-                  label="DOWNLOAD ZIP"
-                />
-
-<Button
-                  onClick={() => setOpenReview(true)}
-                  className="no-print"
-                  fontStyle={{
-                    color:'#006439!important',
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    color: '#006439!important',
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  lineButton
-                  disabled={loading}
-                  label="DECISION"
-                />
-     </div>
-      
-
-        </div>
-      }
-
-
       </section>
-
-
-
-
-
-
-
 
       <Modal
         isOpen={openReview}
@@ -1089,36 +1025,30 @@ function ApplicantDetails() {
             }}
           >
             <Header text="Review Application" />
-            <div style={{marginTop: 35}}>
-
-            <Autocomplete
-              multiple
-              id="checkboxes-tags-demo"
-              options={listOfConcerns}
-              groupBy={(option) => option.category}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.concern}
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    // icon={icon}
-                    // checkedIcon={checkedIcon}
-                    style={{ marginRight: 8 }}
-                    checked={selected}
-                  />
-                  {option.concern}
-                </li>
-              )}
-              style={{ width: '100%' }}
-              renderInput={(params) => (
-                <TextField {...params} label="Select List of Concerns" placeholder="Select One or More" />
-              )}
-            />
+            <div className="">
+            <FormControl sx={{ m: 1, width: 500 }}>
+      <InputLabel>Multiple 1 Select</InputLabel>
+      <Select
+        multiple
+        value={selectedConcern}
+        onChange={(e) => setSelectedConcern(e.target.value)}
+        input={<OutlinedInput label="Multiple Select" />}
+        renderValue={(selected) => (
+          <Stack gap={1} direction="row" flexWrap="wrap">
+            {selected.map((value) => (
+              <Chip key={value} label={value} />
+            ))}
+          </Stack>
+        )}
+      >
+        {names.map((name) => (
+          <MenuItem key={name} value={name}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
             </div>
-
-<div style={{marginTop: 20}}>
-  <textarea name="" id="" cols="100" rows="10" style={{padding: 18}} placeholder="Add Remark"></textarea>
-</div>
 
 
             <div
