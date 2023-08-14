@@ -1020,8 +1020,8 @@ function ApplicantDetails() {
             >
               <Button
                 onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
                 }}
                 fontStyle={{
                   color:'#006439!important',
@@ -1034,7 +1034,7 @@ function ApplicantDetails() {
                   marginRight: 15,
                 }}
                 lineButton
-                label="SUBMIT REVISION"
+                label="Return to Home"
               />
              
             </div>

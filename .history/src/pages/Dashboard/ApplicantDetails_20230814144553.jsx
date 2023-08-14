@@ -1020,8 +1020,8 @@ function ApplicantDetails() {
             >
               <Button
                 onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
                 }}
                 fontStyle={{
                   color:'#006439!important',

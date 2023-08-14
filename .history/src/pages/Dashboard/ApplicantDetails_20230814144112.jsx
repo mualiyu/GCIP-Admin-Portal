@@ -126,7 +126,7 @@ function ApplicantDetails() {
                 />
 
 <Button
-                  onClick={() => setOpenReview(true)}
+                  onClick={() => downloadDocumentsInZip()}
                   className="no-print"
                   fontStyle={{
                     color:'#006439!important',
@@ -184,7 +184,7 @@ function ApplicantDetails() {
               alignItems: "center",
               justifyContent: "space-between",
               textTransform: "uppercase",
-              marginTop: "70px",
+              margin: "70px 0",
               borderBottom: "1px dashed #ccc",
               paddingBottom: 20,
               fontSize: 11,
@@ -257,7 +257,7 @@ function ApplicantDetails() {
         )}
         {current !== null && (
           <div className="lh-2">
-          <h2 className="review_title">Business Address</h2>
+          <h2 className="review_title">Address</h2>
             <p>
               {current?.application_profile.length > 0 &&
                 current?.application_profile[0].address}{" "}
@@ -1001,10 +1001,10 @@ function ApplicantDetails() {
               flexDirection: "column",
             }}
           >
-            <Header text="Review Application" />
+            <Header text="Application submitted" />
             <div className="">
              <p style={{lineHeight: '2em'}}>
-            {/* REVIEW APPLICATION */}
+            REVIEW APPLICATION
              </p>
             </div>
 
@@ -1020,21 +1020,18 @@ function ApplicantDetails() {
             >
               <Button
                 onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
                 }}
                 fontStyle={{
-                  color:'#006439!important',
+                  color: "var(--primary)",
                 }}
                 style={{
                   width: 134,
                   backgroundColor: "#fff",
-                  color: '#006439!important',
                   border: "1px solid var(--primary)",
-                  marginRight: 15,
                 }}
-                lineButton
-                label="SUBMIT REVISION"
+                label="Return to Home"
               />
              
             </div>

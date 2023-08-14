@@ -16,7 +16,7 @@ function ApplicantDetails() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(null);
   const [alertText, setAlert] = useState("");
-  const [openReview, setOpenReview] = useState(false);
+  const [openSubmittedModal, setOpenSubmittedModal] = useState(false);
   const navigate = useNavigate();
   const [isConverting, setIsConverting] = useState(false);
   const { applicant_id, programId } = useParams();
@@ -33,10 +33,9 @@ function ApplicantDetails() {
     setLoading(false);
     if (success) {
         console.log(data.data.application)
-      setCurrent(data?.data?.application);
-      
+      setCurrent(data.data.application);
+      console.log(current)
     }
-    console.log(current)
   };
 
 
@@ -99,12 +98,11 @@ function ApplicantDetails() {
       <section id="divToPrint">
       <Alert text={alertText} />
       <div style={{
-                    display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBotton: 60
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBotton: 60
                   }}>
                     <div>
                      <Header style={{ color: "var(--primary)", textTransform: "uppercase" }} text= {current?.application_profile?.length > 0 &&
                   current?.application_profile[0].name} /> 
-                  {/* <sup> { current?.application_profile[0].cac_number }</sup> */}
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
@@ -122,27 +120,9 @@ function ApplicantDetails() {
                   }}
                   lineButton
                   disabled={loading}
-                  label="DOWNLOAD ZIP"
+                  label="Download PDF"
                 />
-
-<Button
-                  onClick={() => setOpenReview(true)}
-                  className="no-print"
-                  fontStyle={{
-                    color:'#006439!important',
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    color: '#006439!important',
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  lineButton
-                  disabled={loading}
-                  label="MAKE REVIEW"
-                />
-                {/* <Button
+                <Button
                   className="no-print"
                   fontStyle={{
                     color: "var(--primary)",
@@ -154,12 +134,12 @@ function ApplicantDetails() {
                   }}
                   label="Decline"
                   disabled={loading}
-                /> */}
-                {/* <Button
+                />
+                <Button
                   className="no-print"
-                  label="MAKE REVIEW"
+                  label="Approve"
                   disabled={loading}
-                /> */}
+                />
      </div>
       
 
@@ -184,7 +164,7 @@ function ApplicantDetails() {
               alignItems: "center",
               justifyContent: "space-between",
               textTransform: "uppercase",
-              marginTop: "70px",
+              margin: "70px 0",
               borderBottom: "1px dashed #ccc",
               paddingBottom: 20,
               fontSize: 11,
@@ -194,17 +174,16 @@ function ApplicantDetails() {
               <h2 className="review_title">Business name</h2>
               <p>
                 {" "}
-                {current?.application_profile.length > 0 &&
-                  current?.application_profile[0].name}{" "}
+                {current.application_profile.length > 0 &&
+                  current.application_profile[0].name}{" "}
               </p>
-             
             </div>
 
             <div className="lh-2">
               <h2 className="review_title">RC Number</h2>
               <p>
-                {current?.application_profile.length > 0 &&
-                  current?.application_profile[0].cac_number}{" "}
+                {current.application_profile.length > 0 &&
+                  current.application_profile[0].cac_number}{" "}
               </p>
             </div>
 
@@ -212,8 +191,8 @@ function ApplicantDetails() {
               <h2 className="review_title">date of incorporation</h2>
               <p>
                 {" "}
-                {current?.application_profile.length > 0 &&
-                  moment(current?.application_profile[0].registration_date).format("MMM Do YYYY") }{" "}
+                {current.application_profile.length > 0 &&
+                  moment(current.application_profile[0].registration_date).format("MMM Do YYYY") }{" "}
               </p>
             </div>
 
@@ -221,7 +200,7 @@ function ApplicantDetails() {
               <h2 className="review_title">parent company/owner</h2>
               <p>
                 {" "}
-                {  current?.application_profile[0].owner == null ? "N/A" : current?.application_profile[0].owner}
+                {  current.application_profile[0].owner == null ? "N/A" : current.application_profile[0].owner}
               </p>
             </div>
 
@@ -229,42 +208,22 @@ function ApplicantDetails() {
               <h2 className="review_title">Authorized Personnel</h2>
               <p>
                 {" "}
-                {current?.application_profile.length > 0 &&
-                current?.application_profile[0].authorised_personel
-                  ? current?.application_profile[0].authorised_personel
+                {current.application_profile.length > 0 &&
+                current.application_profile[0].authorised_personel
+                  ? current.application_profile[0].authorised_personel
                   : "N/A"}{" "}
               </p>
             </div>
-
-            <div className="lh-2">
-              <h2 className="review_title">EVIDENCE OF EQUIPMENT <br/> OWNERSHIP</h2>
-              <p>
-                {" "}
-                {current?.evidence_of_equipment_ownership == null ? 'N/A' : "UPLOADED"}{" "}
-              </p>
-            </div>
           </div>
         )}
 
-{current !== null && (
-          <div className="lh-2">
-          <h2 className="review_title">Business Description</h2>
-            <p>
-              {current?.application_profile.length > 0 &&
-              current?.application_profile[0].description}{" "}
-            </p>
-          </div>
-        )}
         {current !== null && (
           <div className="lh-2">
-          <h2 className="review_title">Business Address</h2>
+          <h2 className="review_title">Address</h2>
             <p>
-              {current?.application_profile.length > 0 &&
-                current?.application_profile[0].address}{" "}
+              {current.application_profile.length > 0 &&
+                current.application_profile[0].address}{" "}
             </p>
-            <span>
-              {current?.application_profile[0].website }
-            </span>
           </div>
         )}
 
@@ -280,10 +239,10 @@ function ApplicantDetails() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current?.application_sublots?.length == 0 && (
+            {current.application_sublots.length == 0 && (
               <p className="no-record">No Record was added</p>
             )}
-            {current?.application_sublots?.length > 0 && (
+            {current.application_sublots.length > 0 && (
               <table
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
                 className="review_table"
@@ -298,11 +257,11 @@ function ApplicantDetails() {
                 <tbody>
                   {current.application_sublots.map((item, index) => {
                     return (
-                      <tr key={item?.id}>
+                      <tr key={Math.random()}>
                         <td>{++index}</td>
-                        <td>{item?.lot_name}</td>
-                        <td>{item?.sublot_name}</td>
-                        <td>{item?.lot_region }</td>
+                        <td>{item.lot_name}</td>
+                        <td>{item.sublot_name}</td>
+                        <td>{item.lot_region }</td>
                       </tr>
                     );
                   })}
@@ -330,14 +289,14 @@ function ApplicantDetails() {
                   <th>Contact </th>
                 </thead>
                 <tbody>
-                  {current?.application_profile.length > 0 &&
-                    current?.application_profile[0].share_holders.map(
+                  {current.application_profile.length > 0 &&
+                    current.application_profile[0].share_holders.map(
                       (item, index) => {
                         return (
-                          <tr key={item?.id}>
+                          <tr key={index}>
                             <td>{++index}</td>
-                            <td>{item?.name}</td>
-                            <td>{item?.phone}</td>
+                            <td>{item.name}</td>
+                            <td>{item.phone}</td>
                           </tr>
                         );
                       }
@@ -359,15 +318,15 @@ function ApplicantDetails() {
                   <th>EMAIL</th>
                 </thead>
                 <tbody>
-                  {current?.application_profile.length > 0 &&
-                    current?.application_profile[0].contact_persons.map(
+                  {current.application_profile.length > 0 &&
+                    current.application_profile[0].contact_persons.map(
                       (item, index) => {
                         return (
-                          <tr key={item?.id}>
+                          <tr key={index}>
                             <td>{++index}</td>
-                            <td>{item?.name}</td>
-                            <td>{item?.phone}</td>
-                            <td>{item?.email}</td>
+                            <td>{item.name}</td>
+                            <td>{item.phone}</td>
+                            <td>{item.email}</td>
                           </tr>
                         );
                       }
@@ -392,9 +351,9 @@ function ApplicantDetails() {
               <tbody>
                 {current.application_documents.map((item, index) => {
                   return (
-                    <tr key={item?.id}>
+                    <tr key={Math.random()}>
                       <td>{++index}</td>
-                      <td>{item?.name}</td>
+                      <td>{item.name}</td>
                     </tr>
                   );
                 })}
@@ -409,10 +368,10 @@ function ApplicantDetails() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current?.application_staff.length == 0 && (
+            {current.application_staff.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current?.application_staff.length > 0 && (
+            {current.application_staff.length > 0 && (
               <table
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
                 className="review_table"
@@ -431,19 +390,19 @@ function ApplicantDetails() {
                 </thead>
 
                 <tbody>
-                  {current?.application_staff.map((item, index) => {
+                  {current.application_staff.map((item, index) => {
                     return (
-                      <tr key={item?.id}>
+                      <tr key={Math.random()}>
                         <td>{++index}</td>
-                        <td>{item?.name}</td>
-                        <td>{item?.gender}</td>
-                        <td>{item?.coren_license_number == null ? 'NO': 'YES' }</td>
-                        <td>{item?.coren_license_number == null ? 'N/A': item?.coren_license_number  }</td>
-                        <td>{item?.current_position == null ? 'N/A': item?.current_position.position}</td>
-                        <td>{item?.education_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.coren_license_document == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.professional_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.cv == null ? 'N/A': 'UPLOADED'}</td>
+                        <td>{item.name}</td>
+                        <td>{item.gender}</td>
+                        <td>{item.membership == null ? 'N/A': item.membership }</td>
+                        <td>{item.coren_license_number == null ? 'N/A': item.coren_license_number  }</td>
+                        <td>{item.current_position == null ? 'N/A': item.current_position}</td>
+                        <td>{item.education_certificate == null ? 'N/A': 'UPLOADED'}</td>
+                        <td>{item.coren_license_document == null ? 'N/A': 'UPLOADED'}</td>
+                        <td>{item.professional_certificate == null ? 'N/A': 'UPLOADED'}</td>
+                        <td>{item.cv == null ? 'N/A': 'UPLOADED'}</td>
                       </tr>
                     );
                   })}
@@ -459,12 +418,12 @@ function ApplicantDetails() {
             <div
               style={{  paddingBottom: 20 }}
             ></div>
-            {current?.application_projects?.length == 0 && (
+            {current.application_projects?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current?.application_projects?.length > 0 && (
+            {current.application_projects?.length > 0 && (
               <>
-                {current?.application_projects.map((item, index) => {
+                {current.application_projects.map((item, index) => {
                   return (
                     <div
                       style={{
@@ -514,7 +473,7 @@ function ApplicantDetails() {
                           >
                             Project Location :
                           </div>
-                          <p> {item?.location}</p>
+                          <p> {item.location}</p>
                         </section>
                         <section
                           style={{
@@ -538,7 +497,7 @@ function ApplicantDetails() {
                             >
                               Project Cost :
                             </div>
-                            <p> {formatCurrency(item?.project_cost)}</p>
+                            <p> {formatCurrency(item.project_cost)}</p>
                           </section>
                           <section style={{ margin: 7 }}>
                             <div
@@ -553,7 +512,7 @@ function ApplicantDetails() {
                               Award Date:
                             </div>
                             <p>
-                              { moment(item?.date_of_contract).format('L') }
+                              { moment(item.date_of_contract).format('L') }
                             </p>
                           </section>
 
@@ -570,7 +529,7 @@ function ApplicantDetails() {
                               Award Letter:
                             </div>
                             <p>
-                              { item?.award_letter == null ? 'N/A' : 'UPLOADED'  }
+                              { item.award_letter == null ? 'N/A' : 'UPLOADED'  }
                             </p>
 
                           </section>
@@ -588,7 +547,7 @@ function ApplicantDetails() {
                             </div>
                             <p>
                               {" "}
-                              { moment(item?.date_of_completion).format('L') }
+                              { moment(item.date_of_completion).format('L') }
                             </p>
                           </section>
                           <section style={{ margin: 7 }}>
@@ -603,7 +562,7 @@ function ApplicantDetails() {
                             >
                               Geo Coordinate:
                             </div>
-                            <p> {item?.geocoordinate}</p>
+                            <p> {item.geocoordinate}</p>
                           </section>
                         </section>
                         <section style={{ display: "flex", margin: 7 }}>
@@ -618,7 +577,7 @@ function ApplicantDetails() {
                           >
                             Description
                           </div>
-                          <p style={{lineHeight: '2em'}}> {item?.description}</p>
+                          <p style={{lineHeight: '2em'}}> {item.description}</p>
                         </section>
                         <section style={{ display: "flex", margin: '25px 0' }}>
                           <div
@@ -652,8 +611,8 @@ function ApplicantDetails() {
                             marginTop: 20,
                           }}
                         >
-                          {item?.sub_contractors?.length > 0 &&
-                            item?.sub_contractors?.map((sc, index) => {
+                          {item.sub_contractors?.length > 0 &&
+                            item.sub_contractors?.map((sc, index) => {
                               return (
                                 <section
                                   style={{
@@ -675,7 +634,7 @@ function ApplicantDetails() {
                                     >
                                       Sub Contractor - {index + 1}
                                     </div>
-                                    <p> {sc?.name}</p>
+                                    <p> {sc.name}</p>
                                   </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
@@ -691,14 +650,14 @@ function ApplicantDetails() {
                                     >
                                       Address
                                     </div>
-                                    <p> {sc?.address}</p>
+                                    <p> {sc.address}</p>
                                   </section>
                                 </section>
                               );
                             })}
 
-                          {item?.referees?.length > 0 &&
-                            item?.referees?.map((rf, index) => {
+                          {item.referees?.length > 0 &&
+                            item.referees?.map((rf, index) => {
                               return (
                                 <section style={{display: 'flex'}}>
                                   <section
@@ -715,7 +674,7 @@ function ApplicantDetails() {
                                     >
                                       Referee - {index + 1}
                                     </div>
-                                    <p> {rf?.name}</p>
+                                    <p> {rf.name}</p>
                                   </section>
                                   <section
                                     style={{ margin: 7 }}
@@ -731,7 +690,7 @@ function ApplicantDetails() {
                                     >
                                       phone
                                     </div>
-                                    <p> {rf?.phone}</p>
+                                    <p> {rf.phone}</p>
                                   </section>
                                 </section>
                               );
@@ -752,10 +711,10 @@ function ApplicantDetails() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current?.application_financials?.financial_info?.length == 0 && (
+            {current.application_financials?.financial_info?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current?.application_financials?.financial_info?.length > 0 && (
+            {current.application_financials?.financial_info?.length > 0 && (
               <table
                 className="review_table"
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
@@ -768,14 +727,14 @@ function ApplicantDetails() {
                   <th>Total liabilities</th>
                 </thead>
                 <tbody>
-                  {current?.application_financials?.financial_info?.map((item) => {
+                  {current.application_financials?.financial_info?.map((item) => {
                     return (
-                      <tr key={item.id}>
+                      <tr key={Math.random()}>
                         <td>{item.type.toUpperCase()}</td>
-                        <td>&#8358;{item?.total_assets}</td>
-                        <td>&#8358;{item?.annual_turnover}</td>
-                        <td>&#8358;{item?.total_networth}</td>
-                        <td>&#8358;{item?.total_liability}</td>
+                        <td>{item.total_assets}</td>
+                        <td>{item.annual_turnover}</td>
+                        <td>{item.total_networth}</td>
+                        <td>{item.total_liability}</td>
                       </tr>
                     );
                   })}
@@ -790,15 +749,15 @@ function ApplicantDetails() {
             {/* <div
             style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
           ></div> */}
-            {current?.application_financials?.financial_dept_info?.length == 0 && (
+            {current.application_financials?.financial_dept_info?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current?.application_financials?.financial_dept_info?.length > 0 &&
-              current?.application_financials?.financial_dept_info?.map(
+            {current.application_financials?.financial_dept_info?.length > 0 &&
+              current.application_financials?.financial_dept_info?.map(
                 (debt, index) => {
                   return (
                     <div
-                      key={debt?.id}
+                      key={index}
                       style={{
                         fontSize: 11,
                         textTransform: "uppercase",
@@ -836,7 +795,7 @@ function ApplicantDetails() {
                               >
                                 Project name
                               </div>
-                              <p> {debt?.project_name}</p>
+                              <p> {debt.project_name}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -850,7 +809,7 @@ function ApplicantDetails() {
                               >
                                 Sector
                               </div>
-                              <p>{debt?.sector}</p>
+                              <p>{debt.sector}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -864,7 +823,7 @@ function ApplicantDetails() {
                               >
                                 Aggregate
                               </div>
-                              <p> {debt?.aggregate_amount}</p>
+                              <p> {debt.aggregate_amount}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -878,7 +837,7 @@ function ApplicantDetails() {
                               >
                                Evidence of Support
                               </div>
-                              <p> {debt?.evidence_of_support == null ? 'N/A' : 'UPLOADED'}</p>
+                              <p> {debt?.evidence_of_support == null ? 'N/A', 'UPLOADED'}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -974,7 +933,7 @@ function ApplicantDetails() {
                                     >
                                       Address
                                     </div>
-                                    <p> {borrower?.address}</p>
+                                    <p> {borrower.address}</p>
                                   </section>
                                 </section>
                               );
@@ -990,7 +949,7 @@ function ApplicantDetails() {
       </section>
 
       <Modal
-        isOpen={openReview}
+        isOpen={openSubmittedModal}
         appElement={document.getElementById("root")}
         style={customStyles}
       >
@@ -1001,12 +960,18 @@ function ApplicantDetails() {
               flexDirection: "column",
             }}
           >
-            <Header text="Review Application" />
+            <Header text="Application submitted" />
             <div className="">
              <p style={{lineHeight: '2em'}}>
-            {/* REVIEW APPLICATION */}
+             Thank you for your interest in the UNDP-GEF Africa Minigrids Program (AMP). Your application has been submitted successfully. <span style={{fontWeight: 900}}>Your application will be opened in a hybrid physical-virtual ceremony at 1.00pm (WAT) on Thursday 17th August 2023.   </span>
+
+<br/> <br/>The virtual link is attached in the confirmation email sent to you.
+
+For further enquiry, kindly drop a message on the platform. Thank you!
              </p>
             </div>
+
+
 
 
             <div
@@ -1020,21 +985,18 @@ function ApplicantDetails() {
             >
               <Button
                 onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
                 }}
                 fontStyle={{
-                  color:'#006439!important',
+                  color: "var(--primary)",
                 }}
                 style={{
                   width: 134,
                   backgroundColor: "#fff",
-                  color: '#006439!important',
                   border: "1px solid var(--primary)",
-                  marginRight: 15,
                 }}
-                lineButton
-                label="SUBMIT REVISION"
+                label="Return to Home"
               />
              
             </div>

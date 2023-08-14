@@ -16,7 +16,7 @@ function ApplicantDetails() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(null);
   const [alertText, setAlert] = useState("");
-  const [openReview, setOpenReview] = useState(false);
+  const [openSubmittedModal, setOpenSubmittedModal] = useState(false);
   const navigate = useNavigate();
   const [isConverting, setIsConverting] = useState(false);
   const { applicant_id, programId } = useParams();
@@ -99,12 +99,14 @@ function ApplicantDetails() {
       <section id="divToPrint">
       <Alert text={alertText} />
       <div style={{
-                    display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBotton: 60
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBotton: 60
                   }}>
                     <div>
                      <Header style={{ color: "var(--primary)", textTransform: "uppercase" }} text= {current?.application_profile?.length > 0 &&
                   current?.application_profile[0].name} /> 
-                  {/* <sup> { current?.application_profile[0].cac_number }</sup> */}
+                   <p style={{width: '60%'}} className="review_title">
+                          { current?.application_profile[0].description}
+              </p>
                      </div>
      <div style={{display: 'flex', alignItems: 'center'}}>
      <Button
@@ -126,7 +128,7 @@ function ApplicantDetails() {
                 />
 
 <Button
-                  onClick={() => setOpenReview(true)}
+                  onClick={() => downloadDocumentsInZip()}
                   className="no-print"
                   fontStyle={{
                     color:'#006439!important',
@@ -184,7 +186,7 @@ function ApplicantDetails() {
               alignItems: "center",
               justifyContent: "space-between",
               textTransform: "uppercase",
-              marginTop: "70px",
+              margin: "70px 0",
               borderBottom: "1px dashed #ccc",
               paddingBottom: 20,
               fontSize: 11,
@@ -246,18 +248,9 @@ function ApplicantDetails() {
           </div>
         )}
 
-{current !== null && (
-          <div className="lh-2">
-          <h2 className="review_title">Business Description</h2>
-            <p>
-              {current?.application_profile.length > 0 &&
-              current?.application_profile[0].description}{" "}
-            </p>
-          </div>
-        )}
         {current !== null && (
           <div className="lh-2">
-          <h2 className="review_title">Business Address</h2>
+          <h2 className="review_title">Address</h2>
             <p>
               {current?.application_profile.length > 0 &&
                 current?.application_profile[0].address}{" "}
@@ -437,13 +430,13 @@ function ApplicantDetails() {
                         <td>{++index}</td>
                         <td>{item?.name}</td>
                         <td>{item?.gender}</td>
-                        <td>{item?.coren_license_number == null ? 'NO': 'YES' }</td>
+                        <td>{item?.membership == null ? 'N/A': item?.membership }</td>
                         <td>{item?.coren_license_number == null ? 'N/A': item?.coren_license_number  }</td>
-                        <td>{item?.current_position == null ? 'N/A': item?.current_position.position}</td>
-                        <td>{item?.education_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.coren_license_document == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.professional_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.cv == null ? 'N/A': 'UPLOADED'}</td>
+                        {/* <td>{item?.current_position == null ? 'N/A': item?.current_position}</td> */}
+                        {/* <td>{item?.education_certificate == null ? 'N/A': 'UPLOADED'}</td> */}
+                        {/* <td>{item?.coren_license_document == null ? 'N/A': 'UPLOADED'}</td> */}
+                        {/* <td>{item?.professional_certificate == null ? 'N/A': 'UPLOADED'}</td> */}
+                        {/* <td>{item?.cv == null ? 'N/A': 'UPLOADED'}</td> */}
                       </tr>
                     );
                   })}
@@ -990,7 +983,7 @@ function ApplicantDetails() {
       </section>
 
       <Modal
-        isOpen={openReview}
+        isOpen={openSubmittedModal}
         appElement={document.getElementById("root")}
         style={customStyles}
       >
@@ -1001,10 +994,14 @@ function ApplicantDetails() {
               flexDirection: "column",
             }}
           >
-            <Header text="Review Application" />
+            <Header text="Application submitted" />
             <div className="">
              <p style={{lineHeight: '2em'}}>
-            {/* REVIEW APPLICATION */}
+             Thank you for your interest in the UNDP-GEF Africa Minigrids Program (AMP). Your application has been submitted successfully. <span style={{fontWeight: 900}}>Your application will be opened in a hybrid physical-virtual ceremony at 1.00pm (WAT) on Thursday 17th August 2023.   </span>
+
+<br/> <br/>The virtual link is attached in the confirmation email sent to you.
+
+For further enquiry, kindly drop a message on the platform. Thank you!
              </p>
             </div>
 
@@ -1020,21 +1017,18 @@ function ApplicantDetails() {
             >
               <Button
                 onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
                 }}
                 fontStyle={{
-                  color:'#006439!important',
+                  color: "var(--primary)",
                 }}
                 style={{
                   width: 134,
                   backgroundColor: "#fff",
-                  color: '#006439!important',
                   border: "1px solid var(--primary)",
-                  marginRight: 15,
                 }}
-                lineButton
-                label="SUBMIT REVISION"
+                label="Return to Home"
               />
              
             </div>
