@@ -73,12 +73,12 @@ export default function Submissions() {
       setUnSuccessful(declined);
       setQueried(query);
 
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
+      let allTheApplications = submit.concat(passed, declined);
+      setAllSubmissions(submitted);
 
 
-      const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
-      setAllSubmissions(sortedByDate);
+      // const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
+      // setAllSubmissions(sortedByDate);
     }
   };
 
@@ -86,6 +86,7 @@ export default function Submissions() {
 
   const options = [
     {'name': 'All Submissions', 'value': 'all'},
+    {'name': 'Submitted', 'value': 'submitted'},
     {'name': 'Queried', 'value': 'queried'},
     {'name': 'Successful', 'value': 'successful'},
     {'name': 'UnSuccessful', 'value': 'unSuccessful'}
@@ -98,11 +99,11 @@ export default function Submissions() {
       case 'successful':
         setAllSubmissions(successful);
         break;
-      case 'unSuccessful':
-        setAllSubmissions(unSuccessful);
+      case 'unsuccessful':
+        setAllSubmissions(unsuccessful);
         break;
-      case 'all':
-        setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
+      case 'submitted':
+        setAllSubmissions(submitted);
         break;
       case 'queried':
         setAllSubmissions(queried);
@@ -163,7 +164,7 @@ export default function Submissions() {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
+          {/* <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span> */}
           </h1>
 
 
@@ -247,7 +248,7 @@ export default function Submissions() {
       </Table>
     </TableContainer>
 
-        {allSubmissions?.length == 0 && !loading && (
+        {allSubmissions.length == 0 && !loading && (
               <div
                 style={{
                   width: "100%",

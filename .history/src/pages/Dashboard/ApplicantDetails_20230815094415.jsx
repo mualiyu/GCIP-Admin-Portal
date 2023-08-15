@@ -53,6 +53,24 @@ function ApplicantDetails() {
 
   const handleOptionChange = (selection) => {
     console.log(selection)
+    // setSelectedOption(selection);
+    // switch (selection) {
+    //   case 'successful':
+    //     setAllSubmissions(successful);
+    //     break;
+    //   case 'unSuccessful':
+    //     setAllSubmissions(unSuccessful);
+    //     break;
+    //   case 'all':
+    //     setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
+    //     break;
+    //   case 'queried':
+    //     setAllSubmissions(queried);
+    //     break;
+    //   default:
+    //     setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
+    //     break;
+    // }
   };
 
 
@@ -1123,7 +1141,7 @@ function ApplicantDetails() {
           label="Age"
           style={{ width: '100%' }}
           onChange={(e) => handleOptionChange(e.target.value)} 
-          // defaultValue={'all'}
+          defaultValue={'all'}
         >
           {decisionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>

@@ -50,15 +50,6 @@ function ApplicantDetails() {
   };
 
 
-
-  const handleOptionChange = (selection) => {
-    console.log(selection)
-  };
-
-
-
-
-
   const decisionOptions = [
     {'name': 'Successful', 'value': '3'},
     {'name': 'Query', 'value': '2'},
@@ -1122,8 +1113,8 @@ function ApplicantDetails() {
           value={selectedOption}
           label="Age"
           style={{ width: '100%' }}
-          onChange={(e) => handleOptionChange(e.target.value)} 
-          // defaultValue={'all'}
+          // onChange={(e) => handleOptionChange(e.target.value)} 
+          defaultValue={'all'}
         >
           {decisionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>

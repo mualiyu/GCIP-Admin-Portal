@@ -1123,7 +1123,7 @@ function ApplicantDetails() {
           label="Age"
           style={{ width: '100%' }}
           onChange={(e) => handleOptionChange(e.target.value)} 
-          // defaultValue={'all'}
+          defaultValue={'all'}
         >
           {decisionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>

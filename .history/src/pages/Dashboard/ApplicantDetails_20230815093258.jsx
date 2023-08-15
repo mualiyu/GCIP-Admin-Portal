@@ -9,7 +9,6 @@ import { formatCurrency } from "../../helpers/formatCurrency";
 import Modal from "react-modal";
 import "../styles/styles.css";
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Button from "../../components/Button";
 import { MoonLoader } from "react-spinners";
 import moment from "moment";
@@ -48,15 +47,6 @@ function ApplicantDetails() {
     }
     console.log(current)
   };
-
-
-
-  const handleOptionChange = (selection) => {
-    console.log(selection)
-  };
-
-
-
 
 
   const decisionOptions = [
@@ -1113,17 +1103,13 @@ function ApplicantDetails() {
           >
             <Header text="Review Application" />
             <div style={{marginTop: 35}}>
-
-
-
-            <FormControl sx={{ m: 1, minWidth: 300 }} style={{width: '28%', marginLeft: 0, marginBottom: 35}}>
-        <InputLabel>Decision</InputLabel>
+            <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
+        <InputLabel>Filter</InputLabel>
         <Select
           value={selectedOption}
           label="Age"
-          style={{ width: '100%' }}
           onChange={(e) => handleOptionChange(e.target.value)} 
-          // defaultValue={'all'}
+          defaultValue={'all'}
         >
           {decisionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>
@@ -1149,9 +1135,9 @@ function ApplicantDetails() {
                   {option.concern}
                 </li>
               )}
-              style={{ width: '98%' }}
+              style={{ width: '100%' }}
               renderInput={(params) => (
-                <TextField {...params} label="Select list of concerns..." placeholder="Select one or more" />
+                <TextField {...params} label="Select List of Concerns" placeholder="Select One or More" />
               )}
             />
             </div>
@@ -1164,34 +1150,12 @@ function ApplicantDetails() {
             <div
               style={{
                 display: "flex",
-                width: "40%",
+                width: "25%",
                 marginTop: 48,
                 justifyContent: "space-between",
                 marginLeft: "auto",
               }}
             >
-
-<Button
-                onClick={() => {
-                  setOpenReview(false);
-                  // navigate("/Home")
-                }}
-                fontStyle={{
-                  color:'#006439!important',
-                }}
-                style={{
-                  width: 134,
-                  backgroundColor: "#fff",
-                  color: '#006439!important',
-                  border: "1px solid var(--primary)",
-                  marginRight: 15,
-                }}
-                lineButton
-                label="CANCEL"
-              />
-
-
-
               <Button
                 onClick={() => {
                   setOpenReview(false);

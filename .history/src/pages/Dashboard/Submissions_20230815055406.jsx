@@ -43,7 +43,6 @@ export default function Submissions() {
   const [allSubmissions, setAllSubmissions] = useState([]);
   const [successful, setSuccessful] = useState([]);
   const [unSuccessful, setUnSuccessful] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('');
   const [submitted, setSubmitted] = useState([]);
   const [queried, setQueried] = useState([]);
   // const [allSubmissions, setAllSubmissions] = useState([]);
@@ -62,19 +61,13 @@ export default function Submissions() {
     console.log(data);
     if (success) {
       console.log(data.data);
-      let submit = data.data.applications.submited_applications;
-      let declined = data.data.applications.unsuccessful_applications;
-      let query = data.data.applications.queried_applications;
-      let passed = data.data.applications.successful_applications;
+      setSubmitted(data.data.applications.submitted_applications);
+      setSuccessful(data.data.applications.successful_applications);
+      setUnSuccessful(data.data.applications.unsuccessful_applications);
+      setQueried(data.data.applications.queried_applications);
 
-
-      setSubmitted(submit);
-      setSuccessful(passed);
-      setUnSuccessful(declined);
-      setQueried(query);
-
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
+      let allTheApplications = submitted.concat(successful, unSuccessful, queried);
+      // setAllApplicants(submitted.concat(successful, unSuccessful, queried));
 
 
       const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
@@ -86,6 +79,7 @@ export default function Submissions() {
 
   const options = [
     {'name': 'All Submissions', 'value': 'all'},
+    {'name': 'Submitted', 'value': 'submitted'},
     {'name': 'Queried', 'value': 'queried'},
     {'name': 'Successful', 'value': 'successful'},
     {'name': 'UnSuccessful', 'value': 'unSuccessful'}
@@ -98,11 +92,11 @@ export default function Submissions() {
       case 'successful':
         setAllSubmissions(successful);
         break;
-      case 'unSuccessful':
-        setAllSubmissions(unSuccessful);
+      case 'unsuccessful':
+        setAllSubmissions(unsuccessful);
         break;
-      case 'all':
-        setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
+      case 'submitted':
+        setAllSubmissions(submitted);
         break;
       case 'queried':
         setAllSubmissions(queried);
@@ -162,9 +156,7 @@ export default function Submissions() {
       <div className="home_container">
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
-         <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
-          </h1>
+         <h1>Submissions <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span></h1>
 
 
          <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
@@ -203,7 +195,7 @@ export default function Submissions() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allSubmissions?.map((applicant, rowIndex) => (
+          {allSubmissions.map((applicant, rowIndex) => (
             <TableRow
             key={applicant.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -247,7 +239,7 @@ export default function Submissions() {
       </Table>
     </TableContainer>
 
-        {allSubmissions?.length == 0 && !loading && (
+        {allSubmissions.length == 0 && !loading && (
               <div
                 style={{
                   width: "100%",

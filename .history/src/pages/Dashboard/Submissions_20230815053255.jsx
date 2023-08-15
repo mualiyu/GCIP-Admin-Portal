@@ -16,11 +16,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 
 const customStyles = {
@@ -41,12 +36,6 @@ export default function Submissions() {
   const [buttonLoading, setButtonLoading] = useState({});
   const [loading, setLoading] = useState(true);
   const [allSubmissions, setAllSubmissions] = useState([]);
-  const [successful, setSuccessful] = useState([]);
-  const [unSuccessful, setUnSuccessful] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('');
-  const [submitted, setSubmitted] = useState([]);
-  const [queried, setQueried] = useState([]);
-  // const [allSubmissions, setAllSubmissions] = useState([]);
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const navigate = useNavigate();
@@ -61,59 +50,10 @@ export default function Submissions() {
     setLoading(false);
     console.log(data);
     if (success) {
-      console.log(data.data);
-      let submit = data.data.applications.submited_applications;
-      let declined = data.data.applications.unsuccessful_applications;
-      let query = data.data.applications.queried_applications;
-      let passed = data.data.applications.successful_applications;
-
-
-      setSubmitted(submit);
-      setSuccessful(passed);
-      setUnSuccessful(declined);
-      setQueried(query);
-
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
-
-
-      const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
+      const sortedByDate = data.data.applications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
       setAllSubmissions(sortedByDate);
     }
   };
-
-
-
-  const options = [
-    {'name': 'All Submissions', 'value': 'all'},
-    {'name': 'Queried', 'value': 'queried'},
-    {'name': 'Successful', 'value': 'successful'},
-    {'name': 'UnSuccessful', 'value': 'unSuccessful'}
-  ]
-  
-  
-  const handleOptionChange = (selection) => {
-    setSelectedOption(selection);
-    switch (selection) {
-      case 'successful':
-        setAllSubmissions(successful);
-        break;
-      case 'unSuccessful':
-        setAllSubmissions(unSuccessful);
-        break;
-      case 'all':
-        setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
-        break;
-      case 'queried':
-        setAllSubmissions(queried);
-        break;
-      default:
-        setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
-        break;
-    }
-  };
-
-
 
 
   const downloadDocumentsInZip = async (id, title, rowIndex) => {
@@ -162,27 +102,7 @@ export default function Submissions() {
       <div className="home_container">
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
-         <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
-          </h1>
-
-
-         <FormControl sx={{ m: 1, minWidth: 300 }} style={{marginLeft: 200}}>
-        <InputLabel>Filter</InputLabel>
-        <Select
-          value={selectedOption}
-          label="Age"
-          onChange={(e) => handleOptionChange(e.target.value)} 
-          defaultValue={'all'}
-        >
-          {options.map((option) => (
-          <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-
-
+         <h1>Submissions <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span></h1>
           <div className="home_user">
             <span>A</span>
           </div>
@@ -203,7 +123,7 @@ export default function Submissions() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allSubmissions?.map((applicant, rowIndex) => (
+          {allSubmissions.map((applicant, rowIndex) => (
             <TableRow
             key={applicant.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -247,7 +167,7 @@ export default function Submissions() {
       </Table>
     </TableContainer>
 
-        {allSubmissions?.length == 0 && !loading && (
+        {allSubmissions.length == 0 && !loading && (
               <div
                 style={{
                   width: "100%",

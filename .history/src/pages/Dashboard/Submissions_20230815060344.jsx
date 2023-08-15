@@ -62,7 +62,7 @@ export default function Submissions() {
     console.log(data);
     if (success) {
       console.log(data.data);
-      let submit = data.data.applications.submited_applications;
+      let submit = data.data.applications.submitted_applications;
       let declined = data.data.applications.unsuccessful_applications;
       let query = data.data.applications.queried_applications;
       let passed = data.data.applications.successful_applications;
@@ -73,12 +73,12 @@ export default function Submissions() {
       setUnSuccessful(declined);
       setQueried(query);
 
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
+      // let allTheApplications = submit.concat(passed, declined);
+      setAllSubmissions(submitted.concat(successful, unSuccessful, queried));
 
 
-      const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
-      setAllSubmissions(sortedByDate);
+      // const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
+      // setAllSubmissions(sortedByDate);
     }
   };
 
@@ -86,6 +86,7 @@ export default function Submissions() {
 
   const options = [
     {'name': 'All Submissions', 'value': 'all'},
+    {'name': 'Submitted', 'value': 'submitted'},
     {'name': 'Queried', 'value': 'queried'},
     {'name': 'Successful', 'value': 'successful'},
     {'name': 'UnSuccessful', 'value': 'unSuccessful'}
@@ -98,11 +99,11 @@ export default function Submissions() {
       case 'successful':
         setAllSubmissions(successful);
         break;
-      case 'unSuccessful':
-        setAllSubmissions(unSuccessful);
+      case 'unsuccessful':
+        setAllSubmissions(unsuccessful);
         break;
-      case 'all':
-        setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
+      case 'submitted':
+        setAllSubmissions(submitted);
         break;
       case 'queried':
         setAllSubmissions(queried);
@@ -163,7 +164,7 @@ export default function Submissions() {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
+          {/* <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span> */}
           </h1>
 
 
@@ -203,7 +204,7 @@ export default function Submissions() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allSubmissions?.map((applicant, rowIndex) => (
+          {allSubmissions.map((applicant, rowIndex) => (
             <TableRow
             key={applicant.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -247,7 +248,7 @@ export default function Submissions() {
       </Table>
     </TableContainer>
 
-        {allSubmissions?.length == 0 && !loading && (
+        {allSubmissions.length == 0 && !loading && (
               <div
                 style={{
                   width: "100%",

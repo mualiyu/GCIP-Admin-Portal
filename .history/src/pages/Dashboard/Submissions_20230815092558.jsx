@@ -73,12 +73,12 @@ export default function Submissions() {
       setUnSuccessful(declined);
       setQueried(query);
 
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
+      let allTheApplications = submit.concat(passed, declined);
+      setAllSubmissions(submitted);
 
 
-      const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
-      setAllSubmissions(sortedByDate);
+      // const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
+      // setAllSubmissions(sortedByDate);
     }
   };
 
@@ -163,7 +163,7 @@ export default function Submissions() {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
+          {/* <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span> */}
           </h1>
 
 

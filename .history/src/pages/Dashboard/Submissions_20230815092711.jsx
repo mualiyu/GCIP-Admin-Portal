@@ -163,7 +163,7 @@ export default function Submissions() {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
+          {/* <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span> */}
           </h1>
 
 

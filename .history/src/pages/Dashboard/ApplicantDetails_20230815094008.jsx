@@ -50,15 +50,6 @@ function ApplicantDetails() {
   };
 
 
-
-  const handleOptionChange = (selection) => {
-    console.log(selection)
-  };
-
-
-
-
-
   const decisionOptions = [
     {'name': 'Successful', 'value': '3'},
     {'name': 'Query', 'value': '2'},
@@ -1116,14 +1107,14 @@ function ApplicantDetails() {
 
 
 
-            <FormControl sx={{ m: 1, minWidth: 300 }} style={{width: '28%', marginLeft: 0, marginBottom: 35}}>
+            <FormControl sx={{ m: 1, minWidth: 300 }} style={{width: '28%', marginLeft: 0}}>
         <InputLabel>Decision</InputLabel>
         <Select
           value={selectedOption}
           label="Age"
           style={{ width: '100%' }}
-          onChange={(e) => handleOptionChange(e.target.value)} 
-          // defaultValue={'all'}
+          // onChange={(e) => handleOptionChange(e.target.value)} 
+          defaultValue={'all'}
         >
           {decisionOptions.map((option) => (
           <MenuItem key={option.value} value={option.value} > {option.name}</MenuItem>
@@ -1149,9 +1140,9 @@ function ApplicantDetails() {
                   {option.concern}
                 </li>
               )}
-              style={{ width: '98%' }}
+              style={{ width: '100%' }}
               renderInput={(params) => (
-                <TextField {...params} label="Select list of concerns..." placeholder="Select one or more" />
+                <TextField {...params} label="Select List of Concerns" placeholder="Select One or More" />
               )}
             />
             </div>

@@ -73,12 +73,12 @@ export default function Submissions() {
       setUnSuccessful(declined);
       setQueried(query);
 
-      let allTheApplications = submit.concat(passed, declined, query);
-      // setAllSubmissions(submitted);
+      let allTheApplications = submit.concat(passed, declined);
+      setAllSubmissions(submitted);
 
 
-      const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
-      setAllSubmissions(sortedByDate);
+      // const sortedByDate = allTheApplications.sort((a, b) => new Date(a.updated_at) - new Date(b.updated_at));
+      // setAllSubmissions(sortedByDate);
     }
   };
 
@@ -86,6 +86,7 @@ export default function Submissions() {
 
   const options = [
     {'name': 'All Submissions', 'value': 'all'},
+    {'name': 'Submitted', 'value': 'submitted'},
     {'name': 'Queried', 'value': 'queried'},
     {'name': 'Successful', 'value': 'successful'},
     {'name': 'UnSuccessful', 'value': 'unSuccessful'}
@@ -96,16 +97,21 @@ export default function Submissions() {
     setSelectedOption(selection);
     switch (selection) {
       case 'successful':
+        console.log(successful);
         setAllSubmissions(successful);
+        
         break;
-      case 'unSuccessful':
+      case 'unsuccessful':
         setAllSubmissions(unSuccessful);
+        console.log(allSubmissions);
         break;
       case 'all':
+        console.log(submitted.concat(unSuccessful, queried, successful))
         setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
         break;
       case 'queried':
         setAllSubmissions(queried);
+        console.log(queried);
         break;
       default:
         setAllSubmissions(submitted.concat(unSuccessful, queried, successful));
@@ -163,7 +169,7 @@ export default function Submissions() {
       <Alert text={alertText} />
         <div className="home_top" style={{ width: "90%" }}>
          <h1>Submissions 
-          <span style={{fontSize: 9, color: 'red'}}>{allSubmissions?.length}</span>
+          {/* <span style={{fontSize: 9, color: 'red'}}>{allSubmissions.length}</span> */}
           </h1>
 
 
