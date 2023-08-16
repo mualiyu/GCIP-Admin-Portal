@@ -121,9 +121,9 @@ function ApplicantDetails() {
       console.log(data);
       setAlert(data.message)
       setLoading(false);
-      setOpenReview(false);
       getData();
       setTimeout(()=>{
+        // setOpenReview(false);
         setAlert("");
       }, 5000)
     }

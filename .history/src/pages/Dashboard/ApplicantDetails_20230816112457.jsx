@@ -121,9 +121,9 @@ function ApplicantDetails() {
       console.log(data);
       setAlert(data.message)
       setLoading(false);
-      setOpenReview(false);
       getData();
       setTimeout(()=>{
+        // setOpenReview(false);
         setAlert("");
       }, 5000)
     }
@@ -1159,7 +1159,7 @@ function ApplicantDetails() {
                           <tr key={decision.id}>
                             <td>{index + 1}</td>
                             <td>
-                            {decision.status == 1 ? 'Submitted' : decision.status == 2 ? 'Queried' : decision.status == 3 ? 'Successful' : decision.status == 5 ? 'Under Review' : 'Unsuccessful'}
+                            {decision.status == 1 ? 'Submitted': decision.status == 2 ? 'Queried' : decision.status == 3 ? decision.status == 5 ? 'Under Review' : 'Unsuccessful'}
                             </td>
                             <td>{decision?.remark}</td>
                             <td>{ moment(decision?.updated_at).format('llll')}{" "}</td>

@@ -235,7 +235,7 @@ export default function Submissions() {
               </TableCell>
               <TableCell style={{ color: applicant?.status == 2 ? '#aabf10' : applicant.status == 3 ? 'green' : applicant.status == 1 ? 'black' : 'red'}} >
                   {/* Pending */}
-                  {applicant.status == 1 ? 'Submitted': applicant.status == 2 ? 'Queried' : applicant.status == 3 ? 'Successful' : applicant.status == 5 ? 'Under Review' : 'Unsuccessful'}
+                  {applicant.status == 1 ? 'Submitted': applicant.status == 2 ? 'Queried' : applicant.status == 3 ? 'Successful' : 'Unsuccessful'}
 
               </TableCell>
               <TableCell> 
