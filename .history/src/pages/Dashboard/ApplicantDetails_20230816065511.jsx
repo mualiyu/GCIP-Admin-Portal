@@ -1168,7 +1168,7 @@ function ApplicantDetails() {
                                 {decision?.concerns.map((concern)=>{
 
                                return(
-                                <li key={concern.id}>{concern}</li>
+                                <li>{concern}</li>
                                 ) })}
                               </ol>
                             </td>
