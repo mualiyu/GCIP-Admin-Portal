@@ -5,10 +5,10 @@ import { RegularText } from "../../../components/Common";
 
 export default function MessageUser({name='',title='',onClick,unread}) {
   return (
-    <div onClick={onClick} className="message-user-container">
+    <div onClick={onClick} className="message-user-container" style={{marginBototm: 0}}>
       {/* <FaUser size={16} /> */}
       <div className="user-detail">
-        <RegularText style={{ fontWeight: "bold" }} text={name} />
+        <RegularText style={{ fontWeight: "bold", textTransform: 'capitalize' }} text={name} />
         <RegularText text={title} />
       </div>
       {unread > 0 && 

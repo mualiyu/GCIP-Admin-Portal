@@ -374,13 +374,13 @@ function ApplicantDetails() {
               </p>
             </div>
 
-            <div className="lh-2">
+            {/* <div className="lh-2">
               <h2 className="review_title">EVIDENCE OF EQUIPMENT <br/> OWNERSHIP</h2>
               <p>
                 {" "}
                 {current?.evidence_of_equipment_ownership == null ? 'N/A' : "UPLOADED"}{" "}
               </p>
-            </div>
+            </div> */}
           </div>
         )}
 
