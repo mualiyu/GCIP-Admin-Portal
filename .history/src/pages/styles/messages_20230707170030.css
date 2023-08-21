@@ -28,7 +28,6 @@
 }
 .chatlist-main{
     padding: 20px;
-    overflow: scroll;
     
 }
 .main-chat-lists{
@@ -53,7 +52,7 @@
     display: flex;
     align-items: center;
     position: fixed;
-    bottom: 0;
+    bottom: 15px;
     left: 40%;
     width: 100%;
     }

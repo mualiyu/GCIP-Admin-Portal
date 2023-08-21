@@ -11,16 +11,13 @@
     transition: all 0.5s;
    
 }
-.message-user-container:hover{
+/* .message-user-container:hover{
     opacity: 0.5;
-    font-weight: 900;
 }
-
-.selected-user-message {
-    border-left: 3px solid #006439;
+.message-user-container:focus {
     font-weight: 900;
-}
-
+    border-bottom: 3px solid red;
+} */
 .message-user-container .user-detail{
     display: flex;
     flex-direction: column;
@@ -31,3 +28,22 @@
     margin-left: auto;
     margin-right: 5px;
 }
+
+
+
+
+  
+  .message-user-container:focus {
+    background-color: blue;
+  }
+  
+  .message-user-container:active {
+    background-color: red;
+  }
+
+
+
+  .message-user-container:hover {
+    background-color: green;
+    opacity: 0.5;
+  }

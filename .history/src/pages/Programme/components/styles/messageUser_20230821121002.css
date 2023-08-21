@@ -13,15 +13,9 @@
 }
 .message-user-container:hover{
     opacity: 0.5;
-    font-weight: 900;
 }
-
-.selected-user-message {
-    border-left: 3px solid #006439;
-    font-weight: 900;
-}
-
 .message-user-container .user-detail{
+    /* width: 60%; */
     display: flex;
     flex-direction: column;
     margin-left: 10px;

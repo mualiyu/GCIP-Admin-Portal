@@ -8,10 +8,10 @@ export default function MessageUser({name='',title='',onClick,unread}) {
     <div onClick={onClick} className="message-user-container" style={{marginBototm: 0}}>
       {/* <FaUser size={16} /> */}
       <div className="user-detail">
-        <RegularText style={{ textTransform: 'capitalize', marginBottom: 0 }} text={name} />
+        <RegularText style={{ fontWeight: "bold", textTransform: 'capitalize' }} text={name} />
         <RegularText text={title} />
       </div>
-      {unread > 0 && 
+      {/* {unread > 0 &&  */}
       <div className="status">
          <RegularText style={{ fontSize:12, 
             backgroundColor: 'red',
@@ -21,7 +21,7 @@ export default function MessageUser({name='',title='',onClick,unread}) {
     text={`${unread}`}/>
     
       </div>
-    }
+    {/* } */}
     </div>
   );
 }

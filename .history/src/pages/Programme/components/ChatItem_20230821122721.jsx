@@ -85,31 +85,7 @@ export default function ChatItem({
       <div className="main-item-1" style={{
         borderRadius: isAdmin ? "10px 10px 0 10px" : "10px 10px 10px 0",
       }}>
-        <div className="parent" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-      <span style={{
-            fontWeight:500,
-            fontSize:8,
-            position:'absolute',
-            top: 10,
-            marginRight:10,
-            // color: isAdmin ? "#000" : "#CDCDCD",
-            color: "#716f6f",
-            left: 23
-            
-          }}>{isAdmin ? "Admin" : user}</span>
-{created &&
-      <span style={{
-            fontWeight:'bolder',
-            fontSize:8,
-            position:'absolute',
-            top: 10,
-            right:0,
-            marginRight:10,
-            // color: isAdmin ? "#000" : "#CDCDCD",
-            color: "#716f6f",
-          }}> {moment(created).calendar()}</span>
-}
-          </div>
+        
         <div className="item-txt">
           <RegularText
             style={{
@@ -140,13 +116,35 @@ export default function ChatItem({
                 marginTop: 10,
                 textDecoration: 'underline',
                 cursor: 'pointer',
-                textAlign: 'right',
-                color: '#006439',
-                paddingRight: 15
+                textAlign: 'center'
               }}> Download File </p>
           )}
           
         </div>
+        <div className="parent" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+      <span style={{
+            fontWeight:500,
+            fontSize:8,
+            position:'absolute',
+            top: 10,
+            marginRight:10,
+            // color: isAdmin ? "#000" : "#CDCDCD",
+            color: "#716f6f",
+            left: 23
+            
+          }}>{isAdmin ? "Admin" : user}</span>
+{created &&
+      <span style={{
+            fontWeight:'bolder',
+            fontSize:8,
+            position:'absolute',
+            top: 10,
+            right:0,
+            marginRight:10,
+            color: isAdmin ? "#000" : "#CDCDCD",
+          }}> {moment(created).calendar()}</span>
+}
+          </div>
         
       </div>
       

@@ -9,7 +9,7 @@ export default function MessageUser({name='',title='',onClick,unread}) {
       {/* <FaUser size={16} /> */}
       <div className="user-detail">
         <RegularText style={{ textTransform: 'capitalize', marginBottom: 0 }} text={name} />
-        <RegularText text={title} />
+        {/* <RegularText text={title} /> */}
       </div>
       {unread > 0 && 
       <div className="status">

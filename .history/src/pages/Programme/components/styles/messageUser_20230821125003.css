@@ -13,14 +13,7 @@
 }
 .message-user-container:hover{
     opacity: 0.5;
-    font-weight: 900;
 }
-
-.selected-user-message {
-    border-left: 3px solid #006439;
-    font-weight: 900;
-}
-
 .message-user-container .user-detail{
     display: flex;
     flex-direction: column;
@@ -31,3 +24,19 @@
     margin-left: auto;
     margin-right: 5px;
 }
+
+
+
+
+  
+  .message-user-container:focus {
+    background-color: blue;
+  }
+  
+ 
+
+
+
+  .message-user-container::selection {
+    background-color: red;
+  }

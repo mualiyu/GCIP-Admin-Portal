@@ -105,8 +105,7 @@ export default function ChatItem({
             top: 10,
             right:0,
             marginRight:10,
-            // color: isAdmin ? "#000" : "#CDCDCD",
-            color: "#716f6f",
+            color: isAdmin ? "#000" : "#CDCDCD",
           }}> {moment(created).calendar()}</span>
 }
           </div>
@@ -140,9 +139,7 @@ export default function ChatItem({
                 marginTop: 10,
                 textDecoration: 'underline',
                 cursor: 'pointer',
-                textAlign: 'right',
-                color: '#006439',
-                paddingRight: 15
+                textAlign: 'center'
               }}> Download File </p>
           )}
           

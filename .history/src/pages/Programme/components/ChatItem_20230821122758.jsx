@@ -140,9 +140,7 @@ export default function ChatItem({
                 marginTop: 10,
                 textDecoration: 'underline',
                 cursor: 'pointer',
-                textAlign: 'right',
-                color: '#006439',
-                paddingRight: 15
+                textAlign: 'center'
               }}> Download File </p>
           )}
           
