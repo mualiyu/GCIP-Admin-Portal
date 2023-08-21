@@ -1,0 +1,27 @@
+.message-user-container{
+    height: 100px;
+    width: 90%;
+    background-color:transparent;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+   
+}
+.message-user-container:hover{
+    opacity: 0.5;
+}
+.message-user-container .user-detail{
+    /* width: 60%; */
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+
+}
+.message-user-container .status{
+    margin-left: auto;
+    margin-right: 5px;
+}

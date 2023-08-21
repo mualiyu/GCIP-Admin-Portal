@@ -26,9 +26,9 @@
 .item-cont.admin .main-item-1{
     background: rgba(51, 87, 56, 0.25);
     width: auto;
-    /* max-width: 300px; */
+    max-width: 300px;
     padding-bottom: 10px;
-    /* font-family: manrope; */
+    font-family: manrope;
     font-size: 11px;
 }
 
