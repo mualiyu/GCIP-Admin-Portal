@@ -506,6 +506,60 @@ function ApplicantDetails() {
 
         {current !== null && (
           <div className="my-60">
+            <h2 className="review_title">JOINT VENTURE</h2>
+            <div
+              style={{
+                borderBottom: "1px dashed #ccc",
+                paddingBottom: 20,
+              }}></div>
+            {current.jvs?.length == 0 && (
+              <p className="no-record">No Record has been added</p>
+            )}
+            {current.jvs?.length > 0 && (
+              <table
+                className="review_table"
+                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}>
+                <thead>
+                  <th>S/N</th>
+                  <th>Business Name</th>
+                  <th>Contact</th>
+                  <th> CAC</th>
+                  <th> Audited A/C</th>
+                  <th> Income Tax</th>
+                  <th> Letter of Auth</th>
+                  <th> Affidavit</th>
+                </thead>
+                <tbody>
+                  {current.jvs?.map((item, index) => {
+                    return (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {item.name} <br />
+                          <span>RC:{item.rc_number}</span>
+                        </td>
+                        <td>
+                          {item.email} <br />
+                          <span>Phone: {item.phone}</span>
+                        </td>
+                        <td>{item.evidence_of_cac ? "Uploaded" : "N/A"}</td>
+                        <td>{item.audited_account ? "Uploaded" : "N/A"}</td>
+                        <td>{item.company_income_tax ? "Uploaded" : "N/A"}</td>
+                        <td>
+                          {item.letter_of_authorization ? "Uploaded" : "N/A"}
+                        </td>
+                        <td>{item.sworn_affidavits ? "Uploaded" : "N/A"}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
+        {current !== null && (
+          <div className="my-60">
             <h2 className="review_title">Selected Program</h2>
             <div
               style={{
@@ -976,60 +1030,6 @@ function ApplicantDetails() {
                   );
                 })}
               </>
-            )}
-          </div>
-        )}
-
-        {current !== null && (
-          <div className="my-60">
-            <h2 className="review_title">JOINT VENTURE</h2>
-            <div
-              style={{
-                borderBottom: "1px dashed #ccc",
-                paddingBottom: 20,
-              }}></div>
-            {current.jvs?.length == 0 && (
-              <p className="no-record">No Record has been added</p>
-            )}
-            {current.jvs?.length > 0 && (
-              <table
-                className="review_table"
-                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}>
-                <thead>
-                  <th>S/N</th>
-                  <th>Business Name</th>
-                  <th>Contact</th>
-                  <th> CAC</th>
-                  <th> Audited A/C</th>
-                  <th> Income Tax</th>
-                  <th> Letter of Auth</th>
-                  <th> Affidavit</th>
-                </thead>
-                <tbody>
-                  {current.jvs?.map((item, index) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          {item.name} <br />
-                          <span>RC:{item.rc_number}</span>
-                        </td>
-                        <td>
-                          {item.email} <br />
-                          <span>Phone: {item.phone}</span>
-                        </td>
-                        <td>{item.evidence_of_cac ? "Uploaded" : "N/A"}</td>
-                        <td>{item.audited_account ? "Uploaded" : "N/A"}</td>
-                        <td>{item.company_income_tax ? "Uploaded" : "N/A"}</td>
-                        <td>
-                          {item.letter_of_authorization ? "Uploaded" : "N/A"}
-                        </td>
-                        <td>{item.sworn_affidavits ? "Uploaded" : "N/A"}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
             )}
           </div>
         )}
