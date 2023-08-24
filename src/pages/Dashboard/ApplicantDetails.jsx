@@ -828,7 +828,7 @@ function ApplicantDetails() {
                             padding: 10,
                             marginTop: 20,
                           }}>
-                          <section style={{ margin: 7 }}>
+                          {/* <section style={{ margin: 7 }}>
                             <div
                               style={{
                                 textTransform: "uppercase",
@@ -840,7 +840,7 @@ function ApplicantDetails() {
                               Project Cost :
                             </div>
                             <p> {formatCurrency(item?.project_cost)}</p>
-                          </section>
+                          </section> */}
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
