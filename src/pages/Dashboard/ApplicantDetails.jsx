@@ -358,7 +358,7 @@ function ApplicantDetails() {
               }}
               lineButton
               disabled={isConverting == "Converting PDF"}
-              label={isConverting}
+              label={isConverting ? "Converting PDF" : "Download PDF"}
             />
             <Button
               onClick={() => downloadDocumentsInZip()}
