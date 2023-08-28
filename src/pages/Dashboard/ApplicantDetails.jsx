@@ -15,6 +15,7 @@ import Button from "../../components/Button";
 import { MoonLoader } from "react-spinners";
 import moment from "moment";
 import axios from "axios";
+import convertToPDF from "../../helpers/convertToPDF";
 import { TextField, Autocomplete } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -29,6 +30,7 @@ function ApplicantDetails() {
   const [openReview, setOpenReview] = useState(false);
   const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState(null);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [whatToSend, setWhatToSend] = useState([]);
   const [isConverting, setIsConverting] = useState(false);
   const { applicant_id, programId } = useParams();
@@ -51,7 +53,7 @@ function ApplicantDetails() {
       setCurrent(data?.data?.application);
       let status =
         data?.data?.application?.application_decisions[
-          data?.data?.application?.application_decisions.length - 1
+          data?.data?.application?.application_decisions?.length - 1
         ].status;
       setApplicationStatus(status);
     }
@@ -64,13 +66,7 @@ function ApplicantDetails() {
     setSelectedOption(selectedValue);
   };
 
-  const previousComponent = () => {
-    // Replace '/target-route' with the route you want to navigate to
-    // history.push(`/Programme/Application/Submissions/${programId}`);
-  };
-
   const removeLastPathSegment = () => {
-    console.log("hey");
     const segments =
       `/Programme/Application/Submissions/${programId}/Applicant/${applicant_id}`.split(
         "/"
@@ -275,9 +271,11 @@ function ApplicantDetails() {
   };
 
   const handleConvertToPDF = () => {
+    console.log("begin");
     convertToPDF(
       "divToPrint",
       `${current.application_profile[0]?.name}`,
+      // setBtnLoader
       setIsConverting
     );
   };
@@ -313,7 +311,7 @@ function ApplicantDetails() {
           cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
         />
       )}
-      <section id="divToPrint">
+      <section id="divToPrint" style={{ width: "100%;" }}>
         <Alert text={alertText} />
         <div
           style={{
@@ -345,6 +343,23 @@ function ApplicantDetails() {
             </sup>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
+            <Button
+              onClick={handleConvertToPDF}
+              className="no-print"
+              fontStyle={{
+                color: "var(--primary)",
+              }}
+              style={{
+                width: 134,
+                backgroundColor: "#fff",
+                color: "#006439!important",
+                border: "1px solid var(--primary)",
+                marginRight: 15,
+              }}
+              lineButton
+              disabled={isConverting == "Converting PDF"}
+              label={isConverting}
+            />
             <Button
               onClick={() => downloadDocumentsInZip()}
               className="no-print"
