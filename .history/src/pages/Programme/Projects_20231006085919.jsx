@@ -43,7 +43,6 @@ export default function Projects() {
   const [loadingState, setLoadingState] = useState({});
   const [alertText, setAlert] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [projectToUpdateId, setProjectToUpdateId] = useState(null);
   const [saveActivated, setSaveActivated] = useState(false);
 
   const initialProjectDocument = {
@@ -74,17 +73,6 @@ export default function Projects() {
       ...projectForm,
       project_documents: updatedProjectDocuments,
     });
-  };
-
-  const resetForm = () => {
-    (projectForm.lot_name = ""),
-      (projectForm.description = ""),
-      (projectForm.state = ""),
-      (projectForm.lga = ""),
-      (projectForm.name_of_community = ""),
-      (projectForm.coordinate = ""),
-      (projectForm.project_documents = [initialProjectDocument]),
-      (projectForm.project_requirements = [initialProjectRequirement]);
   };
 
   const handleRequirementInputChange = (index, fieldName, value) => {
@@ -160,7 +148,6 @@ export default function Projects() {
   const updateProject = (project) => {
     setIsOpen(true);
     console.log(project);
-    setProjectToUpdateId(project.id);
     setEditMode(true);
     setProjectForm({
       ...projectForm,
@@ -173,14 +160,11 @@ export default function Projects() {
     e.preventDefault();
     const { success, data, error } = await query({
       method: "POST",
-      url: editMode
-        ? `/api/admin/projects/${programId}/update/${projectToUpdateId}`
-        : `/api/admin/projects/${programId}/create`,
+      url: `/api/admin/projects/1/create`,
       token: programData.user.user.token,
       bodyData: projectForm,
     });
 
-    console.log(projectForm);
     if (success) {
       setAlert(data.message);
       setSaveActivated(false);
@@ -237,7 +221,7 @@ export default function Projects() {
           style={{
             display: "flex",
             alignItems: "center",
-            // justifyContent: "space-between",
+            justifyContent: "space-between",
             width: "100%",
           }}>
           <div>
@@ -253,8 +237,6 @@ export default function Projects() {
               padding: "9px 22px",
               cursor: "pointer",
               fontSize: 12,
-              marginLeft: 20,
-              borderRadius: 7,
             }}
             onClick={() => {
               setIsOpen(true);
@@ -625,7 +607,7 @@ export default function Projects() {
                   }}
                   onClick={() => {
                     setIsOpen(false);
-                    resetForm();
+                    setEditMode(false);
                   }}>
                   CLOSE
                 </button>
