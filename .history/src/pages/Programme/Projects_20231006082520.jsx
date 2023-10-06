@@ -38,7 +38,6 @@ export default function Projects() {
   const [allProjects, setAllProjects] = useState([]);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [editMode, setEditMode] = useState(false);
   const { programId } = useParams();
   const [loadingState, setLoadingState] = useState({});
   const [alertText, setAlert] = useState("");
@@ -148,7 +147,6 @@ export default function Projects() {
   const updateProject = (project) => {
     setIsOpen(true);
     console.log(project);
-    setEditMode(true);
     setProjectForm({
       ...projectForm,
       ...project,
@@ -343,10 +341,7 @@ export default function Projects() {
               marginTop: 20,
               marginBottom: 20,
             }}>
-            <Header
-              text={!editMode ? "ADD NEW PROJECT" : "UPDATE PROJECT"}
-              style={{ fontSize: 12 }}
-            />
+            <Header text="ADD NEW PROJECT" style={{ fontSize: 12 }} />
 
             <form onSubmit={handleSubmit}>
               <section className="cuts border-bottom">

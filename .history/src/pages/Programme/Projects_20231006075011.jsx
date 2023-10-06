@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import "../styles/home.css";
 import moment from "moment";
 import { FaPlusCircle, FaTrash } from "react-icons/fa";
+
 import Button from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
@@ -38,9 +39,7 @@ export default function Projects() {
   const [allProjects, setAllProjects] = useState([]);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [editMode, setEditMode] = useState(false);
   const { programId } = useParams();
-  const [loadingState, setLoadingState] = useState({});
   const [alertText, setAlert] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [saveActivated, setSaveActivated] = useState(false);
@@ -122,33 +121,27 @@ export default function Projects() {
   };
 
   const deleteProgram = async (id) => {
-    try {
-      setLoadingState((prevState) => ({ ...prevState, [id]: true }));
-      const { success, data, error } = await query({
-        method: "POST",
-        url: `/api/admin/projects/${programId}/delete/${id}?delete=project`,
-        token: programData.user.user.token,
-      });
-      if (success) {
-        console.log(data);
-        setAlert(data.message);
-        getAllProjects(programId);
-        setLoadingState((prevState) => ({ ...prevState, [id]: false }));
-      }
-    } catch (error) {
-      setAlert("error deleting item");
-      console.error("Error deleting item", error);
+    console.log(id);
+    const { success, data, error } = await query({
+      method: "POST",
+      url: `/api/admin/projects/${programId}/delete/${id}?delete=project`,
+      token: programData.user.user.token,
+    });
+
+    if (success) {
+      console.log(data);
+      // setAlert(data.message);
+      getAllProjects(programId);
     }
-    setLoading(false);
-    setTimeout(() => {
-      setAlert("");
-    }, 4000);
+
+    console.log(data);
+    //   setAlert(data.message);
+    //   setSaveActivated(false);
   };
 
   const updateProject = (project) => {
     setIsOpen(true);
     console.log(project);
-    setEditMode(true);
     setProjectForm({
       ...projectForm,
       ...project,
@@ -172,10 +165,8 @@ export default function Projects() {
       getAllProjects(programId);
     }
 
+    console.log(data);
     setAlert(data.message);
-    setTimeout(() => {
-      setAlert("");
-    }, 4000);
     setSaveActivated(false);
   };
 
@@ -203,14 +194,8 @@ export default function Projects() {
   const navigate = useNavigate();
   return (
     <Fade>
+      <Alert text={alertText} />
       <div className="home_container">
-        {loading && (
-          <MoonLoader
-            size={25}
-            cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
-          />
-        )}
-        <Alert text={alertText} style={{ padding: 9 }} />
         <div className="home_top" style={{ width: "90%" }}>
           <div className="home_user">
             <span>A</span>
@@ -305,14 +290,10 @@ export default function Projects() {
                             color: "red",
                             marginRight: 4,
                             padding: "9px 22px",
-                            cursor: loadingState[project.id]
-                              ? "none"
-                              : "pointer",
+                            cursor: "pointer",
                           }}
-                          disabled={loading}
                           onClick={() => deleteProgram(project.id)}>
-                          {/* {loading ? "Deleting" : "Delete"} */}
-                          {loadingState[project.id] ? "Deleting" : "Delete"}
+                          Delete
                         </button>
                       </div>
                     </td>
@@ -343,10 +324,7 @@ export default function Projects() {
               marginTop: 20,
               marginBottom: 20,
             }}>
-            <Header
-              text={!editMode ? "ADD NEW PROJECT" : "UPDATE PROJECT"}
-              style={{ fontSize: 12 }}
-            />
+            <Header text="ADD NEW PROJECT" style={{ fontSize: 12 }} />
 
             <form onSubmit={handleSubmit}>
               <section className="cuts border-bottom">

@@ -344,7 +344,7 @@ export default function Projects() {
               marginBottom: 20,
             }}>
             <Header
-              text={!editMode ? "ADD NEW PROJECT" : "UPDATE PROJECT"}
+              text={editMode ? "UPDATE PROJECT" : "ADD NEW PROJECT"}
               style={{ fontSize: 12 }}
             />
 

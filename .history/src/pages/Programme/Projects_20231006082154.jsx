@@ -38,7 +38,6 @@ export default function Projects() {
   const [allProjects, setAllProjects] = useState([]);
   const programData = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [editMode, setEditMode] = useState(false);
   const { programId } = useParams();
   const [loadingState, setLoadingState] = useState({});
   const [alertText, setAlert] = useState("");
@@ -140,15 +139,27 @@ export default function Projects() {
       console.error("Error deleting item", error);
     }
     setLoading(false);
-    setTimeout(() => {
-      setAlert("");
-    }, 4000);
+    // console.log(id);
+    // setLoading[id](true);
+    // const { success, data, error } = await query({
+    //   method: "POST",
+    //   url: `/api/admin/projects/${programId}/delete/${id}?delete=project`,
+    //   token: programData.user.user.token,
+    // });
+
+    // if (success) {
+    //   console.log(data);
+    //   setAlert(data.message);
+    //   setLoading(false);
+    //   getAllProjects(programId);
+    // }
+    // setLoading(false);
+    // setAlert(data.message);
   };
 
   const updateProject = (project) => {
     setIsOpen(true);
     console.log(project);
-    setEditMode(true);
     setProjectForm({
       ...projectForm,
       ...project,
@@ -172,10 +183,8 @@ export default function Projects() {
       getAllProjects(programId);
     }
 
+    console.log(data);
     setAlert(data.message);
-    setTimeout(() => {
-      setAlert("");
-    }, 4000);
     setSaveActivated(false);
   };
 
@@ -343,10 +352,7 @@ export default function Projects() {
               marginTop: 20,
               marginBottom: 20,
             }}>
-            <Header
-              text={!editMode ? "ADD NEW PROJECT" : "UPDATE PROJECT"}
-              style={{ fontSize: 12 }}
-            />
+            <Header text="ADD NEW PROJECT" style={{ fontSize: 12 }} />
 
             <form onSubmit={handleSubmit}>
               <section className="cuts border-bottom">
