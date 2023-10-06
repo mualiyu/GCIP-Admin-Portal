@@ -239,7 +239,7 @@ function ProjectDetails({ latitude, longitude }) {
       <section
         style={{
           display: "flex",
-          alignItems: "start",
+          alignItems: "baseline",
           justifyContent: "space-between",
           marginBotton: 60,
         }}>
@@ -394,7 +394,7 @@ function ProjectDetails({ latitude, longitude }) {
         </section>
         <section className="maps" style={{ width: "50%" }}>
           <div>
-            {/* <p className="details__label"> Coordinates </p> */}
+            <p className="details__label"> Coordinates </p>
             <div className="embed_maps project_details" id="map-canvas">
               <div>
                 <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o">

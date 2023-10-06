@@ -350,7 +350,10 @@ export default function Projects() {
                 </div>
                 <div className="project_row">
                   <div className="project_division">
-                    <label className="formControlLabel"> Community </label>
+                    <label className="formControlLabel">
+                      {" "}
+                      Name of Community{" "}
+                    </label>
                     <input
                       className="formControl"
                       type="text"
@@ -387,7 +390,6 @@ export default function Projects() {
                     <textarea
                       name="description"
                       className="formControl"
-                      style={{ width: "96%" }}
                       value={projectForm.description}
                       onChange={(e) =>
                         setProjectForm({

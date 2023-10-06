@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import "../styles/styles.css";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 // import { Map, Marker, GoogleApiWrapper } from ‘google-maps-react’
-// import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 // import moment from "moment";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -68,7 +68,7 @@ function ProjectDetails({ latitude, longitude }) {
   }, [loading]);
 
   const mapStyles = {
-    height: "760px",
+    height: "150px",
     width: "100%",
   };
 
@@ -143,15 +143,18 @@ function ProjectDetails({ latitude, longitude }) {
     console.log(data);
     if (success) {
       setProjectDetails(data.data.projects);
-      console.log(data.data.projects);
-      const latlngStr = data?.data?.projects?.coordinate.split(",", 2);
-      //   console.log(latlngStr);
+      //   setProject(resp.data.data.project);
+      const latlngStr = resp?.data?.data?.projectDetails?.coordinate.split(
+        ",",
+        2
+      );
+      console.log(latlngStr);
       const latlng = {
         lat: parseFloat(latlngStr[0]),
         lng: parseFloat(latlngStr[1]),
       };
       setMapLocation(latlng);
-      console.log(mapLocation);
+      console.log(projectDetail);
     }
   };
 
@@ -239,7 +242,7 @@ function ProjectDetails({ latitude, longitude }) {
       <section
         style={{
           display: "flex",
-          alignItems: "start",
+          alignItems: "baseline",
           justifyContent: "space-between",
           marginBotton: 60,
         }}>
@@ -392,9 +395,9 @@ function ProjectDetails({ latitude, longitude }) {
             )}
           </div>
         </section>
-        <section className="maps" style={{ width: "50%" }}>
+        <section className="maps" style={{ width: "48%" }}>
           <div>
-            {/* <p className="details__label"> Coordinates </p> */}
+            <p className="details__label"> Coordinates </p>
             <div className="embed_maps project_details" id="map-canvas">
               <div>
                 <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o">

@@ -137,7 +137,7 @@ export default function Application() {
                             cursor: "pointer",
                           }}
                           onClick={() => handleViewSubmissions(prg.id)}>
-                          Submissions
+                          View Submissions
                         </button>
                         <button
                           style={{
@@ -153,7 +153,7 @@ export default function Application() {
                             dispatch(setId(prg.id));
                             navigate(`/Programme/Projects/${prg.id}`);
                           }}>
-                          Projects
+                          View Projects
                         </button>
                       </div>
                     </td>

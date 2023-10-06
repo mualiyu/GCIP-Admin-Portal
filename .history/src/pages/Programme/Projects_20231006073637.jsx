@@ -387,7 +387,6 @@ export default function Projects() {
                     <textarea
                       name="description"
                       className="formControl"
-                      style={{ width: "96%" }}
                       value={projectForm.description}
                       onChange={(e) =>
                         setProjectForm({

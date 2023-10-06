@@ -42,7 +42,6 @@ export default function Projects() {
   const { programId } = useParams();
   const [alertText, setAlert] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [saveActivated, setSaveActivated] = useState(false);
 
   const initialProjectDocument = {
     name: "",
@@ -138,7 +137,7 @@ export default function Projects() {
   };
 
   const handleSubmit = async (e) => {
-    setSaveActivated(true);
+    setLoading(true);
     e.preventDefault();
     const { success, data, error } = await query({
       method: "POST",
@@ -149,14 +148,14 @@ export default function Projects() {
 
     if (success) {
       setAlert(data.message);
-      setSaveActivated(false);
+      setLoading(false);
       setIsOpen(false);
       getAllProjects(programId);
     }
 
     console.log(data);
     setAlert(data.message);
-    setSaveActivated(false);
+    setLoading(false);
   };
 
   const viewProgramDetails = (projectId) => {
@@ -350,7 +349,10 @@ export default function Projects() {
                 </div>
                 <div className="project_row">
                   <div className="project_division">
-                    <label className="formControlLabel"> Community </label>
+                    <label className="formControlLabel">
+                      {" "}
+                      Name of Community{" "}
+                    </label>
                     <input
                       className="formControl"
                       type="text"
@@ -387,7 +389,6 @@ export default function Projects() {
                     <textarea
                       name="description"
                       className="formControl"
-                      style={{ width: "96%" }}
                       value={projectForm.description}
                       onChange={(e) =>
                         setProjectForm({
@@ -432,7 +433,6 @@ export default function Projects() {
                       cursor: "pointer",
                       border: "2px solid #006438",
                       padding: "0 8px 0 0",
-                      color: "#006438",
                     }}
                     onClick={addProjectRequirement}>
                     <FaPlusCircle
@@ -529,7 +529,6 @@ export default function Projects() {
                       cursor: "pointer",
                       border: "2px solid #006438",
                       padding: "0 8px 0 0",
-                      color: "#006438",
                     }}
                     onClick={addProjectDocument}>
                     <FaPlusCircle
@@ -573,7 +572,7 @@ export default function Projects() {
                     fontWeight: 900,
                     fontSize: 9,
                   }}>
-                  {saveActivated ? "SAVING..." : "SAVE"}
+                  {loading ? "SAVING..." : "SAVE"}
                 </button>
               </div>
             </form>

@@ -42,7 +42,6 @@ export default function Projects() {
   const { programId } = useParams();
   const [alertText, setAlert] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [saveActivated, setSaveActivated] = useState(false);
 
   const initialProjectDocument = {
     name: "",
@@ -138,7 +137,7 @@ export default function Projects() {
   };
 
   const handleSubmit = async (e) => {
-    setSaveActivated(true);
+    setLoading(true);
     e.preventDefault();
     const { success, data, error } = await query({
       method: "POST",
@@ -149,14 +148,14 @@ export default function Projects() {
 
     if (success) {
       setAlert(data.message);
-      setSaveActivated(false);
+      setLoading(false);
       setIsOpen(false);
       getAllProjects(programId);
     }
 
     console.log(data);
     setAlert(data.message);
-    setSaveActivated(false);
+    setLoading(false);
   };
 
   const viewProgramDetails = (projectId) => {
@@ -302,7 +301,7 @@ export default function Projects() {
             <Header text="ADD NEW PROJECT" style={{ fontSize: 12 }} />
 
             <form onSubmit={handleSubmit}>
-              <section className="cuts border-bottom">
+              <section className="cuts">
                 <div className="project_row">
                   <div className="project_division">
                     <label className="formControlLabel"> Lot Name </label>
@@ -350,7 +349,10 @@ export default function Projects() {
                 </div>
                 <div className="project_row">
                   <div className="project_division">
-                    <label className="formControlLabel"> Community </label>
+                    <label className="formControlLabel">
+                      {" "}
+                      Name of Community{" "}
+                    </label>
                     <input
                       className="formControl"
                       type="text"
@@ -387,7 +389,6 @@ export default function Projects() {
                     <textarea
                       name="description"
                       className="formControl"
-                      style={{ width: "96%" }}
                       value={projectForm.description}
                       onChange={(e) =>
                         setProjectForm({
@@ -398,22 +399,67 @@ export default function Projects() {
                   </div>
                 </div>
               </section>
-              <section className="cuts">
-                <div>
-                  <h4>PROJECT REQUIREMENTS</h4>
-                  {projectForm.project_requirements.map((doc, index) => (
-                    <div className="project_row" key={doc.id}>
+              <div style={{ marginTop: "15px" }}>
+                <h4>Add Project Requirments</h4>
+                {projectForm.project_requirements.map((doc, index) => (
+                  <div className="project_row">
+                    <div className="project_division">
+                      <label className="formControlLabel">
+                        {" "}
+                        Requirement {index + 1}{" "}
+                      </label>
+                      <input
+                        className="formControl"
+                        type="text"
+                        value={doc.name}
+                        onChange={(e) =>
+                          handleRequirementInputChange(
+                            index,
+                            "name",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    float: "right",
+                    cursor: "pointer",
+                    border: "2px solid #006438",
+                    padding: "0 8px 0 0",
+                  }}
+                  onClick={addProjectRequirement}>
+                  <FaPlusCircle
+                    style={{
+                      padding: 9,
+                      borderRadius: "50%",
+                      color: "#006438",
+                    }}
+                  />{" "}
+                  Add More
+                </div>
+              </div>
+              <div style={{ marginTop: "15px" }}>
+                <h4>Upload Project Documents</h4>
+                {projectForm.project_documents.map((document, index) => (
+                  <div className="project_row">
+                    <>
                       <div className="project_division">
                         <label className="formControlLabel">
                           {" "}
-                          Requirement {index + 1}{" "}
+                          Name of Document {index + 1}
                         </label>
                         <input
                           className="formControl"
                           type="text"
-                          value={doc.name}
+                          value={document.name}
                           onChange={(e) =>
-                            handleRequirementInputChange(
+                            handleDocumentInputChange(
                               index,
                               "name",
                               e.target.value
@@ -421,128 +467,77 @@ export default function Projects() {
                           }
                         />
                       </div>
-                    </div>
-                  ))}
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      float: "right",
-                      cursor: "pointer",
-                      border: "2px solid #006438",
-                      padding: "0 8px 0 0",
-                      color: "#006438",
-                    }}
-                    onClick={addProjectRequirement}>
-                    <FaPlusCircle
-                      style={{
-                        padding: 9,
-                        borderRadius: "50%",
-                        color: "#006438",
-                      }}
-                    />{" "}
-                    Add More
-                  </div>
-                </div>
-              </section>
-              <section className="cuts">
-                <div style={{ marginTop: "15px" }}>
-                  <h4> PROJECT DOCUMENTS</h4>
-                  {projectForm.project_documents.map((document, index) => (
-                    <div className="project_row" key={document.id}>
-                      <>
-                        <div className="project_division">
-                          <label className="formControlLabel">
-                            {" "}
-                            Name of Document {index + 1}
-                          </label>
-                          <input
-                            className="formControl"
-                            type="text"
-                            value={document.name}
-                            onChange={(e) =>
-                              handleDocumentInputChange(
-                                index,
-                                "name",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="project_division">
-                          <label className="formControlLabel">
-                            {" "}
-                            Upload Document{" "}
-                          </label>
-                          <input
-                            className="formControl"
-                            onChange={(e) => {
-                              const formData = new FormData();
-                              const files = e.target.files;
-                              files?.length &&
-                                formData.append("file", files[0]);
-                              setLoading(true);
-                              fetch(
-                                "https://api.grants.amp.gefundp.rea.gov.ng/api/admin/projects/file/upload",
-                                {
-                                  method: "POST",
-                                  body: formData,
-                                  headers: {
-                                    Authorization:
-                                      "Bearer " + programData.user.user.token,
-                                  },
+                      <div className="project_division">
+                        <label className="formControlLabel">
+                          {" "}
+                          Upload Document{" "}
+                        </label>
+                        <input
+                          className="formControl"
+                          onChange={(e) => {
+                            const formData = new FormData();
+                            const files = e.target.files;
+                            files?.length && formData.append("file", files[0]);
+                            setLoading(true);
+                            fetch(
+                              "https://api.grants.amp.gefundp.rea.gov.ng/api/admin/projects/file/upload",
+                              {
+                                method: "POST",
+                                body: formData,
+                                headers: {
+                                  Authorization:
+                                    "Bearer " + programData.user.user.token,
+                                },
+                              }
+                            )
+                              .then((res) => res.json())
+                              .then((data) => {
+                                setLoading(false);
+                                if (data.status) {
+                                  handleInputChange(
+                                    index,
+                                    "url",
+                                    data.data.url
+                                  );
+                                  setAlert("Uplaoded Succefully");
+                                } else {
+                                  setAlert(
+                                    "Something went wrong. Kindly Upload again"
+                                  );
                                 }
-                              )
-                                .then((res) => res.json())
-                                .then((data) => {
-                                  setLoading(false);
-                                  if (data.status) {
-                                    handleInputChange(
-                                      index,
-                                      "url",
-                                      data.data.url
-                                    );
-                                    setAlert("Uplaoded Succefully");
-                                  } else {
-                                    setAlert(
-                                      "Something went wrong. Kindly Upload again"
-                                    );
-                                  }
-                                  setTimeout(() => {
-                                    setAlert("");
-                                  }, 2000);
-                                });
-                            }}
-                            type="file"
-                          />
-                        </div>
-                      </>
-                    </div>
-                  ))}
+                                setTimeout(() => {
+                                  setAlert("");
+                                }, 2000);
+                              });
+                          }}
+                          type="file"
+                          label="License Document"
+                        />
+                      </div>
+                    </>
+                  </div>
+                ))}
 
-                  <div
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    float: "right",
+                    cursor: "pointer",
+                    border: "2px solid #006438",
+                    padding: "0 8px 0 0",
+                  }}
+                  onClick={addProjectDocument}>
+                  <FaPlusCircle
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      float: "right",
-                      cursor: "pointer",
-                      border: "2px solid #006438",
-                      padding: "0 8px 0 0",
+                      padding: 9,
+                      borderRadius: "50%",
                       color: "#006438",
                     }}
-                    onClick={addProjectDocument}>
-                    <FaPlusCircle
-                      style={{
-                        padding: 9,
-                        borderRadius: "50%",
-                        color: "#006438",
-                      }}
-                    />{" "}
-                    Add More
-                  </div>
+                  />{" "}
+                  Add More
                 </div>
-              </section>
+              </div>
               <br /> <br />
               <div>
                 <button
@@ -573,7 +568,7 @@ export default function Projects() {
                     fontWeight: 900,
                     fontSize: 9,
                   }}>
-                  {saveActivated ? "SAVING..." : "SAVE"}
+                  {loading ? "SAVING..." : "SAVE"}
                 </button>
               </div>
             </form>

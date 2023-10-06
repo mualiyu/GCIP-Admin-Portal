@@ -239,7 +239,7 @@ function ProjectDetails({ latitude, longitude }) {
       <section
         style={{
           display: "flex",
-          alignItems: "start",
+          alignItems: "baseline",
           justifyContent: "space-between",
           marginBotton: 60,
         }}>
