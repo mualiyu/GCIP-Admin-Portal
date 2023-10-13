@@ -770,7 +770,7 @@ function ApplicantDetails() {
                       </td>
                       <td style={{ lineHeight: "2em" }}>
                         {project?.project_requirements.map((req, index) => {
-                          return <p> ** {req.name}</p>;
+                          return <p> =1= {req.name}</p>;
                         })}
                       </td>
                       <td style={{ lineHeight: "2em" }}>

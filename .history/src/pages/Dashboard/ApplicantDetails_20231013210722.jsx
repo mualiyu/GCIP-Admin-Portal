@@ -54,7 +54,7 @@ function ApplicantDetails() {
     if (success) {
       console.log(data.data.application);
       setCurrent(data?.data?.application);
-      setProposalId(data.data.application.proposal_id);
+      setProposalId(data.data.application.proposalId);
       let status =
         data?.data?.application?.application_decisions[
           data?.data?.application?.application_decisions?.length - 1
