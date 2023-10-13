@@ -73,24 +73,24 @@ export default function Submissions() {
       console.log(data.data);
       let submit =
         submissionType !== "proposal"
-          ? data?.data?.applications?.submited_applications
-          : data?.data?.proposals?.submited_proposals;
+          ? data?.data.applications.submitted_applications
+          : data?.data.proposals.submitted_proposals;
       let declined =
         submissionType === "proposal"
-          ? data?.data?.proposals?.unsuccessful_proposals
-          : data?.data?.applications?.unsuccessful_applications;
+          ? data?.data.proposals.unsuccessful_proposals
+          : data?.data.applications.unsuccessful_applications;
       let query =
         submissionType === "proposal"
-          ? data?.data?.proposals?.queried_proposals
-          : data?.data?.applications?.queried_applications;
+          ? data?.data.proposals.queried_proposals
+          : data?.data.applications.queried_applications;
       let review =
         submissionType === "proposal"
-          ? data?.data?.proposals?.under_review_proposals
-          : data?.data?.applications?.under_review_applications;
+          ? data?.data.proposals.under_review_proposals
+          : data?.data.applications.under_review_applications;
       let passed =
         submissionType === "proposal"
-          ? data?.data?.proposals?.successful_proposals
-          : data?.data?.applications?.successful_applications;
+          ? data?.data.proposals.successful_proposals
+          : data?.data.applications.successful_applications;
 
       setSubmitted(submit);
       setSuccessful(passed);
@@ -100,7 +100,7 @@ export default function Submissions() {
       setLoading(false);
       let allTheApplications = submit.concat(passed, review, declined, query);
       // setAllSubmissions(submitted);
-      console.log(allSubmissions);
+
       const sortedByDate = allTheApplications.sort(
         (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
       );
@@ -195,7 +195,6 @@ export default function Submissions() {
   };
 
   const seeDetails = (applicant_id) => {
-    console.log(applicant_id);
     if (
       window.location.toString().includes("/Programme/Application/Submissions")
     ) {
@@ -212,7 +211,7 @@ export default function Submissions() {
     if (url) {
       getAllSubmissions();
     }
-  }, [url, submissionType]);
+  }, [url]);
 
   return (
     <Fade>
@@ -230,7 +229,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Program Type</InputLabel>
+              <InputLabel>Select Prgram Type</InputLabel>
               <Select
                 value={submissionType}
                 label="Program Type"
@@ -249,7 +248,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Filter</InputLabel>
+              <InputLabel>More Filter</InputLabel>
               <Select
                 value={selectedOption}
                 label="Filter"
@@ -362,7 +361,7 @@ export default function Submissions() {
                         cursor: "pointer",
                       }}
                       disabled={buttonLoading[rowIndex]}
-                      onClick={() => seeDetails(applicant?.applicant.id)}>
+                      onClick={() => seeDetails(applicant?.applicant_id)}>
                       See More
                     </button>
                   </TableCell>

@@ -46,61 +46,38 @@ export default function Submissions() {
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState([]);
   const [queried, setQueried] = useState([]);
-  const [submissionType, setSubmissionType] = useState("");
+  const [submissionType, setSubmissionType] = useState(null);
   // const [allSubmissions, setAllSubmissions] = useState([]);
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const navigate = useNavigate();
   const { programId } = useParams();
 
-  const url =
-    submissionType === "prequalification"
-      ? `/api/admin/program/applications/getAll?program_id=${programId}`
-      : `/api/admin/proposals/${programId}`;
-
   const getAllSubmissions = async () => {
-    setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
-      url: url,
+      url: `/api/admin/program/applications/getAll?program_id=${programId}`,
       token: programData.user.user.token,
     });
-    console.log(url);
-    console.log(submissionType);
     setLoading(false);
     console.log(data);
     if (success) {
       console.log(data.data);
-      let submit =
-        submissionType !== "proposal"
-          ? data?.data?.applications?.submited_applications
-          : data?.data?.proposals?.submited_proposals;
-      let declined =
-        submissionType === "proposal"
-          ? data?.data?.proposals?.unsuccessful_proposals
-          : data?.data?.applications?.unsuccessful_applications;
-      let query =
-        submissionType === "proposal"
-          ? data?.data?.proposals?.queried_proposals
-          : data?.data?.applications?.queried_applications;
-      let review =
-        submissionType === "proposal"
-          ? data?.data?.proposals?.under_review_proposals
-          : data?.data?.applications?.under_review_applications;
-      let passed =
-        submissionType === "proposal"
-          ? data?.data?.proposals?.successful_proposals
-          : data?.data?.applications?.successful_applications;
+      let submit = data.data.applications.submited_applications;
+      let declined = data.data.applications.unsuccessful_applications;
+      let query = data.data.applications.queried_applications;
+      let review = data.data.applications.under_review_applications;
+      let passed = data.data.applications.successful_applications;
 
       setSubmitted(submit);
       setSuccessful(passed);
       setUnSuccessful(declined);
       setReview(review);
       setQueried(query);
-      setLoading(false);
-      let allTheApplications = submit.concat(passed, review, declined, query);
+
+      let allTheApplications = submit.concat(passed, declined, query);
       // setAllSubmissions(submitted);
-      console.log(allSubmissions);
+
       const sortedByDate = allTheApplications.sort(
         (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
       );
@@ -110,20 +87,13 @@ export default function Submissions() {
 
   const options = [
     { name: "All Submissions", value: "all" },
-    { name: "Submitted", value: "submitted" },
     { name: "Queried", value: "queried" },
     { name: "Successful", value: "successful" },
     { name: "UnSuccessful", value: "unSuccessful" },
     { name: "Under Review", value: "under_review" },
   ];
 
-  const SubmissionOptions = [
-    { name: "Pre - Qualification", value: "prequalification" },
-    { name: "Request for Proposal", value: "proposal" },
-  ];
-
   const handleOptionChange = (selection) => {
-    console.log(selection);
     setSelectedOption(selection);
     switch (selection) {
       case "successful":
@@ -131,9 +101,6 @@ export default function Submissions() {
         break;
       case "unSuccessful":
         setAllSubmissions(unSuccessful);
-        break;
-      case "submitted":
-        setAllSubmissions(submitted);
         break;
       case "under_review":
         setAllSubmissions(review);
@@ -152,19 +119,6 @@ export default function Submissions() {
         );
         break;
     }
-  };
-
-  const handleSubmissionChange = (selection) => {
-    setSubmissionType(selection);
-    console.log(selection);
-    // switch (selection) {
-    //   case "prequalification":
-    //     setAllSubmissions(successful);
-    //     break;
-    //   case "proposal":
-    //     setAllSubmissions(unSuccessful);
-    //     break;
-    // }
   };
 
   const downloadDocumentsInZip = async (id, title, rowIndex) => {
@@ -195,7 +149,6 @@ export default function Submissions() {
   };
 
   const seeDetails = (applicant_id) => {
-    console.log(applicant_id);
     if (
       window.location.toString().includes("/Programme/Application/Submissions")
     ) {
@@ -209,10 +162,8 @@ export default function Submissions() {
 
   useEffect(() => {
     console.log({ programId });
-    if (url) {
-      getAllSubmissions();
-    }
-  }, [url, submissionType]);
+    getAllSubmissions();
+  }, []);
 
   return (
     <Fade>
@@ -226,47 +177,37 @@ export default function Submissions() {
             </span>
           </h1>
 
-          <div>
-            <FormControl
-              sx={{ m: 1, minWidth: 300 }}
-              style={{ marginLeft: 20 }}>
-              <InputLabel> Program Type</InputLabel>
-              <Select
-                value={submissionType}
-                label="Program Type"
-                onChange={(e) => handleSubmissionChange(e.target.value)}
-                // defaultValue={"prequalification"}
-              >
-                {SubmissionOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {" "}
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 300 }} style={{ marginLeft: 200 }}>
+            <InputLabel>Select Prgram Type</InputLabel>
+            <Select
+              value={selectedProgram}
+              label="Filter"
+              onChange={(e) => handleProgramOptionChange(e.target.value)}
+              defaultValue={"prequalification"}>
+              <MenuItem value="prequalification"> Pr-Qualification</MenuItem>
+              <MenuItem value="proposal"> Request for Proposal </MenuItem>
+            </Select>
+          </FormControl>
 
-            <FormControl
-              sx={{ m: 1, minWidth: 300 }}
-              style={{ marginLeft: 20 }}>
-              <InputLabel> Filter</InputLabel>
-              <Select
-                value={selectedOption}
-                label="Filter"
-                onChange={(e) => handleOptionChange(e.target.value)}
-                defaultValue={"successful"}>
-                {options.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {" "}
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          {/* <div className="home_user">
+          <FormControl sx={{ m: 1, minWidth: 300 }} style={{ marginLeft: 200 }}>
+            <InputLabel>Filter</InputLabel>
+            <Select
+              value={selectedOption}
+              label="Filter"
+              onChange={(e) => handleOptionChange(e.target.value)}
+              defaultValue={"successful"}>
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {" "}
+                  {option.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <div className="home_user">
             <span>A</span>
-          </div> */}
+          </div>
         </div>
 
         <TableContainer component={Paper} style={{ marginTop: 35 }}>
@@ -285,7 +226,7 @@ export default function Submissions() {
             <TableBody>
               {allSubmissions?.map((applicant, rowIndex) => (
                 <TableRow
-                  key={applicant?.id}
+                  key={applicant.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                   <TableCell component="th" scope="row">
                     {rowIndex + 1}
@@ -319,9 +260,9 @@ export default function Submissions() {
                   <TableCell
                     style={{
                       color:
-                        applicant?.applicant.isApproved == 2 ? "green" : "red",
+                        applicant.applicant.isApproved == 2 ? "green" : "red",
                     }}>
-                    {applicant?.applicant.isApproved == 2
+                    {applicant.applicant.isApproved == 2
                       ? "Active"
                       : "Deactivated"}
                   </TableCell>
@@ -330,20 +271,20 @@ export default function Submissions() {
                       color:
                         applicant?.status == 2
                           ? "#aabf10"
-                          : applicant?.status == 3
+                          : applicant.status == 3
                           ? "green"
-                          : applicant?.status == 1
+                          : applicant.status == 1
                           ? "black"
                           : "red",
                     }}>
                     {/* Pending */}
-                    {applicant?.status == 1
+                    {applicant.status == 1
                       ? "Submitted"
-                      : applicant?.status == 2
+                      : applicant.status == 2
                       ? "Queried"
-                      : applicant?.status == 3
+                      : applicant.status == 3
                       ? "Successful"
-                      : applicant?.status == 5
+                      : applicant.status == 5
                       ? "Under Review"
                       : "Unsuccessful"}
                   </TableCell>
@@ -362,7 +303,7 @@ export default function Submissions() {
                         cursor: "pointer",
                       }}
                       disabled={buttonLoading[rowIndex]}
-                      onClick={() => seeDetails(applicant?.applicant.id)}>
+                      onClick={() => seeDetails(applicant.applicant_id)}>
                       See More
                     </button>
                   </TableCell>
@@ -381,7 +322,7 @@ export default function Submissions() {
               marginTop: "7%",
             }}>
             <FaFolderOpen />
-            <span id="empty"> Select a Program Type to display the list. </span>
+            <span id="empty"> Oops! Nothing here. </span>
           </div>
         )}
 

@@ -287,27 +287,6 @@ function ApplicantDetails() {
     }
   };
 
-  // const downloadProposalDocumentsInZip = async () => {
-  //   console.log("downloading");
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/proposals/${programId}/${current.id}/proposalId`
-  //     );
-  //     const blob = await response.blob();
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.download = `${current?.application_profile[0].name}.zip`;
-  //     link.click();
-  //     URL.revokeObjectURL(url);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error downloading document:", error);
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleConvertToPDF = () => {
     console.log("begin");
     convertToPDF(
@@ -350,7 +329,7 @@ function ApplicantDetails() {
           cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
         />
       )}
-      <section id="divToPrint" style={{ width: "100%" }}>
+      <section id="divToPrint" style={{ width: "100%;" }}>
         <Alert text={alertText} />
         <div
           style={{
@@ -613,6 +592,45 @@ function ApplicantDetails() {
         )}
 
         {current !== null && (
+          <div className="my-60">
+            <h2 className="review_title">Selected Program</h2>
+            <div
+              style={{
+                borderBottom: "1px dashed #ccc",
+                paddingBottom: 20,
+              }}></div>
+            {current?.application_sublots?.length == 0 && (
+              <p className="no-record">No Record was added</p>
+            )}
+            {current?.application_sublots?.length > 0 && (
+              <table
+                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+                className="review_table">
+                <thead>
+                  <th>S/N</th>
+                  <th>Lot</th>
+                  <th>Sub Lot</th>
+                  <th>Region</th>
+                </thead>
+
+                <tbody>
+                  {current.application_sublots.map((item, index) => {
+                    return (
+                      <tr key={item?.id}>
+                        <td>{++index}</td>
+                        <td>{item?.lot_name}</td>
+                        <td>{item?.sublot_name}</td>
+                        <td>{item?.lot_region}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
+        {current !== null && (
           <div className="directors-container">
             <div className="first f-11">
               <h2 className="review_title">Directors information</h2>
@@ -671,141 +689,6 @@ function ApplicantDetails() {
             </div>
           </div>
         )}
-
-        {current !== null && (
-          <div className="my-60">
-            <h2 className="review_title">Selected Program</h2>
-            <div
-              style={{
-                borderBottom: "1px dashed #ccc",
-                paddingBottom: 20,
-              }}></div>
-            {current?.application_sublots?.length == 0 && (
-              <p className="no-record">No Record was added</p>
-            )}
-            {current?.application_sublots?.length > 0 && (
-              <table
-                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
-                className="review_table">
-                <thead>
-                  <th>S/N</th>
-                  <th>Lot</th>
-                  <th>Sub Lot</th>
-                  <th>Region</th>
-                </thead>
-
-                <tbody>
-                  {current.application_sublots.map((item, index) => {
-                    return (
-                      <tr key={item?.id}>
-                        <td>{++index}</td>
-                        <td>{item?.lot_name}</td>
-                        <td>{item?.sublot_name}</td>
-                        <td>{item?.lot_region}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
-          </div>
-        )}
-
-        {/* Assigned Projects */}
-
-        {current !== null && current?.projects_allocated.length > 0 && (
-          <div className="my-60">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}>
-              <h2 className="review_title">PROJECTS ASSIGNED</h2>
-              <button
-                style={{
-                  padding: 9,
-                  backgroundColor: "white",
-                  border: "thin solid green",
-                  color: "green",
-                  cursor: "pointer",
-                }}>
-                Download All Documents
-              </button>
-            </div>
-
-            <div
-              style={{
-                borderBottom: "1px dashed #ccc",
-                paddingBottom: 20,
-              }}></div>
-
-            <table
-              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
-              className="review_table">
-              <thead>
-                <th>S/N</th>
-                <th>Lot</th>
-                <th>Location</th>
-                <th>Requirements</th>
-                <th>Project Documents</th>
-                <th>Applicant Uploaded</th>
-              </thead>
-
-              <tbody>
-                {current?.projects_allocated.map((project, index) => {
-                  return (
-                    <tr key={project?.id}>
-                      <td>{++index}</td>
-                      <td>{project?.lot_name}</td>
-                      <td style={{ lineHeight: "2em" }}>
-                        <strong>State</strong> - {project?.state} <br />
-                        <strong>LGA</strong> - {project?.lga} <br />
-                        <strong>Community</strong> -{" "}
-                        {project?.name_of_community}
-                      </td>
-                      <td style={{ lineHeight: "2em" }}>
-                        {project?.project_requirements.map((req, index) => {
-                          return <p> ** {req.name}</p>;
-                        })}
-                      </td>
-                      <td style={{ lineHeight: "2em" }}>
-                        {project?.project_documents.map((doc, index) => {
-                          return <p> ** {doc.name}</p>;
-                        })}
-                      </td>
-
-                      <td style={{ lineHeight: "2em" }}>
-                        {project?.applicant_uploaded_documents?.map(
-                          (uploaded, index) => {
-                            return (
-                              <p>
-                                {uploaded.name} -{" "}
-                                <span
-                                  style={{ color: "red", cursor: "pointer" }}
-                                  onClick={() => {
-                                    let a = document.createElement("a");
-                                    a.href = uploaded.url;
-                                    a.download = uploaded.name;
-                                    a.target = "_blank";
-                                    a.click();
-                                  }}>
-                                  Download{" "}
-                                </span>
-                              </p>
-                            );
-                          }
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* End Assigned Projects */}
 
         {current !== null && (
           <div style={{ fontSize: 11, textAlign: "left" }}>
@@ -914,10 +797,7 @@ function ApplicantDetails() {
 
         {current !== null && (
           <div className="my-60">
-            <h2 className="review_title">
-              {" "}
-              {current?.application_projects?.length} Reference-project(s){" "}
-            </h2>
+            <h2 className="review_title">reference-project(s)</h2>
             <div style={{ paddingBottom: 20 }}></div>
             {current?.application_projects?.length == 0 && (
               <p className="no-record">No Record has been added</p>

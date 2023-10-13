@@ -287,27 +287,6 @@ function ApplicantDetails() {
     }
   };
 
-  // const downloadProposalDocumentsInZip = async () => {
-  //   console.log("downloading");
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/proposals/${programId}/${current.id}/proposalId`
-  //     );
-  //     const blob = await response.blob();
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.download = `${current?.application_profile[0].name}.zip`;
-  //     link.click();
-  //     URL.revokeObjectURL(url);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error downloading document:", error);
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleConvertToPDF = () => {
     console.log("begin");
     convertToPDF(
@@ -715,25 +694,7 @@ function ApplicantDetails() {
 
         {current !== null && current?.projects_allocated.length > 0 && (
           <div className="my-60">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}>
-              <h2 className="review_title">PROJECTS ASSIGNED</h2>
-              <button
-                style={{
-                  padding: 9,
-                  backgroundColor: "white",
-                  border: "thin solid green",
-                  color: "green",
-                  cursor: "pointer",
-                }}>
-                Download All Documents
-              </button>
-            </div>
-
+            <h2 className="review_title">PROJECTS ASSIGNED</h2>
             <div
               style={{
                 borderBottom: "1px dashed #ccc",
@@ -782,14 +743,15 @@ function ApplicantDetails() {
                               <p>
                                 {uploaded.name} -{" "}
                                 <span
-                                  style={{ color: "red", cursor: "pointer" }}
-                                  onClick={() => {
+                                  style={{ color: "red", cursor: "pointer" }}>
+                                  onClick=
+                                  {() => {
                                     let a = document.createElement("a");
                                     a.href = uploaded.url;
                                     a.download = uploaded.name;
                                     a.target = "_blank";
                                     a.click();
-                                  }}>
+                                  }}
                                   Download{" "}
                                 </span>
                               </p>

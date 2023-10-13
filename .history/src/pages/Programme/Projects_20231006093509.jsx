@@ -245,7 +245,7 @@ export default function Projects() {
           </div>
           <button
             style={{
-              backgroundColor: "white",
+              backgroundColor: "none",
               border: "thin solid rgb(0, 100, 57)",
               color: "rgb(0, 100, 57)",
               marginRight: 150,

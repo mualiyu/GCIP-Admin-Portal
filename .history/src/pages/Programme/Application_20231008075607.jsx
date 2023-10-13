@@ -35,9 +35,6 @@ export default function Application() {
   const handleViewSubmissions = (programId) => {
     navigate(`/Programme/Application/Submissions/${programId}`);
   };
-  const handleViewProposalSubmissions = (programId) => {
-    navigate(`/Programme/Application/Submissions/${programId}`);
-  };
 
   useEffect(() => {
     getAllPrograms();
@@ -58,20 +55,6 @@ export default function Application() {
     }
   };
 
-  const getAllProposals = async (program_id) => {
-    const { success, data, error } = await query({
-      method: "GET",
-      url: `/api/admin/proposals/${program_id}`,
-      token: programData.user.user.token,
-    });
-    setLoading(false);
-    console.log(data);
-    if (success) {
-      console.log(id);
-      console.log(data);
-    }
-  };
-
   const navigate = useNavigate();
   return (
     <Fade>
@@ -79,9 +62,40 @@ export default function Application() {
         <div className="home_top" style={{ width: "90%" }}>
           {/* <img id="bg" src="bg.png" alt="m" /> */}
           <div className="home_user">
+            {/* <FaUser /> */}
             <span>A</span>
           </div>
         </div>
+        {/* <div style={{ width: "10%" }}>
+          <Button
+            style={{
+              marginLeft: "auto",
+              marginTop: 30,
+              textTransform: "uppercase",
+              fontSize : 11
+              // width: 200,
+            }}
+            onClick={() => {
+              dispatch(
+                setProgram({
+                  program: {
+                    programName: "",
+                    programDescription: "",
+                    lots: [],
+                    requirements: [],
+
+                    stages: [],
+                    uploads: [],
+                    status: [],
+                  },
+                })
+              );
+              dispatch(setId(""));
+              navigate("/Programme");
+            }}
+            label="Create Program"
+          />
+        </div> */}
         <table className="home_table_main">
           {allPrograms.length > 0 && (
             <>
@@ -144,14 +158,15 @@ export default function Application() {
                     </td>
                   </tr>
                 ))}
-                <tr>
-                  <td onClick={() => getAllApplicants(1)}>REQUEST FOR GRANT</td>
+                <tr key={ind.toString()}>
+                  <td onClick={() => getAllApplicants(prg.id)}>{prg.name}</td>
                   <td>
-                    <span> - </span>
+                    <span>{prg.activeStage.name}</span>
                   </td>
-                  <td> N/A</td>
-                  <td> N/A</td>
-                  <td> Open</td>
+                  <td> {moment(prg.activeStage.start).format("ll")}</td>
+                  <td> {moment(prg.activeStage.end).format("ll")}</td>
+                  <td> {prg.activeStage.isActive == 1 ? "Open" : "Closed"}</td>
+                  {/* <td>{prg.noApplicants}</td> */}
                   <td>
                     <div className="table_actions">
                       <button
@@ -164,8 +179,24 @@ export default function Application() {
                           padding: "9px 22px",
                           cursor: "pointer",
                         }}
-                        onClick={() => handleViewProposalSubmissions(1)}>
+                        onClick={() => handleViewSubmissions(prg.id)}>
                         Submissions
+                      </button>
+                      <button
+                        style={{
+                          border: "none",
+                          border: "thin solid green",
+                          backgroundColor: "white",
+                          color: "green",
+                          marginRight: 4,
+                          padding: "9px 22px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          dispatch(setId(prg.id));
+                          navigate(`/Programme/Projects/${prg.id}`);
+                        }}>
+                        Projects
                       </button>
                     </div>
                   </td>

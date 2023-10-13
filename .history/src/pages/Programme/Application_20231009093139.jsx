@@ -58,10 +58,10 @@ export default function Application() {
     }
   };
 
-  const getAllProposals = async (program_id) => {
+  const getAllProposals = async (id) => {
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/admin/proposals/${program_id}`,
+      url: `/api/admin/proposals/${id}`,
       token: programData.user.user.token,
     });
     setLoading(false);

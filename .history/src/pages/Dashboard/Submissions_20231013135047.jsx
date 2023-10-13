@@ -100,7 +100,7 @@ export default function Submissions() {
       setLoading(false);
       let allTheApplications = submit.concat(passed, review, declined, query);
       // setAllSubmissions(submitted);
-      console.log(allSubmissions);
+
       const sortedByDate = allTheApplications.sort(
         (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
       );
@@ -362,7 +362,7 @@ export default function Submissions() {
                         cursor: "pointer",
                       }}
                       disabled={buttonLoading[rowIndex]}
-                      onClick={() => seeDetails(applicant?.applicant.id)}>
+                      onClick={() => seeDetails(applicant?.applicant_id)}>
                       See More
                     </button>
                   </TableCell>

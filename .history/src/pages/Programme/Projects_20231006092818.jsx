@@ -245,15 +245,15 @@ export default function Projects() {
           </div>
           <button
             style={{
-              backgroundColor: "white",
-              border: "thin solid rgb(0, 100, 57)",
-              color: "rgb(0, 100, 57)",
+              backgroundColor: "#006439",
+              border: "none",
+              color: "white",
               marginRight: 150,
               padding: "9px 22px",
               cursor: "pointer",
               fontSize: 12,
               marginLeft: 20,
-              //   borderRadius: 7,
+              borderRadius: 7,
             }}
             onClick={() => {
               setIsOpen(true);

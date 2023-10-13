@@ -59,7 +59,6 @@ export default function Submissions() {
       : `/api/admin/proposals/${programId}`;
 
   const getAllSubmissions = async () => {
-    setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
       url: url,
@@ -73,34 +72,34 @@ export default function Submissions() {
       console.log(data.data);
       let submit =
         submissionType !== "proposal"
-          ? data?.data?.applications?.submited_applications
-          : data?.data?.proposals?.submited_proposals;
+          ? data?.data.applications.submited_applications
+          : data?.data.proposals.submited_proposals;
       let declined =
         submissionType === "proposal"
-          ? data?.data?.proposals?.unsuccessful_proposals
-          : data?.data?.applications?.unsuccessful_applications;
+          ? data?.data.proposals.unsuccessful_proposals
+          : data?.data.applications.unsuccessful_applications;
       let query =
         submissionType === "proposal"
-          ? data?.data?.proposals?.queried_proposals
-          : data?.data?.applications?.queried_applications;
+          ? data?.data.proposals.queried_proposals
+          : data?.data.applications.queried_applications;
       let review =
         submissionType === "proposal"
-          ? data?.data?.proposals?.under_review_proposals
-          : data?.data?.applications?.under_review_applications;
+          ? data?.data.proposals.under_review_proposals
+          : data?.data.applications.under_review_applications;
       let passed =
         submissionType === "proposal"
-          ? data?.data?.proposals?.successful_proposals
-          : data?.data?.applications?.successful_applications;
+          ? data?.data.proposals.successful_proposals
+          : data?.data.applications.successful_applications;
 
       setSubmitted(submit);
       setSuccessful(passed);
       setUnSuccessful(declined);
       setReview(review);
       setQueried(query);
-      setLoading(false);
-      let allTheApplications = submit.concat(passed, review, declined, query);
+
+      let allTheApplications = submit.concat(passed, declined, query);
       // setAllSubmissions(submitted);
-      console.log(allSubmissions);
+
       const sortedByDate = allTheApplications.sort(
         (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
       );
@@ -110,7 +109,6 @@ export default function Submissions() {
 
   const options = [
     { name: "All Submissions", value: "all" },
-    { name: "Submitted", value: "submitted" },
     { name: "Queried", value: "queried" },
     { name: "Successful", value: "successful" },
     { name: "UnSuccessful", value: "unSuccessful" },
@@ -131,9 +129,6 @@ export default function Submissions() {
         break;
       case "unSuccessful":
         setAllSubmissions(unSuccessful);
-        break;
-      case "submitted":
-        setAllSubmissions(submitted);
         break;
       case "under_review":
         setAllSubmissions(review);
@@ -195,7 +190,6 @@ export default function Submissions() {
   };
 
   const seeDetails = (applicant_id) => {
-    console.log(applicant_id);
     if (
       window.location.toString().includes("/Programme/Application/Submissions")
     ) {
@@ -212,7 +206,7 @@ export default function Submissions() {
     if (url) {
       getAllSubmissions();
     }
-  }, [url, submissionType]);
+  }, [url]);
 
   return (
     <Fade>
@@ -230,7 +224,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Program Type</InputLabel>
+              <InputLabel>Select Prgram Type</InputLabel>
               <Select
                 value={submissionType}
                 label="Program Type"
@@ -249,7 +243,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Filter</InputLabel>
+              <InputLabel>Filter</InputLabel>
               <Select
                 value={selectedOption}
                 label="Filter"
@@ -362,7 +356,7 @@ export default function Submissions() {
                         cursor: "pointer",
                       }}
                       disabled={buttonLoading[rowIndex]}
-                      onClick={() => seeDetails(applicant?.applicant.id)}>
+                      onClick={() => seeDetails(applicant?.applicant_id)}>
                       See More
                     </button>
                   </TableCell>
@@ -381,7 +375,7 @@ export default function Submissions() {
               marginTop: "7%",
             }}>
             <FaFolderOpen />
-            <span id="empty"> Select a Program Type to display the list. </span>
+            <span id="empty"> Oops! Nothing here. </span>
           </div>
         )}
 

@@ -287,27 +287,6 @@ function ApplicantDetails() {
     }
   };
 
-  // const downloadProposalDocumentsInZip = async () => {
-  //   console.log("downloading");
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/proposals/${programId}/${current.id}/proposalId`
-  //     );
-  //     const blob = await response.blob();
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.download = `${current?.application_profile[0].name}.zip`;
-  //     link.click();
-  //     URL.revokeObjectURL(url);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error downloading document:", error);
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleConvertToPDF = () => {
     console.log("begin");
     convertToPDF(
@@ -715,25 +694,7 @@ function ApplicantDetails() {
 
         {current !== null && current?.projects_allocated.length > 0 && (
           <div className="my-60">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}>
-              <h2 className="review_title">PROJECTS ASSIGNED</h2>
-              <button
-                style={{
-                  padding: 9,
-                  backgroundColor: "white",
-                  border: "thin solid green",
-                  color: "green",
-                  cursor: "pointer",
-                }}>
-                Download All Documents
-              </button>
-            </div>
-
+            <h2 className="review_title">PROJECTS ASSIGNED</h2>
             <div
               style={{
                 borderBottom: "1px dashed #ccc",
@@ -749,7 +710,7 @@ function ApplicantDetails() {
                 <th>Location</th>
                 <th>Requirements</th>
                 <th>Project Documents</th>
-                <th>Applicant Uploaded</th>
+                <th>Uploaded</th>
               </thead>
 
               <tbody>
@@ -758,45 +719,36 @@ function ApplicantDetails() {
                     <tr key={project?.id}>
                       <td>{++index}</td>
                       <td>{project?.lot_name}</td>
-                      <td style={{ lineHeight: "2em" }}>
-                        <strong>State</strong> - {project?.state} <br />
-                        <strong>LGA</strong> - {project?.lga} <br />
-                        <strong>Community</strong> -{" "}
-                        {project?.name_of_community}
+                      <td>
+                        State - {project?.state} <br />
+                        LGA - {project?.lga} <br />
+                        Community - {project?.name_of_community}
                       </td>
-                      <td style={{ lineHeight: "2em" }}>
+                      <td>
                         {project?.project_requirements.map((req, index) => {
-                          return <p> ** {req.name}</p>;
+                          return (
+                            <ol type="i">
+                              {" "}
+                              <li {index + 1}> {req.name} </li>
+                              {/* {index + 1} -  */}
+                            </ol>
+                          );
                         })}
                       </td>
-                      <td style={{ lineHeight: "2em" }}>
+                      <td>
                         {project?.project_documents.map((doc, index) => {
-                          return <p> ** {doc.name}</p>;
+                          return <p>{doc.name}</p>;
                         })}
                       </td>
 
-                      <td style={{ lineHeight: "2em" }}>
-                        {project?.applicant_uploaded_documents?.map(
-                          (uploaded, index) => {
-                            return (
-                              <p>
-                                {uploaded.name} -{" "}
-                                <span
-                                  style={{ color: "red", cursor: "pointer" }}
-                                  onClick={() => {
-                                    let a = document.createElement("a");
-                                    a.href = uploaded.url;
-                                    a.download = uploaded.name;
-                                    a.target = "_blank";
-                                    a.click();
-                                  }}>
-                                  Download{" "}
-                                </span>
-                              </p>
-                            );
-                          }
-                        )}
-                      </td>
+                      {/* <td>
+                        {project?.applicant_uploaded_documents.map((uploaded, index) => {
+                    return (
+                      <p>
+                        {uploaded.name}
+                      </p>
+                    )})}
+                    </td> */}
                     </tr>
                   );
                 })}

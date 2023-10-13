@@ -100,7 +100,7 @@ export default function Submissions() {
       setLoading(false);
       let allTheApplications = submit.concat(passed, review, declined, query);
       // setAllSubmissions(submitted);
-      console.log(allSubmissions);
+
       const sortedByDate = allTheApplications.sort(
         (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
       );
@@ -195,7 +195,6 @@ export default function Submissions() {
   };
 
   const seeDetails = (applicant_id) => {
-    console.log(applicant_id);
     if (
       window.location.toString().includes("/Programme/Application/Submissions")
     ) {
@@ -230,7 +229,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Program Type</InputLabel>
+              <InputLabel> Prgram Type</InputLabel>
               <Select
                 value={submissionType}
                 label="Program Type"
@@ -249,7 +248,7 @@ export default function Submissions() {
             <FormControl
               sx={{ m: 1, minWidth: 300 }}
               style={{ marginLeft: 20 }}>
-              <InputLabel> Filter</InputLabel>
+              <InputLabel>More Filter</InputLabel>
               <Select
                 value={selectedOption}
                 label="Filter"
@@ -362,7 +361,7 @@ export default function Submissions() {
                         cursor: "pointer",
                       }}
                       disabled={buttonLoading[rowIndex]}
-                      onClick={() => seeDetails(applicant?.applicant.id)}>
+                      onClick={() => seeDetails(applicant?.applicant_id)}>
                       See More
                     </button>
                   </TableCell>
