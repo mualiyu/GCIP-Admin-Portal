@@ -733,6 +733,7 @@ function ApplicantDetails() {
                   color: "green",
                   cursor: "pointer",
                 }}
+                disabled={loading}
                 onClick={() => downloadProposalDocumentsInZip()}>
                 Download All Documents
               </button>
