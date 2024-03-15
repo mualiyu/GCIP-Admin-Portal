@@ -16,7 +16,7 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "../../components/Button";
-import { MoonLoader } from "react-spinners";
+import Loading from "../../components/Loading";
 import moment from "moment";
 import axios from "axios";
 import convertToPDF from "../../helpers/convertToPDF";
@@ -177,12 +177,7 @@ function ProjectDetails({ latitude, longitude }) {
 
   return (
     <div className="review-container">
-      {loading && (
-        <MoonLoader
-          size={25}
-          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
-        />
-      )}
+      {loading && <Loading loading={loading} />}
       <div
         style={{
           display: "flex",

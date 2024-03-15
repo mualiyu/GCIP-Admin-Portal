@@ -42,9 +42,10 @@ export default function CategorySettings() {
       url: "/api/admin/category/list",
       token: app_data.user.user.token,
     });
-    setLoading(false);
+
     console.log(data);
     if (success) {
+      setLoading(false);
       const catsArray = [];
       data.data.categories.map((cat) =>
         catsArray.push({ name: cat.name, value: cat.id })
@@ -67,7 +68,7 @@ export default function CategorySettings() {
           marginBottom: 20,
           marginTop: 20,
           textTransform: "uppercase",
-          width:'10%'
+          width: "10%",
         }}
         label="Add Category"
       />
@@ -111,19 +112,17 @@ export default function CategorySettings() {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-          }}
-        >
+          }}>
           <img id="empty" src="/38.png" />
           <span id="empty">No added Categories Yet</span>
         </div>
       )}
-      {loading && <img src="/loading.gif" id="loader" />}
+      {loading2 && <Loading />}
 
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
+        style={customStyles}>
         <Loading loading={loading2} />
         <Alert text={alertText} />
         <div className="inner_modal">
@@ -154,7 +153,7 @@ export default function CategorySettings() {
                 }, 2000);
                 return;
               }
-              setLoading2(true)
+              setLoading2(true);
               const bodyData = { name };
               const response = await query({
                 method: "POST",
@@ -162,19 +161,18 @@ export default function CategorySettings() {
                 token: app_data.user.user.token,
                 bodyData,
               });
-              setLoading2(false)
+              setLoading2(false);
               if (response.success) {
-                  setAllCategories(response.data.data.categories)
-                  setAlert('Categry Added')
-                  setIsOpen(false)
-              }else{
-                setAlert('Error adding category')  
+                setAllCategories(response.data.data.categories);
+                setAlert("Categry Added");
+                setIsOpen(false);
+              } else {
+                setAlert("Error adding category");
               }
 
               setTimeout(() => {
                 setAlert("");
               }, 2000);
-              
             }}
             label="Add"
             style={{ marginTop: 20, width: "50%" }}

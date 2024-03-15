@@ -12,7 +12,7 @@ import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setId, setProgram } from "../../redux/program/programSlice";
-import { MoonLoader } from "react-spinners";
+import Loading from "../../components/Loading";
 
 export default function Application() {
   const [loading, setLoading] = useState(true);
@@ -171,7 +171,7 @@ export default function Application() {
             </>
           )}
         </table>
-        {loading && <MoonLoader />}
+        {loading && <Loading />}
       </div>
     </Fade>
   );

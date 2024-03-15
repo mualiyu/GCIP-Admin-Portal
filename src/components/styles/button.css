@@ -1,6 +1,6 @@
 .button_container {
   min-height: 32px;
-  background-color: var(--primary);
+  background-color: var(--primary)!important;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.5s;

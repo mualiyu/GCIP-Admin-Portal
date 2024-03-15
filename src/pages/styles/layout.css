@@ -34,8 +34,9 @@
   width: 240px;
   transition: all 1s;
   /* height: 100%; */
-  background-color: var(--white);
-  border-right: 1px solid #f1f1f1;
+  background-color: #124d92;
+  /* background-color : #212529; */
+  /* border-right: 1px solid #f1f1f1; */
   /* padding: 20px; */
   display: flex;
   flex-direction: column;
@@ -44,11 +45,12 @@
 .aside_logo {
   height: auto;
   width: 145px;
+  margin-top: 10px
 }
 .divider {
   width: 100%;
   height: 1px;
-  background-color: #f1f1f1;
+  background-color: #21599a;
   margin-top: 20px;
   /* margin-bottom: 10px; */
 }

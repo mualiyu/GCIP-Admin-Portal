@@ -41,12 +41,12 @@ export default function Verify() {
       <Alert text={callTetx} />
 
       {loading && <span>Verifying.........</span>}
-      <Button
-        onClick={() => {
-          route("/");
-        }}
-        label="Back To Login"
-      />
+         <button
+            onClick={() => {
+            route("/");
+          }}>
+              Back To Login
+          </button>
     </div>
   );
 }

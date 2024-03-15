@@ -16,7 +16,7 @@ import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 import { RegularText } from "../../../components/Common";
 import { FcCheckmark } from "react-icons/fc";
-import { MoonLoader } from "react-spinners";
+import Loading from "../../../components/Loading";
 import { FaEdit, FaTrash, FaTimesCircle, FaFolderOpen } from "react-icons/fa";
 import * as Yup from "yup";
 const customStyles = {
@@ -142,7 +142,7 @@ export default function Tab2({ moveToTab }) {
   useEffect(() => {
     getRegions();
     getCategories();
-    console.log(programData.program.program,'pppo')
+    console.log(programData.program.program, "pppo");
   }, []);
 
   return (
@@ -233,97 +233,98 @@ export default function Tab2({ moveToTab }) {
         )}
       </table>
 
-
       {presentLots.length == 0 && !loading2 && (
-              <div
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  flexDirection: "column",
-                  marginTop: "7%",
-                }}
-              >
-                <FaFolderOpen />
-                <span id="empty">
-                  {" "}
-                  Oops! Nothing here.{" "}
-                  <span
-                    onClick={() => setIsOpen(true)}
-                    style={{
-                      color: "var(--primary)",
-                      marginLeft: 20,
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Add a New Lot
-                  </span>{" "}
-                </span>
-              </div>
-            )}
-
-{presentLots.length > 0 &&
-      <div className="save_next">
-        <Button
-          onClick={() => {
-            dispatch(setProgramLots(presentLots));
-            setAlert("Data Saved");
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          lineButton
+        <div
           style={{
-            // width: 200,
-            marginRight: 20,
-            backgroundColor: "white",
-            border: "thin solid #006438",
-            color: "#006438"
-          }}
-          label="Save"
-        />
-        <Button
-          onClick={() => {
-            if (presentLots.length == 0) {
-              setAlert("At least one Lot is required");
+            width: "100%",
+            textAlign: "center",
+            flexDirection: "column",
+            marginTop: "7%",
+          }}>
+          <FaFolderOpen />
+          <span id="empty">
+            {" "}
+            Oops! Nothing here.{" "}
+            <span
+              onClick={() => setIsOpen(true)}
+              style={{
+                color: "var(--primary)",
+                marginLeft: 20,
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}>
+              Add a New Lot
+            </span>{" "}
+          </span>
+        </div>
+      )}
+
+      {presentLots.length > 0 && (
+        <div className="save_next">
+          <Button
+            onClick={() => {
+              dispatch(setProgramLots(presentLots));
+              setAlert("Data Saved");
               setTimeout(() => {
                 setAlert("");
               }, 2000);
-              return;
+            }}
+            lineButton
+            style={{
+              // width: 200,
+              marginRight: 20,
+              backgroundColor: "white",
+              border: "thin solid #006438",
+              color: "#006438",
+            }}
+            label="Save"
+          />
+          <Button
+            onClick={() => {
+              if (presentLots.length == 0) {
+                setAlert("At least one Lot is required");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+                return;
+              }
+              dispatch(setProgramLots(presentLots));
+              moveToTab(2);
+            }}
+            style={
+              {
+                // width: 200,
+              }
             }
-            dispatch(setProgramLots(presentLots));
-            moveToTab(2);
-          }}
-          style={{
-            // width: 200,
-          }}
-          label="Next"
-        />
-      </div>
-}
+            label="Next"
+          />
+        </div>
+      )}
 
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
+        style={customStyles}>
         <div className="inner_modal">
-          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-         
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text="Add New Lots"
-          />
-           <FaTimesCircle
-            onClick={() => {
-              setIsOpen(false);
-              setIsedit(null);
-              formik.setValues({ lots: initialValues.lots });
-            }}
-            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
-
-</div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}>
+            <RegularText
+              style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+              text="Add New Lots"
+            />
+            <FaTimesCircle
+              onClick={() => {
+                setIsOpen(false);
+                setIsedit(null);
+                formik.setValues({ lots: initialValues.lots });
+              }}
+              style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
+            />
+          </div>
           <div className="divider" />
           <>
             <FormikProvider value={formik}>
@@ -336,20 +337,18 @@ export default function Tab2({ moveToTab }) {
                       {lots.length > 0
                         ? formik.values.lots.map((item, index) => (
                             <>
-
-                            <div>
-                            <Input
+                              <div>
+                                <Input
                                   {...formik.getFieldProps(
                                     `lots.${index}.name`
                                   )}
                                   onChange={formik.handleChange}
                                   outlined
                                   label="Lot Name"
-                                  style={{width: "100%"}}
+                                  style={{ width: "100%" }}
                                 />
-                            </div>
+                              </div>
                               <div className="lot_add">
-                               
                                 <Select
                                   {...formik.getFieldProps(
                                     `lots.${index}.region`
@@ -365,7 +364,7 @@ export default function Tab2({ moveToTab }) {
                                         )
                                   }
                                   value={formik.values.lots[index].region}
-                                  style={{width: "50%", marginRight: 5}}
+                                  style={{ width: "50%", marginRight: 5 }}
                                 />
                                 <Select
                                   {...formik.getFieldProps(
@@ -378,7 +377,7 @@ export default function Tab2({ moveToTab }) {
                                     formik.values.lots[index].category
                                   )}
                                   value={formik.values.lots[index].category}
-                                  style={{width: "50%"}}
+                                  style={{ width: "50%" }}
                                 />
                                 <div className="delete-lot">
                                   {index !== 0 && (
@@ -399,7 +398,7 @@ export default function Tab2({ moveToTab }) {
                                     outlined
                                     label="Sub-lot Name"
                                     name={`lots.${index}.subLots.${subIndex}.name`}
-                                    style={{width: "45%", marginRight: 5}}
+                                    style={{ width: "45%", marginRight: 5 }}
                                     value={
                                       formik.values.lots[index].subLots[
                                         subIndex
@@ -414,14 +413,16 @@ export default function Tab2({ moveToTab }) {
                                     onChange={formik.handleChange}
                                     label="Category"
                                     name={`lots.${index}.subLots.${subIndex}.category`}
-                                    style={{width: "45%"}}
+                                    style={{ width: "45%" }}
                                     placeholder={convertCategory(
                                       formik.values.lots[index].subLots[
                                         subIndex
                                       ].category
                                     )}
                                   />
-                                  <div className="lot_icon"  style={{width: "10%"}}>
+                                  <div
+                                    className="lot_icon"
+                                    style={{ width: "10%" }}>
                                     <DeleteIcon
                                       onClick={() =>
                                         removeSubLot(index, subIndex)
@@ -439,7 +440,14 @@ export default function Tab2({ moveToTab }) {
               />
             </FormikProvider>
           </>
-          <div style={{ display: "flex", marginTop: 10, position:"absolute", bottom: 30, right: 30 }}>
+          <div
+            style={{
+              display: "flex",
+              marginTop: 10,
+              position: "absolute",
+              bottom: 30,
+              right: 30,
+            }}>
             <Button
               onClick={() => {
                 const newFormikVals = [...formik.values.lots];
