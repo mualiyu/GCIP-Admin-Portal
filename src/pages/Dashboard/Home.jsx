@@ -108,7 +108,6 @@ export default function Home() {
                     <td style={{ display: "flex" }}>
                       <button
                         style={{
-                          border: "none",
                           border: "thin solid #124d92",
                           backgroundColor: "white",
                           color: "#124d92",

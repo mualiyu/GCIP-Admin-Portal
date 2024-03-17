@@ -353,7 +353,6 @@ export default function Submissions() {
                         </button> */}
                     <button
                       style={{
-                        border: "none",
                         backgroundColor: "#006439",
                         border: "none",
                         color: "white",

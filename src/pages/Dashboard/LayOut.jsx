@@ -81,6 +81,12 @@ function LayOut() {
           route="/Home/Applicants"
           Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
         />
+        <NavLink
+          onClick={logOut}
+          label="Log out"
+          route="/"
+          Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
+        />
         {/* <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {

@@ -108,7 +108,6 @@ export default function Dashboard() {
                     <td style={{ display: "flex" }}>
                       <button
                         style={{
-                          border: "none",
                           border: "thin solid green",
                           backgroundColor: "white",
                           color: "green",
