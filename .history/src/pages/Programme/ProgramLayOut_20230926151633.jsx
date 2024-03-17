@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/layout.css";
-import Logo from "../../assets/Images/gcip_logo.png";
+import Logo from "../../assets/Images/logo.jpg";
 import User from "../../assets/Svg/user.svg";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
@@ -62,7 +62,7 @@ function ProgramLayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src={Logo} alt="img" />
+        <img className="aside_logo" src="/logo.jpg" alt="img" />
         <div className="divider" />
 
         <NavLink

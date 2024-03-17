@@ -165,7 +165,7 @@ body {
 .account-user-avatar {
     width: 40px;
     height: 40px;
-    background-color: #124d9263;
+    background-color: red;
     border-radius: 50%;
     text-align: center;
     display: flex;
@@ -173,8 +173,7 @@ body {
     justify-content: center;
     font-weight: 900;
     font-size: 14px;
-    color: #124d92;
-    text-transform: uppercase;
+    color: white;
 }
  thead tr {
   border-bottom: 1px solid #F0F3F2;

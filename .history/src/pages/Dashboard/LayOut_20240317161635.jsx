@@ -12,7 +12,6 @@ import query from "../../helpers/query";
 import {
   FaBook,
   FaEnvelope,
-  FaPowerOff,
   FaFileContract,
   FaHouseChimney,
   FaReply,
@@ -56,7 +55,11 @@ function LayOut() {
       </div> */}
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src={Logo} alt="img" />
+        <img
+          className="aside_logo"
+          src={Logo}
+          alt="img"
+        />
         <div className="divider" />
         <NavLink
           onClick={() => {
@@ -82,9 +85,7 @@ function LayOut() {
           onClick={logOut}
           label="Log out"
           route="/"
-          Icon={() => (
-            <FaPowerOff active={location.pathname == "/Applicants"} />
-          )}
+          Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
         />
         {/* <NavLink
           onClick={() => {
@@ -168,8 +169,7 @@ function LayOut() {
                     </h6>
                   </span>
                   <span class="account-user-avatar">
-                    {programData?.user.user.firstName.split("")[0]}
-                    {programData?.user.user.firstName.split("")[1]}
+                  {programData?.user.user.firstName.split("").[0]}
                     {/* <img
                       src="../../src/assets/Images/profile.png"
                       alt="user-image"

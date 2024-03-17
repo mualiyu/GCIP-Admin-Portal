@@ -12,7 +12,6 @@ import query from "../../helpers/query";
 import {
   FaBook,
   FaEnvelope,
-  FaPowerOff,
   FaFileContract,
   FaHouseChimney,
   FaReply,
@@ -83,7 +82,9 @@ function LayOut() {
           label="Log out"
           route="/"
           Icon={() => (
-            <FaPowerOff active={location.pathname == "/Applicants"} />
+            <i
+              class="ri-logout-box-line"
+              active={location.pathname == "/Applicants"}></i>
           )}
         />
         {/* <NavLink

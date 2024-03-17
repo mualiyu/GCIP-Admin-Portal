@@ -11,8 +11,8 @@ import { FaRegFolderOpen } from "react-icons/fa6";
 import query from "../../helpers/query";
 import {
   FaBook,
-  FaEnvelope,
   FaPowerOff,
+  FaEnvelope,
   FaFileContract,
   FaHouseChimney,
   FaReply,
@@ -83,8 +83,7 @@ function LayOut() {
           label="Log out"
           route="/"
           Icon={() => (
-            <FaPowerOff active={location.pathname == "/Applicants"} />
-          )}
+            <FaPowerOff active={location.pathname == "/Applicants"} />}
         />
         {/* <NavLink
           onClick={() => {
