@@ -229,7 +229,7 @@ export default function Projects() {
         <Alert text={alertText} style={{ padding: 9 }} />
         <div className="home_top" style={{ width: "90%" }}>
           <div className="home_user">
-            <span>A</span>
+            <span>AD</span>
           </div>
         </div>
 
