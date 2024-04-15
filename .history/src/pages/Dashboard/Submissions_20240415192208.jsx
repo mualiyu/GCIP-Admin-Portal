@@ -224,8 +224,6 @@ export default function Submissions() {
 
   return (
     <Fade>
-      {loading && <Loading loading={loading} />}
-
       {!loading && (
         <div className="home_container">
           <Alert text={alertText} />
@@ -322,7 +320,7 @@ export default function Submissions() {
                                     : applicant?.status == 3
                                     ? "green"
                                     : applicant?.status == 1
-                                    ? "orange"
+                                    ? "black"
                                     : "red",
                               }}>
                               {applicant?.status == 1

@@ -329,7 +329,12 @@ function ApplicantDetails() {
 
   const handleConvertToPDF = () => {
     console.log("begin");
-    convertToPDF("divToPrint", `${userInfo?.name}`, setIsConverting);
+    convertToPDF(
+      "divToPrint",
+      `${current.application_profile[0]?.name}`,
+      // setBtnLoader
+      setIsConverting
+    );
   };
   const customStyles = {
     content: {
@@ -388,9 +393,7 @@ function ApplicantDetails() {
                 : "Not Reviewed Yet"}
             </sup> */}
           </div>
-          <div
-            style={{ display: "flex", alignItems: "center" }}
-            className="no-print">
+          <div style={{ display: "flex", alignItems: "center" }}>
             <button
               onClick={handleConvertToPDF}
               className="no-print"
@@ -464,6 +467,19 @@ function ApplicantDetails() {
                 /> */}
           </div>
         </div>
+        {/* {loading && <img src="/loading.gif" id="loader" />} */}
+        {/* {loading && (
+          <MoonLoader
+            size={25}
+            cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+          />
+        )}
+        {loading && (
+          <MoonLoader
+            size={25}
+            cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+          />
+        )} */}
 
         <div class="row" style={{}}>
           <div class="col-xxl-12 col-xl-12 col-lg-12">
@@ -856,16 +872,12 @@ function ApplicantDetails() {
                           .carried_out_market_survey
                       }{" "}
                       -
-                      <a
-                        href={
-                          current?.application_business_proposal[0].survey_doc
-                        }
-                        target="_blank">
+                      <span>
                         {current?.application_business_proposal[0]
-                          .survey_doc !== null
+                          .carried_out_market_survey !== null
                           ? "Download Survey Document"
                           : "N/A"}
-                      </a>
+                      </span>
                     </td>
                   </tr>
                   <tr>

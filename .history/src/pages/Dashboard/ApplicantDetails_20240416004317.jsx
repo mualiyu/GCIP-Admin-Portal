@@ -388,9 +388,7 @@ function ApplicantDetails() {
                 : "Not Reviewed Yet"}
             </sup> */}
           </div>
-          <div
-            style={{ display: "flex", alignItems: "center" }}
-            className="no-print">
+          <div style={{ display: "flex", alignItems: "center" }}>
             <button
               onClick={handleConvertToPDF}
               className="no-print"

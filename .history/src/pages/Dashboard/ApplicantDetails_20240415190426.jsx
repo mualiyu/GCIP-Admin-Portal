@@ -329,7 +329,12 @@ function ApplicantDetails() {
 
   const handleConvertToPDF = () => {
     console.log("begin");
-    convertToPDF("divToPrint", `${userInfo?.name}`, setIsConverting);
+    convertToPDF(
+      "divToPrint",
+      `${current.application_profile[0]?.name}`,
+      // setBtnLoader
+      setIsConverting
+    );
   };
   const customStyles = {
     content: {
@@ -388,9 +393,7 @@ function ApplicantDetails() {
                 : "Not Reviewed Yet"}
             </sup> */}
           </div>
-          <div
-            style={{ display: "flex", alignItems: "center" }}
-            className="no-print">
+          <div style={{ display: "flex", alignItems: "center" }}>
             <button
               onClick={handleConvertToPDF}
               className="no-print"
@@ -464,6 +467,19 @@ function ApplicantDetails() {
                 /> */}
           </div>
         </div>
+        {/* {loading && <img src="/loading.gif" id="loader" />} */}
+        {/* {loading && (
+          <MoonLoader
+            size={25}
+            cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+          />
+        )}
+        {loading && (
+          <MoonLoader
+            size={25}
+            cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+          />
+        )} */}
 
         <div class="row" style={{}}>
           <div class="col-xxl-12 col-xl-12 col-lg-12">
@@ -785,106 +801,76 @@ function ApplicantDetails() {
                 <th>Response</th>
               </thead>
               <tbody>
-                <>
-                  <tr>
-                    <td>1</td>
-                    <td style={{ width: 300 }}>
-                      Have you acquired patency or authority of the patent
-                      owners to demonstrate the technology{" "}
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .acquired_authority_of_the_patent_owners
-                      }
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td style={{ width: 300 }}>
-                      Explain/demonstrate the critical need for the
-                      technology/solution (i.e. carbon and Global Warming
-                      Potential (GWP) reduction, energy efficiency, job
-                      creation, rural/urban development etc)
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .the_critical_need_for_the_technology
-                      }
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td style={{ width: 300 }}>
-                      State the critical needs for the grant and identify areas
-                      for intervention
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .the_critical_needs_for_the_grant
-                      }
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td style={{ width: 300 }}>
-                      Demonstrate consideration for direct and indirect carbon
-                      emissions in the design and deployment of your
-                      technology/solution, include illustrations, diagrammatic
-                      and pictorial references as applicable.
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .acquired_authority_of_the_patent_owners
-                      }
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td style={{ width: 300 }}>
-                      Have you carried out a market survey to verify that the
-                      business can generate enough profit, such that it would
-                      not require a continuous subsidy covering operation costs
-                      and/or end-user consumption costs;
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .carried_out_market_survey
-                      }{" "}
-                      -
-                      <a
-                        href={
-                          current?.application_business_proposal[0].survey_doc
-                        }
-                        target="_blank">
-                        {current?.application_business_proposal[0]
-                          .survey_doc !== null
-                          ? "Download Survey Document"
-                          : "N/A"}
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>6</td>
-                    <td style={{ width: 300 }}>
-                      Value additions that makes your technology/solution stand
-                      out in comparison with existing non-clean-tech and
-                      clean-tech alternatives to your technology/solution. i.e.
-                      innovative business model, cost comparison, technological
-                      advantages etc.
-                    </td>
-                    <td>
-                      {
-                        current?.application_business_proposal[0]
-                          .valuable_additions_that_makes_your_technology_stand_out
-                      }
-                    </td>
-                  </tr>
-                </>
+                {current.application_business_proposal.map((item, index) => {
+                  return (
+                    <>
+                      <tr key={item?.id}>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          Have you acquired patency or authority of the patent
+                          owners to demonstrate the technology
+                        </td>
+                        <td>{item?.acquired_authority_of_the_patent_owners}</td>
+                      </tr>
+                      <tr>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          Explain/demonstrate the critical need for the
+                          technology/solution (i.e. carbon and Global Warming
+                          Potential (GWP) reduction, energy efficiency, job
+                          creation, rural/urban development etc)
+                        </td>
+                        <td>{item?.the_critical_need_for_the_technology}</td>
+                      </tr>
+                      <tr>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          State the critical needs for the grant and identify
+                          areas for intervention
+                        </td>
+                        <td>{item?.the_critical_needs_for_the_grant}</td>
+                      </tr>
+                      <tr>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          Demonstrate consideration for direct and indirect
+                          carbon emissions in the design and deployment of your
+                          technology/solution, include illustrations,
+                          diagrammatic and pictorial references as applicable.
+                        </td>
+                        <td>{item?.acquired_authority_of_the_patent_owners}</td>
+                      </tr>
+                      <tr>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          Have you carried out a market survey to verify that
+                          the business can generate enough profit, such that it
+                          would not require a continuous subsidy covering
+                          operation costs and/or end-user consumption costs;
+                        </td>
+                        <td>
+                          {item?.carried_out_market_survey} | Download Survey
+                          Document
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{++index}</td>
+                        <td style={{ width: 300 }}>
+                          Value additions that makes your technology/solution
+                          stand out in comparison with existing non-clean-tech
+                          and clean-tech alternatives to your
+                          technology/solution. i.e. innovative business model,
+                          cost comparison, technological advantages etc.
+                        </td>
+                        <td>
+                          {
+                            item?.valuable_additions_that_makes_your_technology_stand_out
+                          }
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -967,18 +953,14 @@ function ApplicantDetails() {
                   </tr>
                   <tr>
                     <td>7</td>
-                    <td style={{ width: 300 }}> Company Organogram</td>
+                    <td style={{ width: 300 }}>Download Company Organogram</td>
                     <td>
                       <a
-                        style={{ cursor: "pointer" }}
                         href={
                           current?.application_company_info.organizational_chart
                         }
                         target="_blank">
-                        {current?.application_company_info
-                          .organizational_chart !== null
-                          ? "Download"
-                          : "N/A"}
+                        Download{" "}
                       </a>
                     </td>
                   </tr>
@@ -1216,8 +1198,8 @@ function ApplicantDetails() {
             <textarea
               name="remark"
               id="remarkInput"
-              cols="120"
-              rows="12"
+              cols="100"
+              rows="10"
               style={{ padding: 18 }}
               placeholder="Add Remark"></textarea>
           </div>

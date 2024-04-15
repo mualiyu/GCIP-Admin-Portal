@@ -224,8 +224,6 @@ export default function Submissions() {
 
   return (
     <Fade>
-      {loading && <Loading loading={loading} />}
-
       {!loading && (
         <div className="home_container">
           <Alert text={alertText} />
