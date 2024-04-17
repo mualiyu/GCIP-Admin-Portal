@@ -115,7 +115,7 @@ function ProgramPage() {
               <>
                 <h2>{currentProgram.name}</h2>
                 <Editor
-                  apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
+                  apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
                   disabled
                   initialValue={currentProgram.description}
                   init={{
@@ -138,8 +138,7 @@ function ProgramPage() {
 
                 <table
                   className="home_table"
-                  style={{ backgroundColor: "white", width: "100%" }}
-                >
+                  style={{ backgroundColor: "white", width: "100%" }}>
                   {currentProgram.lots.length > 0 && (
                     <>
                       <thead>
@@ -217,8 +216,7 @@ function ProgramPage() {
                             borderRadius: 10,
                             textAlign: "center",
                             color: "white",
-                          }}
-                        >
+                          }}>
                           {stage.isActive == "1" ? "Active" : "Not Active"}
                         </span>
                       </div>
@@ -231,8 +229,8 @@ function ProgramPage() {
                 <div className="prog_app_req">
                   <ul>
                     {currentProgram.requirements.map((req, ind) => (
-                      <Input 
-                       key={ind}
+                      <Input
+                        key={ind}
                         style={{ marginBottom: 10 }}
                         outlined
                         disabled
@@ -243,11 +241,10 @@ function ProgramPage() {
                   </ul>
                 </div>
 
-
                 <div className="divider" />
                 <h4>DOCUMENTS</h4>
                 <div className="prg_file">
-                <ul>
+                  <ul>
                     {currentProgram.documents.map((req, ind) => (
                       <li key={ind}>
                         <h3>{req.name}</h3>

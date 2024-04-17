@@ -27,7 +27,9 @@ function ProgramDetails() {
       token: programData.user.user.token,
     });
     setLoading(false);
+    console.log(data);
     if (success) {
+      console.log(data);
       setProgramDetails(data.data.program);
     } else {
       setAlert(error);
@@ -50,6 +52,7 @@ function ProgramDetails() {
 
   useEffect(() => {
     getData();
+    console.log(programId);
   }, []);
 
   return (
