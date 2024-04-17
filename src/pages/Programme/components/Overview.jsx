@@ -14,23 +14,22 @@ import Alert from "../../../components/Alert";
 import { resetProgram } from "../../../redux/program/programSlice";
 import { useNavigate } from "react-router-dom";
 
-export default function Overview({moveToTab}) {
+export default function Overview({ moveToTab }) {
   const programData = useSelector((state) => state);
-  const [loading,setLoading]=useState(false)
-  const [alertText,setAlert]=useState('')
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const [loading, setLoading] = useState(false);
+  const [alertText, setAlert] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log(programData);
   }, []);
   return (
     <>
-     <Loading loading={loading}/>
-     <Alert text={alertText}/>
+      <Loading loading={loading} />
+      <Alert text={alertText} />
       <h3>Milestone & Claims</h3>
 
       <div className="overview_container">
-      
         <div className="general_overview">
           <h2>GENERAL</h2>
           <Input
@@ -42,7 +41,7 @@ export default function Overview({moveToTab}) {
           <RegularText text="Description" />
           <Editor
             disabled
-            apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
+            apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
             initialValue={programData.program.program.programDescription}
             init={{
               height: 200,
@@ -150,60 +149,60 @@ export default function Overview({moveToTab}) {
         </div>
 
         <div className="general_overview">
-        <h2>UPLOADS</h2>
+          <h2>UPLOADS</h2>
           {programData.program.program.uploads.map((upl, ind) => (
-            <Input
-              type="file"
-              outlined
-              key={ind}
-              disabled
-              label={upl.name}
-              
-            />
+            <Input type="file" outlined key={ind} disabled label={upl.name} />
           ))}
         </div>
 
-
         <div className="general_overview">
           <h2>STATUS</h2>
-          {
-            programData.program.program.status.map((sta,ind)=>(
-              <div key={ind} className="status_overview">
+          {programData.program.program.status.map((sta, ind) => (
+            <div key={ind} className="status_overview">
               <span>{sta.name}</span>
-              <span>Is Editable{sta.isEditable=='1'?<FaCheck/>:<FaTimes color="red" />}</span>
-              <span>Is Initial{sta.isInitial=='1'?<FaCheck/>:<FaTimes color="red" />}</span>
-              <span style={{background:sta.color,color:'white'}}>Color</span>
-              </div>
-            ))
-          }
+              <span>
+                Is Editable
+                {sta.isEditable == "1" ? <FaCheck /> : <FaTimes color="red" />}
+              </span>
+              <span>
+                Is Initial
+                {sta.isInitial == "1" ? <FaCheck /> : <FaTimes color="red" />}
+              </span>
+              <span style={{ background: sta.color, color: "white" }}>
+                Color
+              </span>
+            </div>
+          ))}
         </div>
       </div>
       <Button
-      onClick={async ()=>{
-        setLoading(true)
-        const {success,data,error} = await query({
-          method:'POST',
-          url:'/api/admin/program/create',
-          token:programData.user.user.token,
-          bodyData:programData.program
-        })
-      setLoading(false)
-      if(success) {
-        setAlert('Program Created Successfuly')
-        dispatch(resetProgram())
-        navigate('/Home')
-      }else{
-        setAlert('Something went wrong')
-      }
-      setTimeout(()=>{
-      setAlert('')
-      },2000)
-      }}
-       style={{
-        width:'50%',
-        marginBottom:20,
-        marginTop:20
-      }} label="Submit"/>
+        onClick={async () => {
+          setLoading(true);
+          const { success, data, error } = await query({
+            method: "POST",
+            url: "/api/admin/program/create",
+            token: programData.user.user.token,
+            bodyData: programData.program,
+          });
+          setLoading(false);
+          if (success) {
+            setAlert("Program Created Successfuly");
+            dispatch(resetProgram());
+            navigate("/Home");
+          } else {
+            setAlert("Something went wrong");
+          }
+          setTimeout(() => {
+            setAlert("");
+          }, 2000);
+        }}
+        style={{
+          width: "50%",
+          marginBottom: 20,
+          marginTop: 20,
+        }}
+        label="Submit"
+      />
     </>
   );
 }
