@@ -250,7 +250,8 @@ export default function Submissions() {
                   <p class="text-muted fs-14">
                     The table below{" "}
                     {allSubmissions.length > 0 ? "shows" : "will show"} the list
-                    of all Submitted Applications within the GCIP system
+                    of all Submitted Applications within the GCIP system for{" "}
+                    {programId}.
                   </p>
                 </div>
 
@@ -286,7 +287,7 @@ export default function Submissions() {
                           <th>Contact</th>
                           <th>Submitted</th>
                           <th>Status</th>
-                          <th>Evaluated At</th>
+                          <th>Evaluated</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -335,8 +336,13 @@ export default function Submissions() {
                                 : "Unsuccessful"}
                             </td>
                             <td>
-                              {moment(applicant?.updated_at).format("ll")} @
-                              {moment(applicant?.updated_at).format("LT")}
+                              {moment(applicant?.applicant.updated_at).format(
+                                "ll"
+                              )}{" "}
+                              @
+                              {moment(applicant?.applicant.updated_at).format(
+                                "LT"
+                              )}
                             </td>
                             <td>
                               <button

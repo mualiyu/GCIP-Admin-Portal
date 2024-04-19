@@ -58,16 +58,16 @@ function ApplicantDetails() {
     setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/admin/program/applications/get-single-application?program_id=${programId}&applicant_id=${currLocation?.state?.selectedCompany?.applicant_id}`,
-      token: programData?.user.user.token,
+      url: `/api/admin/program/applications/get-single-application?program_id=${programId}&applicant_id=${currLocation?.state.selectedCompany.applicant_id}`,
+      token: programData.user.user.token,
     });
     nProgress.done();
     console.log(data);
     setLoading(false);
     if (success) {
-      console.log(data?.data?.application);
+      console.log(data.data.application);
       setCurrent(data?.data?.application);
-      setProposalId(data?.data?.application?.proposal_id);
+      setProposalId(data.data.application.proposal_id);
       if (data?.data?.application?.application_decisions?.length > 0) {
         let status =
           data?.data?.application?.application_decisions[
@@ -135,7 +135,7 @@ function ApplicantDetails() {
       application_id: current.id,
       status: selectedOption,
       remark: remark,
-      concerns: [],
+      // concerns: whatToSend,
     };
 
     console.log(requestData);
@@ -768,7 +768,7 @@ function ApplicantDetails() {
 
         {/* End Assigned Projects */}
 
-        {current?.application_business_proposal > 0 && (
+        {current !== null && (
           <div style={{ fontSize: 11, textAlign: "left" }}>
             <h2 className="review_title">Application Business Proposal</h2>
             <table
@@ -795,7 +795,7 @@ function ApplicantDetails() {
                     <td>
                       {
                         current?.application_business_proposal[0]
-                          ?.acquired_authority_of_the_patent_owners
+                          .acquired_authority_of_the_patent_owners
                       }
                     </td>
                   </tr>
@@ -1036,7 +1036,7 @@ function ApplicantDetails() {
                   <th>Status</th>
                   <th>Remark</th>
                   <th>Review date</th>
-                  {/* <th>Observations</th> */}
+                  <th>Observations</th>
                 </thead>
                 <tbody>
                   {current?.application_decisions?.map((decision, index) => {
@@ -1056,13 +1056,13 @@ function ApplicantDetails() {
                         </td>
                         <td>{decision?.remark}</td>
                         <td>{moment(decision?.updated_at).format("llll")} </td>
-                        {/* <td>
+                        <td>
                           <ol type="a">
                             {decision?.concerns.map((concern) => {
                               return <li key={concern.id}>{concern}</li>;
                             })}
                           </ol>
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}

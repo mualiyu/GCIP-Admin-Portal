@@ -67,15 +67,15 @@ export default function Applicants() {
     const { success, data, error } = await query({
       method: "GET",
       url: "/api/admin/applicants/list",
-      token: programData?.user?.user?.token,
+      token: programData.user.user.token,
     });
     setLoading(false);
     // console.log(data);
     if (success) {
-      let verified = data?.data?.applicants?.verified;
+      let verified = data.data.applicants.verified;
 
-      let declined = data?.data?.applicants?.declined;
-      let waitlist = data?.data?.applicants?.wait_list;
+      let declined = data.data.applicants.declined;
+      let waitlist = data.data.applicants.wait_list;
       setApproved(verified);
       setRejected(declined);
       setPending(waitlist);

@@ -76,9 +76,9 @@ export default function Applicants() {
 
       let declined = data?.data?.applicants?.declined;
       let waitlist = data?.data?.applicants?.wait_list;
-      setApproved(verified);
-      setRejected(declined);
-      setPending(waitlist);
+      // setApproved(verified);
+      // setRejected(declined);
+      // setPending(waitlist);
       setAllApplicants(verified.concat(waitlist, declined));
     }
     // console.log(allApplicants);

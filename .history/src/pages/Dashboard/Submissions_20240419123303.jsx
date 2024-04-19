@@ -250,7 +250,8 @@ export default function Submissions() {
                   <p class="text-muted fs-14">
                     The table below{" "}
                     {allSubmissions.length > 0 ? "shows" : "will show"} the list
-                    of all Submitted Applications within the GCIP system
+                    of all Submitted Applications within the GCIP system for{" "}
+                    {programId}.
                   </p>
                 </div>
 

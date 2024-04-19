@@ -1036,7 +1036,7 @@ function ApplicantDetails() {
                   <th>Status</th>
                   <th>Remark</th>
                   <th>Review date</th>
-                  {/* <th>Observations</th> */}
+                  <th>Observations</th>
                 </thead>
                 <tbody>
                   {current?.application_decisions?.map((decision, index) => {
@@ -1056,13 +1056,13 @@ function ApplicantDetails() {
                         </td>
                         <td>{decision?.remark}</td>
                         <td>{moment(decision?.updated_at).format("llll")} </td>
-                        {/* <td>
+                        <td>
                           <ol type="a">
                             {decision?.concerns.map((concern) => {
                               return <li key={concern.id}>{concern}</li>;
                             })}
                           </ol>
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}
