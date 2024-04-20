@@ -1251,7 +1251,7 @@ function ApplicantDetails() {
 
             <button
               style={{
-                border: "none",
+                // border: "none",
                 border: "thin solid #006439",
                 color: "#006439",
                 backgroundColor: "white",
