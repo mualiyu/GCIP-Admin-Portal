@@ -121,18 +121,7 @@ export default function Messages() {
             />
           </div>
           <div className="chats">
-            {loading && (
-              <div className="empty-msg">
-                <MoonLoader
-                  size={25}
-                  cssOverride={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                  }}
-                />
-              </div>
-            )}
+            {loading && <Loading loading={loading} />}
 
             {activeMessage.length == 0 && (
               <div className="empty-msg">
@@ -198,7 +187,6 @@ export default function Messages() {
                 {attach}
               </span>
             </div>
-
             <input
               onChange={(e) => {
                 const files = e.target.files;
@@ -210,7 +198,16 @@ export default function Messages() {
               type="file"
               ref={fileRef}
             />
-            <FaPaperPlane
+            <button
+              style={{
+                backgroundColor: "#124d92",
+                color: "#fff",
+                border: "none",
+                padding: "12px 45px",
+                marginTop: -20,
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
+              }}
               onClick={() => {
                 if (typed == "") {
                   setAlert("Message cant be empty!");
@@ -226,7 +223,61 @@ export default function Messages() {
 
                 nProgress.start();
                 fetch(
-                  `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/messages/${data.program.id}`,
+                  `https://api.gcip.rea.gov.ng/api/admin/messages/${data.program.id}`,
+                  {
+                    method: "POST",
+                    body: myFormData,
+                    headers: {
+                      Authorization: "Bearer " + data.user.user.token,
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    nProgress.done();
+                    if (data.status) {
+                      setAlert("Message delivered");
+                    } else {
+                      setAlert("Unable to send message, please try again");
+                    }
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 2000);
+                  })
+                  .catch(() => {
+                    nProgress.done();
+                  });
+                setActiveMessage((prev) => [
+                  ...prev,
+                  {
+                    msg: typed,
+                    from: "Admin",
+                    file: "",
+                    created_at: "",
+                    user: data.user.user.name,
+                  },
+                ]);
+                setTyped("");
+              }}>
+              Send
+            </button>
+            {/* <FaPaperPlane
+              onClick={() => {
+                if (typed == "") {
+                  setAlert("Message cant be empty!");
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+
+                  return;
+                }
+                myFormData.append("msg", typed);
+                myFormData.append("file", files);
+                myFormData.append("applicant_id", id);
+
+                nProgress.start();
+                fetch(
+                  `https://api.gcip.rea.gov.ng/api/admin/messages/${data.program.id}`,
                   {
                     method: "POST",
                     body: myFormData,
@@ -262,7 +313,7 @@ export default function Messages() {
                 ]);
                 setTyped("");
               }}
-            />
+            /> */}
           </div>
         </div>
       </div>

@@ -221,8 +221,10 @@ function ProgramLayOut() {
             }
           }}
           label="Messaging"
-          route=""
-          Icon={() => <FaEnvelope active={location.pathname == ""} />}
+          route="/Programme/Message"
+          Icon={() => (
+            <FaEnvelope active={location.pathname == "/Programme/Message"} />
+          )}
         />
         <NavLink
           onClick={() => {

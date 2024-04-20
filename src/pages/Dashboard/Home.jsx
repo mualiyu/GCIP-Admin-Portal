@@ -27,13 +27,14 @@ export default function Home() {
       url: "/api/admin/program/list",
       token: programData.user.user.token,
     });
-    setLoading(false);
+
     console.log(data);
     if (success) {
       data.data.programs?.map((program) => {
         getAllApplicants(program?.activeStage?.program_id);
       });
       setAllPrograms(data.data.programs);
+      setLoading(false);
     }
   };
 
@@ -91,6 +92,7 @@ export default function Home() {
             backgroundColor: "#f3f3f3",
             padding: "0 40px",
           }}>
+          {loading && <Loading loading={loading} />}
           <h3>Open Programs</h3>
           <button
             style={{
@@ -168,7 +170,7 @@ export default function Home() {
 
           {loading && <Loading />}
         </div>
-        {allPrograms.length === 0 && (
+        {allPrograms.length === 0 && !loading && (
           <p
             style={{
               textAlign: "center",
