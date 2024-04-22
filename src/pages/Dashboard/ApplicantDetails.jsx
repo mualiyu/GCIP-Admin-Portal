@@ -518,18 +518,6 @@ function ApplicantDetails() {
                     <li>
                       <a href="#">
                         <div class="user-info">
-                          Selected Lot : &nbsp;
-                          <span
-                            className="inffdgshd"
-                            style={{ textTransform: "capitalize" }}>
-                            {current?.lots[0].name}
-                          </span>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <div class="user-info">
                           Date Submitted :{" "}
                           <span className="inffdgshd">
                             {moment(current?.created_at).format("ll")} @
@@ -554,6 +542,30 @@ function ApplicantDetails() {
                               : applicationStatus == 5
                               ? "Under Review"
                               : "Not Reviewed Yet"}
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <div class="user-info">
+                          Selected Lot : &nbsp;
+                          <span
+                            className="inffdgshd"
+                            style={{ textTransform: "capitalize" }}>
+                            {current?.lots[0].name}
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <div class="user-info">
+                          Reason : &nbsp;
+                          <span
+                            className="inffdgshd"
+                            style={{ textTransform: "capitalize" }}>
+                            {current?.lots[0].choice}
                           </span>
                         </div>
                       </a>
