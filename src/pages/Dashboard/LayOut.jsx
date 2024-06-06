@@ -75,7 +75,7 @@ function LayOut() {
               asideRef.current.style.width = "0px";
             }
           }}
-          label="Applications"
+          label="Applicants"
           route="/Home/Applicants"
           Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
         />

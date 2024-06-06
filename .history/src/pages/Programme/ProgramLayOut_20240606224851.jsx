@@ -1,13 +1,21 @@
-import React, { DOMElement, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "../styles/layout.css";
 import Logo from "../../assets/Images/gcip_logo_white.png";
 import User from "../../assets/Svg/user.svg";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
-import { FolderIcon } from "../../assets/Svg/Index";
-import { FaRegFolderOpen } from "react-icons/fa6";
+import { FolderIcon, MessageIcon } from "../../assets/Svg/Index";
+import { FcHome, FcSettings } from "react-icons/fc";
+import {
+  FaArrowLeft,
+  FaHandHolding,
+  FaHome,
+  FaUser,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { setId, setProgram } from "../../redux/program/programSlice";
 import query from "../../helpers/query";
 import {
   FaBook,
@@ -16,21 +24,28 @@ import {
   FaFileContract,
   FaHouseChimney,
   FaReply,
-  FaUser,
   FaBookBookmark,
   FaBriefcase,
   FaFilePdf,
 } from "react-icons/fa6";
-import { FaUserTie, FaWrench } from "react-icons/fa";
-import { FcSettings } from "react-icons/fc";
-
-function LayOut() {
+import { setUnread } from "../../redux/user/userSlice";
+function ProgramLayOut() {
   const location = useLocation();
-  const navigate = useNavigate();
   const programData = useSelector((state) => state);
   const asideRef = useRef();
-
-  console.log(programData);
+  const data = useSelector((state) => state);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const getData = async () => {
+    const respone = await query({
+      method: "GET",
+      url: `/api/admin/messages/get-unread/${data.program.id}`,
+      token: data.user.user.token,
+    });
+    if (respone.success) {
+      dispatch(setUnread(respone.data.data.unRead));
+    }
+  };
   const logOut = async () => {
     const response = await query({
       method: "POST",
@@ -40,23 +55,128 @@ function LayOut() {
     console.log(response);
     navigate("/");
   };
-  return (
-    <div className="layout_container">
-      {/* <div className="layout_nav">
-        
-        <img className="layout_user" src={User} alt="img" />
-        <img
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "100vw";
-            }
-          }}
-          className="drawer_bar"
-          src={Drawer}
-          alt="img"
-        />
-      </div> */}
 
+  useEffect(() => {
+    getData();
+  }, []);
+  return (
+    // <div className="layout_container">
+
+    //   <div ref={asideRef} className="layout_aside">
+    //     <img className="aside_logo" src={Logo} alt="img" />
+    //     <div className="divider" />
+
+    //     <NavLink
+    //       onClick={() => {
+    //         if (data.program.id == "") {
+    //           navigate("/Home");
+    //         } else {
+    //           dispatch(setProgram({ program: {} }));
+    //           dispatch(setId(""));
+    //           navigate("/Home");
+    //         }
+    //       }}
+    //       className="no-print"
+    //       label="Back to Home"
+    //       route="/Home"
+    //       Icon={() => (
+    //         <FaReply
+    //           color={location.pathname == "/Home" ? "#fff" : "var(--primary)"}
+    //         />
+    //       )}
+    //     />
+
+    //     <NavLink
+    //       onClick={() => {
+    //         if (window.innerWidth <= 767) {
+    //           asideRef.current.style.width = "0px";
+    //         }
+    //       }}
+    //       label="Program Home"
+    //       route="/Programme"
+    //       Icon={() => (
+    //         <FaHouseChimney
+    //           color={
+    //             location.pathname == "/Programme" ? "#fff" : "var(--primary)"
+    //           }
+    //         />
+    //       )}
+    //     />
+    //     <NavLink
+    //       onClick={() => {
+    //         if (window.innerWidth <= 767) {
+    //           asideRef.current.style.width = "0px";
+    //         }
+    //       }}
+    //       label="Applications"
+    //       route="/Programme/Application"
+    //       Icon={() => (
+    //         <FaBook
+    //           color={
+    //             location.pathname == "/Programme/Application"
+    //               ? "#fff"
+    //               : "var(--primary)"
+    //           }
+    //         />
+    //       )}
+    //     />
+    //     <NavLink
+    //       unread={data.user.unread}
+    //       onClick={() => {
+    //         if (window.innerWidth <= 767) {
+    //           asideRef.current.style.width = "0px";
+    //         }
+    //       }}
+    //       label="Messages"
+    //       route="/Programme/Message"
+    //       Icon={() => (
+    //         <FaEnvelope
+    //           color={
+    //             location.pathname == "/Programme/Message"
+    //               ? "#fff"
+    //               : "var(--primary)"
+    //           }
+    //         />
+    //       )}
+    //     />
+    //     <NavLink
+    //       onClick={() => {
+    //         if (window.innerWidth <= 767) {
+    //           asideRef.current.style.width = "0px";
+    //         }
+    //       }}
+    //       label="Documents"
+    //       route="/Programme/Document"
+    //       Icon={() => (
+    //         <FaFileContract
+    //           color={
+    //             location.pathname == "/Programme/Document"
+    //               ? "#fff"
+    //               : "var(--primary)"
+    //           }
+    //         />
+    //       )}
+    //     />
+
+    //     <div className="other-links">
+    //       <div className="divider" />
+
+    //       <NavLink
+    //         onClick={logOut}
+    //         label="Log out"
+    //         route="/"
+    //         Icon={() => (
+    //           <FaPowerOff active={location.pathname == "/Applicants"} />
+    //         )}
+    //       />
+    //     </div>
+    //   </div>
+
+    //   <div className="layout_main">
+    //     <Outlet />
+    //   </div>
+    // </div>
+    <div className="layout_container">
       <div ref={asideRef} className="layout_aside">
         <img className="aside_logo" src={Logo} alt="img" />
         <div className="divider" />
@@ -70,7 +190,7 @@ function LayOut() {
           route="/Home"
           Icon={() => <FaHouseChimney active={location.pathname == "/Home"} />}
         />
-        <NavLink
+        {/* <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
@@ -83,14 +203,14 @@ function LayOut() {
               active={location.pathname == "/Programme/Application"}
             />
           )}
-        />
+        /> */}
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
             }
           }}
-          label="Applications"
+          label="Applicants"
           route="/Home/Applicants"
           Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
         />
@@ -101,8 +221,10 @@ function LayOut() {
             }
           }}
           label="Messaging"
-          route=""
-          Icon={() => <FaEnvelope active={location.pathname == ""} />}
+          route="/Programme/Message"
+          Icon={() => (
+            <FaEnvelope active={location.pathname == "/Programme/Message"} />
+          )}
         />
         <NavLink
           onClick={() => {
@@ -114,32 +236,6 @@ function LayOut() {
           route=""
           Icon={() => <FaFilePdf active={location.pathname == ""} />}
         />
-
-        {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="Projects"
-          route="/Home/Projects"
-          Icon={() => <FaUserTie active={location.pathname == "/Projects"} />}
-        /> */}
-
-        {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="Settings"
-          route="/Home/Settings"
-          Icon={() => <FaWrench />}
-        /> */}
-
-        {/* <NavLink/>
-          <NavLink/>
-          <NavLink/> */}
         <div className="other-links">
           <div className="divider" />
           <NavLink
@@ -150,16 +246,6 @@ function LayOut() {
               <FaPowerOff active={location.pathname == "/Applicants"} />
             )}
           />
-          {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="ADMIN"
-          route="/"
-          Icon={() => <FaUser color="#000"/>}
-        /> */}
         </div>
       </div>
 
@@ -246,4 +332,4 @@ function LayOut() {
   );
 }
 
-export default LayOut;
+export default ProgramLayOut;

@@ -42,21 +42,6 @@ function LayOut() {
   };
   return (
     <div className="layout_container">
-      {/* <div className="layout_nav">
-        
-        <img className="layout_user" src={User} alt="img" />
-        <img
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "100vw";
-            }
-          }}
-          className="drawer_bar"
-          src={Drawer}
-          alt="img"
-        />
-      </div> */}
-
       <div ref={asideRef} className="layout_aside">
         <img className="aside_logo" src={Logo} alt="img" />
         <div className="divider" />
@@ -70,7 +55,7 @@ function LayOut() {
           route="/Home"
           Icon={() => <FaHouseChimney active={location.pathname == "/Home"} />}
         />
-        <NavLink
+        {/* <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
@@ -83,14 +68,14 @@ function LayOut() {
               active={location.pathname == "/Programme/Application"}
             />
           )}
-        />
+        /> */}
         <NavLink
           onClick={() => {
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
             }
           }}
-          label="Applications"
+          label="Applicants"
           route="/Home/Applicants"
           Icon={() => <FaUser active={location.pathname == "/Applicants"} />}
         />
@@ -101,8 +86,10 @@ function LayOut() {
             }
           }}
           label="Messaging"
-          route=""
-          Icon={() => <FaEnvelope active={location.pathname == ""} />}
+          route="/Programme/Message"
+          Icon={() => (
+            <FaEnvelope active={location.pathname == "/Programme/Message"} />
+          )}
         />
         <NavLink
           onClick={() => {
@@ -114,32 +101,6 @@ function LayOut() {
           route=""
           Icon={() => <FaFilePdf active={location.pathname == ""} />}
         />
-
-        {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="Projects"
-          route="/Home/Projects"
-          Icon={() => <FaUserTie active={location.pathname == "/Projects"} />}
-        /> */}
-
-        {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="Settings"
-          route="/Home/Settings"
-          Icon={() => <FaWrench />}
-        /> */}
-
-        {/* <NavLink/>
-          <NavLink/>
-          <NavLink/> */}
         <div className="other-links">
           <div className="divider" />
           <NavLink
@@ -150,16 +111,6 @@ function LayOut() {
               <FaPowerOff active={location.pathname == "/Applicants"} />
             )}
           />
-          {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
-            }
-          }}
-          label="ADMIN"
-          route="/"
-          Icon={() => <FaUser color="#000"/>}
-        /> */}
         </div>
       </div>
 
