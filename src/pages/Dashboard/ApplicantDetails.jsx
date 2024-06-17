@@ -292,11 +292,12 @@ function ApplicantDetails() {
       const response = await fetch(
         `https://api.gcip.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`
       );
+      console.log(response);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
+      link.download = `${userInfo?.name}.zip`;
       link.click();
       URL.revokeObjectURL(url);
       setLoading(false);
@@ -318,7 +319,8 @@ function ApplicantDetails() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${current?.application_profile[0].name}.zip`;
+      // link.download = `${current?.application_profile[0].name}.zip`;
+      link.download = `${userInfo?.name[0]}.zip`;
       link.click();
       URL.revokeObjectURL(url);
       setLoading(false);
