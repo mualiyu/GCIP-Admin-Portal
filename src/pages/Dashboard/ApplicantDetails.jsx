@@ -290,7 +290,7 @@ function ApplicantDetails() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://api.grants.amp.gefundp.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`
+        `https://api.gcip.rea.gov.ng/api/admin/download/applicationDocuments?application=${current.id}`
       );
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
