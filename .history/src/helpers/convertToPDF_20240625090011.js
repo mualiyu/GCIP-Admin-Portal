@@ -18,43 +18,42 @@ async function convertToPDF(id, title, setIsConverting = () => {}) {
   const imageWidth = pdfPageWidth - padding * 2;
   const imageHeight = (imageWidth * canvas.height) / canvas.width;
 
-  let remainingHeight = imageHeight;
   let position = 0;
 
-  while (remainingHeight > 0) {
-    const pageHeight =
-      remainingHeight > pdfPageHeight ? pdfPageHeight : remainingHeight;
-    const pageCanvas = document.createElement("canvas");
-    pageCanvas.width = canvas.width;
-    pageCanvas.height = (pageHeight * canvas.width) / imageWidth;
-    const pageContext = pageCanvas.getContext("2d");
-    pageContext.drawImage(
-      canvas,
-      0,
-      position,
-      canvas.width,
-      pageCanvas.height,
-      0,
-      0,
-      pageCanvas.width,
-      pageCanvas.height
-    );
-    const pageImgData = pageCanvas.toDataURL("image/png");
+  if (imageHeight <= pdfPageHeight) {
+    // If content fits within a single page
     pdf.addImage(
-      pageImgData,
+      imgData,
       "PNG",
       padding,
       padding,
+      padding,
       imageWidth,
-      pageHeight,
-      "",
-      "FAST"
+      imageHeight
     );
-    position += pageCanvas.height;
-    remainingHeight -= pageHeight;
+  } else {
+    // If content spans multiple pages
+    let remainingHeight = imageHeight;
 
-    if (remainingHeight > 0) {
-      pdf.addPage();
+    while (remainingHeight > 0) {
+      const pageHeight =
+        remainingHeight > pdfPageHeight ? pdfPageHeight : remainingHeight;
+      pdf.addImage(
+        imgData,
+        "PNG",
+        padding,
+        padding,
+        imageWidth,
+        pageHeight,
+        "",
+        "FAST"
+      );
+      remainingHeight -= pageHeight;
+
+      if (remainingHeight > 0) {
+        pdf.addPage();
+        position = 0;
+      }
     }
   }
 
